@@ -1,0 +1,34 @@
+.topButton {
+    -fx-background-color: #02873F;
+    -fx-text-fill: white;
+    -fx-cursor: "pointer";
+}
+
+.topButton:hover {
+    -fx-background-color: #00823d;
+}
+
+/*.topButton:focused {*/
+/*    -fx-border-width: 0px;*/
+/*}*/
+
+.topPanelBG {
+    -fx-background-color: #02873F;
+}
+
+.balancePanel {
+    -fx-background-color: #044A24;
+    -fx-text-fill: white;
+}
+
+.whiteText {
+    -fx-fill: white;
+}
+
+.container {
+    -fx-background-color: black;
+}
+
+.bottomButtonsContainer {
+    -fx-background-color: #02873F;
+}
