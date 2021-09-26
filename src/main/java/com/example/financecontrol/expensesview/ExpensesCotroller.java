@@ -5,6 +5,7 @@ import com.example.financecontrol.dbModels.CategroiesItem;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
@@ -14,17 +15,35 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ExpensesCotroller implements Initializable {
-    private FinanceControlModel model = new FinanceControlModel();
+    private FinanceControlModel model;
     private ArrayList<CategroiesItem> list;
+
+    public ExpensesCotroller() {
+        model = new FinanceControlModel();
+    }
 
     @FXML
     private ChoiceBox categoryChoiceBox;
-
     @FXML
     private TextField nameTextField;
-
     @FXML
     private TextField priceTextField;
+    @FXML
+    private Button addBt;
+
+    @FXML
+    protected void onAddBtClick() {
+        if (validateInput()) {
+            model.addExpense(
+                    nameTextField.getText(),
+                    Double.parseDouble(priceTextField.getText()),
+                    categoryChoiceBox.getValue().toString()
+            );
+            nameTextField.setText("");
+            priceTextField.setText("");
+            categoryChoiceBox.setValue(null);
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -35,11 +54,32 @@ public class ExpensesCotroller implements Initializable {
         }
 
         for (CategroiesItem item : list) {
-//            System.out.println(item.getName());
             categoryChoiceBox.getItems().add(item.getName());
         }
 
+    }
 
-//        categoryChoiceBox.setItems(FXCollections.observable);
+
+
+    private boolean validateInput() {
+        if (
+                categoryChoiceBox.getValue() != null
+                && !nameTextField.getText().equals("")
+                && isNumeric(priceTextField.getText())
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isNumeric(String str) {
+        if (str == null) return  false;
+        try {
+            Double d = Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+            return false;
+        }
+        return true;
     }
 }

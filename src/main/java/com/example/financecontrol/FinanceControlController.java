@@ -32,7 +32,7 @@ public class FinanceControlController implements Initializable {
 
     @FXML
     protected void onIncomeButtonClick() {
-        model.addIncome("Salary", 1000, 1);
+//        model.addIncome("Salary", 1000, 1);
     }
 
 
