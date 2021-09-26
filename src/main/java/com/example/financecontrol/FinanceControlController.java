@@ -1,6 +1,7 @@
 package com.example.financecontrol;
 
 import com.example.financecontrol.expensesview.ExpensesView;
+import com.example.financecontrol.incomeview.IncomeView;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ import java.util.ResourceBundle;
 public class FinanceControlController implements Initializable {
     private FinanceControlModel model = new FinanceControlModel();
     private ExpensesView expensesView;
+    private IncomeView incomeView;
 
     @FXML
     private Button expensesBt;
@@ -32,7 +34,7 @@ public class FinanceControlController implements Initializable {
 
     @FXML
     protected void onIncomeButtonClick() {
-//        model.addIncome("Salary", 1000, 1);
+        incomeView.show();
     }
 
 
@@ -42,6 +44,7 @@ public class FinanceControlController implements Initializable {
         incomeBt.setFocusTraversable(false);
         try {
             expensesView = new ExpensesView(expensesBt);
+            incomeView = new IncomeView(incomeBt);
         } catch (IOException e) {
             e.printStackTrace();
         }

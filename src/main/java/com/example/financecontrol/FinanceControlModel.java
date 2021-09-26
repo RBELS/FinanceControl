@@ -82,8 +82,13 @@ public class FinanceControlModel {
 
     public void addIncome(String name, double price, String category) {
         try {
+            connection = DBController.Connector();
+            stmt = connection.createStatement();
+
             stmt.execute("INSERT INTO income (date, price, name, category)VALUES " +
                     "('"+new java.sql.Date(System.currentTimeMillis())+"', "+price+", '"+name+"', '"+category+"')");
+            stmt.close();
+            connection.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
