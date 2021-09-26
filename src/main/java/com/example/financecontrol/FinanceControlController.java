@@ -1,15 +1,23 @@
 package com.example.financecontrol;
 
+import com.example.financecontrol.expensesview.ExpensesView;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class FinanceControlController implements Initializable {
-    public FinanceControlModel model = new FinanceControlModel();
+    private FinanceControlModel model = new FinanceControlModel();
+    private ExpensesView expensesView;
 
     @FXML
     private Button expensesBt;
@@ -18,8 +26,8 @@ public class FinanceControlController implements Initializable {
     private Button incomeBt;
 
     @FXML
-    protected void onExpensesButtonClick() {
-        model.addExpense("IPhone", 799.99, 2);
+    protected void onExpensesButtonClick() throws IOException { // make fields private
+        expensesView.show();
     }
 
     @FXML
@@ -27,20 +35,15 @@ public class FinanceControlController implements Initializable {
         model.addIncome("Salary", 1000, 1);
     }
 
-    @FXML
-    protected void onTest3ButtonClick() {
-//        viewText.setText(Integer.toString(model.getNumberOfRowsExp()));
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         expensesBt.setFocusTraversable(false);
         incomeBt.setFocusTraversable(false);
-//        if(model.isDBConnected()) {
-//            statusText.setText("Connected");
-//        } else {
-//            statusText.setText("Not connected");
-//        }
-//        viewText.setText(Integer.toString(model.getNumberOfRowsExp()));
+        try {
+            expensesView = new ExpensesView(expensesBt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -13,4 +13,6 @@ module com.example.financecontrol {
 
     opens com.example.financecontrol to javafx.fxml;
     exports com.example.financecontrol;
+    exports com.example.financecontrol.expensesview;
+    opens com.example.financecontrol.expensesview to javafx.fxml;
 }
