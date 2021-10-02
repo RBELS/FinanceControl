@@ -68,6 +68,7 @@ public class FinanceControlModel {
     public void addExpense(String name, double price, String category) {
         try {
             connection = DBController.Connector();
+            assert connection != null;
             stmt = connection.createStatement();
 
             stmt.execute("INSERT INTO expenses (date, price, name, category)VALUES " +
@@ -83,6 +84,7 @@ public class FinanceControlModel {
     public void addIncome(String name, double price, String category) {
         try {
             connection = DBController.Connector();
+            assert connection != null;
             stmt = connection.createStatement();
 
             stmt.execute("INSERT INTO income (date, price, name, category)VALUES " +
@@ -96,6 +98,7 @@ public class FinanceControlModel {
 
     public ArrayList<CategroiesItem> getCategroies(int type) throws SQLException {
         connection = DBController.Connector();
+        assert connection != null;
         stmt = connection.createStatement();
         ResultSet categoriesSet = stmt.executeQuery("SELECT id, name, color FROM categories WHERE type="+type);
         ArrayList<CategroiesItem> list = new ArrayList<CategroiesItem>();
@@ -114,13 +117,14 @@ public class FinanceControlModel {
 
     public void initDB() throws SQLException {
         connection = DBController.Connector();
+        assert connection != null;
         stmt = connection.createStatement();
 
         stmt = connection.createStatement();
         stmt.execute(createExpensesTableSQL);
         stmt.execute(createIncomeTableSQL);
         stmt.execute(createConfigTableSQL);
-        Boolean isInited = stmt.executeQuery("SELECT * FROM config").next();
+        boolean isInited = stmt.executeQuery("SELECT * FROM config").next();
         if (!isInited) stmt.execute(initConfigTable);
 
         stmt.execute(createCategoriesTable);
