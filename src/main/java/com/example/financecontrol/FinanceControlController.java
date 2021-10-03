@@ -3,7 +3,6 @@ package com.example.financecontrol;
 import com.example.financecontrol.expensesview.ExpensesView;
 import com.example.financecontrol.incomeview.IncomeView;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
@@ -16,7 +15,6 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class FinanceControlController implements Initializable {
-//    private final FinanceControlModel model = new FinanceControlModel();
     private ExpensesView expensesView;
     private IncomeView incomeView;
 

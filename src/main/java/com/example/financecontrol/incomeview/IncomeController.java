@@ -38,7 +38,7 @@ public class IncomeController implements Initializable {
             model.addIncome(
                     nameTextField.getText(),
                     Double.parseDouble(priceTextField.getText()),
-                    categoryChoiceBox.getValue().toString()
+                    categoryChoiceBox.getValue()
             );
             nameTextField.setText("");
             priceTextField.setText("");

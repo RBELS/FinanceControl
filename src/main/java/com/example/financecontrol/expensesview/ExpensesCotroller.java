@@ -73,7 +73,7 @@ public class ExpensesCotroller implements Initializable {
         try {
             Double.parseDouble(str);
         } catch (NumberFormatException e) {
-            System.out.println(e);
+            logger.info(e.toString());
             return false;
         }
         return true;
