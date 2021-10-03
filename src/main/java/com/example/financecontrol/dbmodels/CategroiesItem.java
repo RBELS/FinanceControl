@@ -1,9 +1,9 @@
-package com.example.financecontrol.dbModels;
+package com.example.financecontrol.dbmodels;
 
 public class CategroiesItem {
-    private String value;
-    private String color;
-    private int id;
+    private final String value;
+    private final String color;
+    private final int id;
 
     public CategroiesItem(String name, String color, int id) {
         this.value = name;

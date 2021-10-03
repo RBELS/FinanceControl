@@ -11,29 +11,20 @@ import javafx.stage.WindowEvent;
 import java.io.IOException;
 
 public class IncomeView {
-    private Button openBt;
-    private FXMLLoader fxmlLoader;
-    private Scene scene;
-    private Stage stage;
-
-    private final String TITLE = "Income";
+    private final Button openBt;
+    private final Stage stage;
 
     public IncomeView(Button openBt) throws IOException {
         this.openBt = openBt;
 
-        fxmlLoader = new FXMLLoader((FinanceControlApplication
+        FXMLLoader fxmlLoader = new FXMLLoader((FinanceControlApplication
                 .class.getResource("income-view.fxml")));
-        scene = new Scene(fxmlLoader.load(), 300, 200);
+        Scene scene = new Scene(fxmlLoader.load(), 300, 200);
         stage = new Stage();
-        stage.setTitle(TITLE);
+        stage.setTitle("Income");
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                openBt.setDisable(false);
-            }
-        });
+        stage.setOnCloseRequest(windowEvent -> openBt.setDisable(false));
     }
 
     public void show() {

@@ -1,17 +1,20 @@
 package com.example.financecontrol;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class DBController {
-    private static Boolean isInited;
+    private static final Logger logger = Logger.getLogger(String.valueOf(DBController.class));
+    private DBController() {
 
-    public static Connection Connector() {
+    }
+
+    public static Connection connector() {
         try {
             Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:FinanceControl.sqlite");
-            return conn;
+            return DriverManager.getConnection("jdbc:sqlite:FinanceControl.sqlite");
         } catch (Exception e) {
-            System.out.println(e);
+            logger.info(e.toString());
             return null;
         }
     }
