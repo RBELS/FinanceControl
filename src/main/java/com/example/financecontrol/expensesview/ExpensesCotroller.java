@@ -1,7 +1,7 @@
 package com.example.financecontrol.expensesview;
 
 import com.example.financecontrol.FinanceControlModel;
-import com.example.financecontrol.dbmodels.CategroiesItem;
+import com.example.financecontrol.dbmodels.CategoriesItem;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-public class ExpensesCotroller implements Initializable {
+public class ExpensesController implements Initializable {
     private final FinanceControlModel model;
-    private List<CategroiesItem> list;
+    private List<CategoriesItem> list;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
-    public ExpensesCotroller() {
+    public ExpensesController() {
         model = new FinanceControlModel();
     }
 
@@ -33,7 +33,7 @@ public class ExpensesCotroller implements Initializable {
     private Button addBt;
 
     @FXML
-    protected void onAddBtClick() {
+    protected void onAddBtClick() throws SQLException {
         if (validateInput()) {
             model.addExpense(
                     nameTextField.getText(),
@@ -49,12 +49,12 @@ public class ExpensesCotroller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            list = model.getCategroies(0);
+            list = model.getCategories(0);
         } catch (SQLException e) {
             logger.info(e.toString());
         }
 
-        for (CategroiesItem item : list) {
+        for (CategoriesItem item : list) {
             categoryChoiceBox.getItems().add(item.getName());
         }
 

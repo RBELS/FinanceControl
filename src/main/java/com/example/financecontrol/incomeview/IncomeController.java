@@ -1,7 +1,7 @@
 package com.example.financecontrol.incomeview;
 
 import com.example.financecontrol.FinanceControlModel;
-import com.example.financecontrol.dbmodels.CategroiesItem;
+import com.example.financecontrol.dbmodels.CategoriesItem;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class IncomeController implements Initializable {
     private final FinanceControlModel model;
-    private List<CategroiesItem> list;
+    private List<CategoriesItem> list;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     public IncomeController() {
@@ -33,7 +33,7 @@ public class IncomeController implements Initializable {
     private Button addBt;
 
     @FXML
-    protected void onAddBtClick() {
+    protected void onAddBtClick() throws SQLException, ClassNotFoundException {
         if (validateInput()) {
             model.addIncome(
                     nameTextField.getText(),
@@ -49,12 +49,12 @@ public class IncomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            list = model.getCategroies(1);
+            list = model.getCategories(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        for (CategroiesItem item : list) {
+        for (CategoriesItem item : list) {
             categoryChoiceBox.getItems().add(item.getName());
         }
 

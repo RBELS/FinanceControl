@@ -1,7 +1,7 @@
 package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.CategoriesTable;
-import com.example.financecontrol.dbmodels.CategroiesItem;
+import com.example.financecontrol.dbmodels.CategoriesItem;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -62,8 +62,8 @@ public class FinanceControlModel {
         }
     }
 
-    public void addExpense(String name, double price, String category) {
-        try {
+    public void addExpense(String name, double price, String category) throws SQLException {
+//        try {
             connection = DBController.connector();
             assert connection != null;
             stmt = connection.createStatement();
@@ -73,34 +73,30 @@ public class FinanceControlModel {
 
             stmt.close();
             connection.close();
-        } catch (SQLException e) {
-            log.info(e.toString());
-        }
+//        } catch (SQLException e) {
+//            log.info(e.toString());
+//        }
     }
 
-    public void addIncome(String name, double price, String category) {
-        try {
-            connection = DBController.connector();
-            assert connection != null;
-            stmt = connection.createStatement();
+    public void addIncome(String name, double price, String category) throws SQLException {
+        connection = DBController.connector();
+        assert connection != null;
+        stmt = connection.createStatement();
 
-            stmt.execute("INSERT INTO income (date, price, name, category)VALUES " +
-                    "('"+new java.sql.Date(System.currentTimeMillis())+"', "+price+", '"+name+"', '"+category+"')");
-            stmt.close();
-            connection.close();
-        } catch (SQLException e) {
-            log.info(e.toString());
-        }
+        stmt.execute("INSERT INTO income (date, price, name, category)VALUES " +
+                "('"+new java.sql.Date(System.currentTimeMillis())+"', "+price+", '"+name+"', '"+category+"')");
+        stmt.close();
+        connection.close();
     }
 
-    public List<CategroiesItem> getCategroies(int type) throws SQLException {
+    public List<CategoriesItem> getCategories(int type) throws SQLException {
         connection = DBController.connector();
         assert connection != null;
         stmt = connection.createStatement();
         ResultSet categoriesSet = stmt.executeQuery("SELECT id, name, color FROM categories WHERE type="+type);
-        ArrayList<CategroiesItem> list = new ArrayList<CategroiesItem>();
+        ArrayList<CategoriesItem> list = new ArrayList<CategoriesItem>();
         while (categoriesSet.next()) {
-            list.add(new CategroiesItem(
+            list.add(new CategoriesItem(
                     categoriesSet.getString(CategoriesTable.NAME),
                     categoriesSet.getString(CategoriesTable.COLOR),
                     categoriesSet.getInt(CategoriesTable.ID)

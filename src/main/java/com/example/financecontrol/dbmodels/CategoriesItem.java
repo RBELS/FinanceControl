@@ -1,11 +1,11 @@
 package com.example.financecontrol.dbmodels;
 
-public class CategroiesItem {
+public class CategoriesItem {
     private final String value;
     private final String color;
     private final int id;
 
-    public CategroiesItem(String name, String color, int id) {
+    public CategoriesItem(String name, String color, int id) {
         this.value = name;
         this.color = color;
         this.id = id;
