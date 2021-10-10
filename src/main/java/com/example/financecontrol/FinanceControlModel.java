@@ -1,7 +1,9 @@
 package com.example.financecontrol;
 
-import com.example.financecontrol.dbmodels.CategoriesTable;
-import com.example.financecontrol.dbmodels.CategoriesItem;
+import com.example.financecontrol.dbModels.CategoriesTable;
+import com.example.financecontrol.dbModels.CategroiesItem;
+import com.example.financecontrol.incomeview.IncomeItem;
+import com.example.financecontrol.incomeview.IncomeTable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -100,6 +102,25 @@ public class FinanceControlModel {
                     categoriesSet.getString(CategoriesTable.NAME),
                     categoriesSet.getString(CategoriesTable.COLOR),
                     categoriesSet.getInt(CategoriesTable.ID)
+            ));
+        }
+        stmt.close();
+        connection.close();
+        return list;
+    }
+
+    public ArrayList<IncomeItem> getIncome(int type) throws SQLException {
+        connection = DBController.Connector();
+        stmt = connection.createStatement();
+        ResultSet incomeSet = stmt.executeQuery("SELECT id, date, price, name, category FROM income WHERE type="+type);
+        ArrayList<IncomeItem> list = new ArrayList<IncomeItem>();
+        while (incomeSet.next()) {
+            list.add(new IncomeItem(
+                    incomeSet.getInt(IncomeTable.id),
+                    incomeSet.getInt(IncomeTable.date),
+                    incomeSet.getInt(IncomeTable.price),
+                    incomeSet.getString(IncomeTable.name),
+                    incomeSet.getString(IncomeTable.category)
             ));
         }
         stmt.close();
