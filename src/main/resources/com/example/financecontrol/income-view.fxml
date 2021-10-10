@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.incomeview.IncomeController">
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.incomeview.IncomeController">
    <children>
-      <ChoiceBox fx:id="categoryChoiceBox" layoutX="70.0" layoutY="28.0" prefWidth="150.0">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets></ChoiceBox>
+      <ChoiceBox fx:id="categoryChoiceBox" layoutX="75.0" layoutY="27.0" prefWidth="150.0" />
       <TextField fx:id="nameTextField" layoutX="70.0" layoutY="68.0" promptText="Name" />
       <TextField fx:id="priceTextField" layoutX="70.0" layoutY="111.0" promptText="Price" />
-      <Button fx:id="addBt" layoutX="130.0" layoutY="146.0" mnemonicParsing="false" onAction="#onAddBtClick" text="Add" />
+      <Button fx:id="addBt" onAction="#onAddBtClick" layoutX="130.0" layoutY="146.0" mnemonicParsing="false" text="Add" />
    </children>
 </AnchorPane>
