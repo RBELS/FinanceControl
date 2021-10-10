@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.expensesview.ExpensesController">
    <children>
-      <ChoiceBox fx:id="categoryChoiceBox" layoutX="75.0" layoutY="33.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="categoryChoiceBox" layoutX="70.0" layoutY="33.0" prefWidth="150.0" />
       <TextField fx:id="nameTextField" layoutX="70.0" layoutY="74.0" promptText="Name" />
       <TextField fx:id="priceTextField" layoutX="70.0" layoutY="117.0" promptText="Price" />
       <Button fx:id="addBt" onAction="#onAddBtClick" layoutX="123.0" layoutY="153.0" mnemonicParsing="false" text="Add" />
