@@ -2,6 +2,8 @@ package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.CategoriesTable;
 import com.example.financecontrol.dbmodels.CategoriesItem;
+import com.example.financecontrol.expensesview.ExpensesItem;
+import com.example.financecontrol.expensesview.ExpensesTable;
 import com.example.financecontrol.incomeview.IncomeItem;
 import com.example.financecontrol.incomeview.IncomeTable;
 
@@ -121,6 +123,25 @@ public class FinanceControlModel {
                     incomeSet.getInt(IncomeTable.price),
                     incomeSet.getString(IncomeTable.name),
                     incomeSet.getString(IncomeTable.category)
+            ));
+        }
+        stmt.close();
+        connection.close();
+        return list;
+    }
+
+    public ArrayList<ExpensesItem> getExpenses(int type) throws SQLException {
+        connection = DBController.connector();
+        stmt = connection.createStatement();
+        ResultSet expensesSet = stmt.executeQuery("SELECT id, date, price, name, category FROM income WHERE type="+type);
+        ArrayList<ExpensesItem> list = new ArrayList<ExpensesItem>();
+        while (expensesSet.next()) {
+            list.add(new ExpensesItem(
+                    expensesSet.getInt(ExpensesTable.id),
+                    expensesSet.getInt(ExpensesTable.date),
+                    expensesSet.getInt(ExpensesTable.price),
+                    expensesSet.getString(ExpensesTable.name),
+                    expensesSet.getString(ExpensesTable.category)
             ));
         }
         stmt.close();
