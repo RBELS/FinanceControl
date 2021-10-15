@@ -4,12 +4,13 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
-<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.expensesview.ExpensesController">
+<?import javafx.scene.text.Text?>
+<AnchorPane prefHeight="200.0" prefWidth="300.0" styleClass="cont" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.expensesview.ExpensesController">
    <children>
-      <ChoiceBox fx:id="categoryChoiceBox" layoutX="70.0" layoutY="33.0" prefWidth="150.0" />
-      <TextField fx:id="nameTextField" layoutX="70.0" layoutY="74.0" promptText="Name" />
-      <TextField fx:id="priceTextField" layoutX="70.0" layoutY="117.0" promptText="Price" />
-      <Button fx:id="addBt" onAction="#onAddBtClick" layoutX="123.0" layoutY="153.0" mnemonicParsing="false" text="Add" />
+      <Text layoutX="125.0" layoutY="25.0" text="Choose a category:" styleClass="textt" />
+      <ChoiceBox fx:id="categoryChoiceBox"  layoutX="125.0" layoutY="40.0" prefWidth="250.0" prefHeight="40"  />
+      <TextField fx:id="nameTextField" layoutX="125.0" layoutY="110.0"  prefWidth="250.0" prefHeight="40" promptText="Name" />
+      <TextField fx:id="priceTextField" layoutX="125.0" layoutY="180.0"  prefWidth="250.0" prefHeight="40" promptText="Price" />
+      <Button fx:id="addBt1" onAction="#onAddBtClick" layoutX="185.0" layoutY="245.0" prefHeight="30" prefWidth="125" mnemonicParsing="false" text="Add" />
    </children>
 </AnchorPane>

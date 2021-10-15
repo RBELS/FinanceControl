@@ -22,7 +22,9 @@
 }
 
 .whiteText {
-    -fx-fill: white;
+    -fx-fill:#FAEBD7;
+    -fx-font-family: monospace;
+    -fx-font-size: 18.0;
 }
 
 .container {
@@ -31,4 +33,48 @@
 
 .bottomButtonsContainer {
     -fx-background-color: #02873F;
+}
+.cont {
+    -fx-background-color: #228B22;
+}
+.cont1 {
+    -fx-background-color: #228B22;
+}
+.textt {
+    -fx-fill: #FAEBD7 ;
+    -fx-font-size:20.0 ;
+    -fx-font-weight:bold;
+}
+#categoryChoiceBox{
+    -fx-background-color: #C0C0C0;
+    -fx-fill:#FAEBD7;
+    -fx-font-size:16.0;
+}
+#nameTextField,#priceTextField{
+    -fx-background-color: #C0C0C0;
+    -fx-prompt-text-fill: #FAEBD7;
+    -fx-font-size:18.0;
+
+}
+#addBt{
+    -fx-background-color: #006400;
+    -fx-font-size:18.0;
+    -fx-text-fill: #FAEBD7 ;
+    -fx-font-weight: bold;
+}
+#addBt1{
+    -fx-background-color: #006400;
+    -fx-font-size:18.0;
+    -fx-text-fill: #FAEBD7 ;
+    -fx-font-weight: bold;
+}
+#expensesBt{
+    -fx-text-fill:#FAEBD7;
+    -fx-font-family: monospace;
+    -fx-font-size: 18.0;
+}
+#incomeBt{
+    -fx-text-fill:#FAEBD7;
+    -fx-font-family: monospace;
+    -fx-font-size: 18.0;
 }

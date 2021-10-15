@@ -17,7 +17,7 @@ public class IncomeView {
 
         FXMLLoader fxmlLoader = new FXMLLoader((FinanceControlApplication
                 .class.getResource("income-view.fxml")));
-        Scene scene = new Scene(fxmlLoader.load(), 300, 200);
+        Scene scene = new Scene(fxmlLoader.load(), 500, 300);
         stage = new Stage();
         stage.setTitle("Income");
         stage.setScene(scene);
