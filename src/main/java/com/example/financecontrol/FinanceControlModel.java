@@ -2,10 +2,8 @@ package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.CategoriesTable;
 import com.example.financecontrol.dbmodels.CategoriesItem;
-import com.example.financecontrol.expensesview.ExpensesItem;
+import com.example.financecontrol.dbmodels.OperationItem;
 import com.example.financecontrol.expensesview.ExpensesTable;
-import com.example.financecontrol.incomeview.IncomeItem;
-import com.example.financecontrol.incomeview.IncomeTable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -111,37 +109,41 @@ public class FinanceControlModel {
         return list;
     }
 
-    public ArrayList<IncomeItem> getIncome(int type) throws SQLException {
-        connection = DBController.connector();
-        stmt = connection.createStatement();
-        ResultSet incomeSet = stmt.executeQuery("SELECT id, date, price, name, category FROM income WHERE type="+type);
-        ArrayList<IncomeItem> list = new ArrayList<IncomeItem>();
-        while (incomeSet.next()) {
-            list.add(new IncomeItem(
-                    incomeSet.getInt(IncomeTable.id),
-                    incomeSet.getInt(IncomeTable.date),
-                    incomeSet.getInt(IncomeTable.price),
-                    incomeSet.getString(IncomeTable.name),
-                    incomeSet.getString(IncomeTable.category)
-            ));
-        }
-        stmt.close();
-        connection.close();
-        return list;
-    }
+//    public ArrayList<IncomeItem> getIncome() throws SQLException {
+//        connection = DBController.connector();
+//        stmt = connection.createStatement();
+//        ResultSet incomeSet = stmt.executeQuery("SELECT id, date, price, name, category FROM income");
+//        ArrayList<IncomeItem> list = new ArrayList<>();
+//        while (incomeSet.next()) {
+//            list.add(new IncomeItem(
+//                    incomeSet.getInt(IncomeTable.id),
+//                    incomeSet.getInt(IncomeTable.date),
+//                    incomeSet.getInt(IncomeTable.price),
+//                    incomeSet.getString(IncomeTable.name),
+//                    incomeSet.getString(IncomeTable.category)
+//            ));
+//        }
+//        stmt.close();
+//        connection.close();
+//        return list;
+//    }
 
-    public ArrayList<ExpensesItem> getExpenses(int type) throws SQLException {
+    public ArrayList<OperationItem> getExpenses() throws SQLException {
         connection = DBController.connector();
+        assert connection != null;
         stmt = connection.createStatement();
-        ResultSet expensesSet = stmt.executeQuery("SELECT id, date, price, name, category FROM income WHERE type="+type);
-        ArrayList<ExpensesItem> list = new ArrayList<ExpensesItem>();
+        ResultSet expensesSet = stmt.executeQuery("SELECT expenses.id, expenses.name, expenses.price, expenses.date, expenses.category, categories.color " +
+                "FROM expenses JOIN categories ON expenses.category=categories.name " +
+                "ORDER BY expenses.category");
+        ArrayList<OperationItem> list = new ArrayList<>();
         while (expensesSet.next()) {
-            list.add(new ExpensesItem(
-                    expensesSet.getInt(ExpensesTable.id),
-                    expensesSet.getInt(ExpensesTable.date),
-                    expensesSet.getInt(ExpensesTable.price),
-                    expensesSet.getString(ExpensesTable.name),
-                    expensesSet.getString(ExpensesTable.category)
+            list.add(new OperationItem(
+                    expensesSet.getInt(ExpensesTable.ID),
+                    expensesSet.getString(ExpensesTable.DATE),
+                    expensesSet.getInt(ExpensesTable.PRICE),
+                    expensesSet.getString(ExpensesTable.NAME),
+                    expensesSet.getString(ExpensesTable.CATEGORY),
+                    expensesSet.getString(CategoriesTable.COLOR)
             ));
         }
         stmt.close();

@@ -99,6 +99,16 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <includes>
+                        <include>FinanceControlModelTest.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.7</version>
@@ -132,9 +142,6 @@
                 </executions>
                 <configuration>
                     <destFile>target/jacoco.exec</destFile>
-<!--                    <systemPropertyVariables>-->
-<!--                        <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>-->
-<!--                    </systemPropertyVariables>-->
                 </configuration>
             </plugin>
             <plugin>

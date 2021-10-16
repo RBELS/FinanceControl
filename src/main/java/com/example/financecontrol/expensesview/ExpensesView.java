@@ -18,6 +18,7 @@ public class ExpensesView {
         FXMLLoader fxmlLoader = new FXMLLoader((FinanceControlApplication
                 .class.getResource("expenses-view.fxml")));
         Scene scene = new Scene(fxmlLoader.load(), 500, 300);
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
         stage = new Stage();
         stage.setTitle("Expenses");
         stage.setScene(scene);

@@ -1,5 +1,6 @@
 package com.example.financecontrol;
 
+import com.example.financecontrol.dbmodels.OperationItem;
 import com.example.financecontrol.expensesview.ExpensesView;
 import com.example.financecontrol.incomeview.IncomeView;
 import javafx.collections.FXCollections;
@@ -9,14 +10,19 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
-import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class FinanceControlController implements Initializable {
     private ExpensesView expensesView;
     private IncomeView incomeView;
+
+    private final FinanceControlModel model;
+    private List<OperationItem> expensesItemList;
 
     @FXML
     private Button expensesBt;
@@ -35,6 +41,9 @@ public class FinanceControlController implements Initializable {
         incomeView.show();
     }
 
+    public FinanceControlController() {
+        model = new FinanceControlModel();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -43,32 +52,55 @@ public class FinanceControlController implements Initializable {
         try {
             expensesView = new ExpensesView(expensesBt);
             incomeView = new IncomeView(incomeBt);
-        } catch (IOException e) {
+            showDayChart();
+        } catch (Exception e) {
             e.printStackTrace();//
         }
-        showDayChart();
     }
 
-    private void showDayChart() {
+    private void showDayChart() throws SQLException {
         PieChart dayChart = new PieChart();
         dayChart.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("charts/chart-style.css")).toExternalForm());
         dayChart.setTitle("Day Expenses");
         dayChart.setLayoutX(100);
 
-        PieChart.Data data1 = new PieChart.Data("Transport", 20);
-        PieChart.Data data2 = new PieChart.Data("Food", 20);
-        PieChart.Data data3 = new PieChart.Data("Clothes", 20);
+        expensesItemList = model.getExpenses();
+        List<PieChart.Data> dayChartItemList = groupExpenses(expensesItemList);
 
         dayChart.setData(FXCollections.observableArrayList(
-                data1,
-                data2,
-                data3
+                dayChartItemList
         ));
 
-        data2.getNode().setStyle("-fx-background-color: #00FF00;");
-        data1.getNode().setStyle("-fx-background-color: #FF0000;");
-        data3.getNode().setStyle("-fx-background-color: #0000FF;");
+        dayChartItemList.forEach(item -> {
+            String color = "#FFFFFF";
+            for (OperationItem operationItem : expensesItemList) {
+                if(operationItem.getCategory().equals(item.getName())) {
+                    color = operationItem.getCategoryColor();
+                    break;
+                }
+            }
+            item.getNode().setStyle("-fx-background-color: " + color + ";");
+        });
 
         chartPane.getChildren().add(dayChart);
+    }
+
+    private ArrayList<PieChart.Data> groupExpenses(List<OperationItem> list) { //Group ExpensesItem and IncomeItem
+        ArrayList<PieChart.Data> returnList = new ArrayList<>();
+        PieChart.Data data;
+        int sum = 0;
+        String categBuf = list.get(0).getCategory();
+        for (OperationItem item : list) {
+            if (!categBuf.equals(item.getCategory())) {
+                data = new PieChart.Data(categBuf, sum);
+                returnList.add(data);
+                categBuf = item.getCategory();
+                sum = 0;
+            }
+            sum = sum + item.getPrice();
+        }
+        data = new PieChart.Data(categBuf, sum);
+        returnList.add(data);
+        return returnList;
     }
 }

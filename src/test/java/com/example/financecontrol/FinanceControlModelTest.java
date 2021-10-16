@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +22,6 @@ class FinanceControlModelTest {
     @BeforeAll
     void setUp() {
         model = new FinanceControlModel();
-
     }
 
     @AfterAll
@@ -62,9 +62,21 @@ class FinanceControlModelTest {
     }
 
     @Test
+    void getExpenses() {
+        try {
+            model.addExpense("Burger", 5, "Food");
+            model.addExpense("Bus", 10, "Transport");
+            assertEquals(model.getExpenses().toArray().length, 2);
+        } catch (SQLException e) {
+            fail(e.toString());
+        }
+    }
+
+    @Test
     void initDB() {
         try {
             conn = DBController.connector();
+            assert conn != null;
             stmt = conn.createStatement();
 
             stmt.execute("SELECT * FROM expenses");
@@ -81,6 +93,7 @@ class FinanceControlModelTest {
 
     private void dropDB() throws SQLException {
         conn = DBController.connector();
+        assert conn != null;
         stmt = conn.createStatement();
         stmt.execute("DROP TABLE expenses;");
         stmt.execute("DROP TABLE income;");

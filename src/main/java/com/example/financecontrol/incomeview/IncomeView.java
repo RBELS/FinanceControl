@@ -18,6 +18,7 @@ public class IncomeView {
         FXMLLoader fxmlLoader = new FXMLLoader((FinanceControlApplication
                 .class.getResource("income-view.fxml")));
         Scene scene = new Scene(fxmlLoader.load(), 500, 300);
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
         stage = new Stage();
         stage.setTitle("Income");
         stage.setScene(scene);
