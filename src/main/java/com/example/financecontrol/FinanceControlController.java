@@ -12,22 +12,25 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class FinanceControlController implements Initializable {
+    private final int EXPENSES = 0, INCOME = 1;
+
     private ExpensesView expensesView;
     private IncomeView incomeView;
 
     private final FinanceControlModel model;
-    private List<OperationItem> expensesItemList;
+    private List<OperationItem> operationItemList;
 
     @FXML
     private Button expensesBt;
     @FXML
     private Button incomeBt;
+    @FXML
+    private Button expensesChart;
+    @FXML
+    private Button incomeChart;
     @FXML
     private AnchorPane chartPane;
 
@@ -41,6 +44,18 @@ public class FinanceControlController implements Initializable {
         incomeView.show();
     }
 
+    @FXML
+    protected void onExpensesChartButtonClick() throws SQLException {
+        chartPane.getChildren().clear();
+        showDayChart(EXPENSES);
+    }
+
+    @FXML
+    protected void onIncomeChartButtonClick() throws SQLException {
+        chartPane.getChildren().clear();
+        showDayChart(INCOME);
+    }
+
     public FinanceControlController() {
         model = new FinanceControlModel();
     }
@@ -49,31 +64,37 @@ public class FinanceControlController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         expensesBt.setFocusTraversable(false);
         incomeBt.setFocusTraversable(false);
+        expensesChart.setFocusTraversable(false);
+        incomeChart.setFocusTraversable(false);
+
         try {
             expensesView = new ExpensesView(expensesBt);
             incomeView = new IncomeView(incomeBt);
-            showDayChart();
+//            showDayChart(INCOME);
         } catch (Exception e) {
             e.printStackTrace();//
         }
     }
 
-    private void showDayChart() throws SQLException {
+    private void showDayChart(int type) throws SQLException {
         PieChart dayChart = new PieChart();
         dayChart.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("charts/chart-style.css")).toExternalForm());
-        dayChart.setTitle("Day Expenses");
+        dayChart.setTitle("Day " + (type == EXPENSES ? "Expenses" : "Income"));
         dayChart.setLayoutX(100);
 
-        expensesItemList = model.getExpenses();
-        List<PieChart.Data> dayChartItemList = groupExpenses(expensesItemList);
+        operationItemList = model.getOperations(type);
+        List<PieChart.Data> dayChartItemList = operationItemList.size() == 0 ?
+                new ArrayList<>() :
+                groupExpenses(operationItemList);
 
         dayChart.setData(FXCollections.observableArrayList(
                 dayChartItemList
         ));
 
+
         dayChartItemList.forEach(item -> {
             String color = "#FFFFFF";
-            for (OperationItem operationItem : expensesItemList) {
+            for (OperationItem operationItem : operationItemList) {
                 if(operationItem.getCategory().equals(item.getName())) {
                     color = operationItem.getCategoryColor();
                     break;

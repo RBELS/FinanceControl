@@ -5,7 +5,6 @@ import org.junit.jupiter.api.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,7 +65,7 @@ class FinanceControlModelTest {
         try {
             model.addExpense("Burger", 5, "Food");
             model.addExpense("Bus", 10, "Transport");
-            assertEquals(model.getExpenses().toArray().length, 2);
+            assertEquals(model.getOperations(0).toArray().length, 2);
         } catch (SQLException e) {
             fail(e.toString());
         }

@@ -3,7 +3,7 @@ package com.example.financecontrol;
 import com.example.financecontrol.dbmodels.CategoriesTable;
 import com.example.financecontrol.dbmodels.CategoriesItem;
 import com.example.financecontrol.dbmodels.OperationItem;
-import com.example.financecontrol.expensesview.ExpensesTable;
+import com.example.financecontrol.dbmodels.OperationsTable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -50,6 +50,7 @@ public class FinanceControlModel {
                     "('Other', '#F3F1F5', 0),\n" +
                     "('Salary', '#80ED99', 1), ('Gifts', '#FFB319', 1),\n" +
                     "('Scholarship', '#3B185F', 1), ('Other', '#F3F1F5', 1)";
+
     private final Logger log = Logger.getLogger(getClass().getName());
 
     private Connection connection;
@@ -109,18 +110,20 @@ public class FinanceControlModel {
         return list;
     }
 
-//    public ArrayList<IncomeItem> getIncome() throws SQLException {
+//    public ArrayList<OperationItem> getIncome() throws SQLException {
 //        connection = DBController.connector();
+//        assert connection != null;
 //        stmt = connection.createStatement();
 //        ResultSet incomeSet = stmt.executeQuery("SELECT id, date, price, name, category FROM income");
-//        ArrayList<IncomeItem> list = new ArrayList<>();
+//        ArrayList<OperationItem> list = new ArrayList<>();
 //        while (incomeSet.next()) {
-//            list.add(new IncomeItem(
-//                    incomeSet.getInt(IncomeTable.id),
-//                    incomeSet.getInt(IncomeTable.date),
-//                    incomeSet.getInt(IncomeTable.price),
-//                    incomeSet.getString(IncomeTable.name),
-//                    incomeSet.getString(IncomeTable.category)
+//            list.add(new OperationItem(
+//                    incomeSet.getInt(OperationsTable.ID),
+//                    incomeSet.getString(OperationsTable.DATE),
+//                    incomeSet.getInt(OperationsTable.PRICE),
+//                    incomeSet.getString(OperationsTable.NAME),
+//                    incomeSet.getString(OperationsTable.CATEGORY),
+//                    incomeSet.getString(CategoriesTable.COLOR)
 //            ));
 //        }
 //        stmt.close();
@@ -128,21 +131,23 @@ public class FinanceControlModel {
 //        return list;
 //    }
 
-    public ArrayList<OperationItem> getExpenses() throws SQLException {
+    public ArrayList<OperationItem> getOperations(int type) throws SQLException {
         connection = DBController.connector();
         assert connection != null;
         stmt = connection.createStatement();
-        ResultSet expensesSet = stmt.executeQuery("SELECT expenses.id, expenses.name, expenses.price, expenses.date, expenses.category, categories.color " +
-                "FROM expenses JOIN categories ON expenses.category=categories.name " +
-                "ORDER BY expenses.category");
+        String n = getTableName(type);
+
+        ResultSet expensesSet = stmt.executeQuery("SELECT "+n+".id, "+n+".name, "+n+".price, "+n+".date, "+n+".category, categories.color " +
+                "FROM "+n+" JOIN categories ON "+n+".category=categories.name " +
+                "ORDER BY "+n+".category");
         ArrayList<OperationItem> list = new ArrayList<>();
         while (expensesSet.next()) {
             list.add(new OperationItem(
-                    expensesSet.getInt(ExpensesTable.ID),
-                    expensesSet.getString(ExpensesTable.DATE),
-                    expensesSet.getInt(ExpensesTable.PRICE),
-                    expensesSet.getString(ExpensesTable.NAME),
-                    expensesSet.getString(ExpensesTable.CATEGORY),
+                    expensesSet.getInt(OperationsTable.ID),
+                    expensesSet.getString(OperationsTable.DATE),
+                    expensesSet.getInt(OperationsTable.PRICE),
+                    expensesSet.getString(OperationsTable.NAME),
+                    expensesSet.getString(OperationsTable.CATEGORY),
                     expensesSet.getString(CategoriesTable.COLOR)
             ));
         }
@@ -169,5 +174,9 @@ public class FinanceControlModel {
 
         stmt.close();
         connection.close();
+    }
+
+    private String getTableName(int type) {
+        return type == 0 ? "expenses" : "income";
     }
 }

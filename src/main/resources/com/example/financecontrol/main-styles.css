@@ -1,16 +1,14 @@
 .topButton {
     -fx-background-color: #02873F;
-    -fx-text-fill: white;
     -fx-cursor: "pointer";
+    -fx-text-fill:#FAEBD7;
+    -fx-font-family: monospace;
+    -fx-font-size: 18.0;
 }
 
 .topButton:hover {
     -fx-background-color: #00823d;
 }
-
-/*.topButton:focused {*/
-/*    -fx-border-width: 0px;*/
-/*}*/
 
 .topPanelBG {
     -fx-background-color: #02873F;
