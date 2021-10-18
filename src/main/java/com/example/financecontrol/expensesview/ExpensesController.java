@@ -2,11 +2,15 @@ package com.example.financecontrol.expensesview;
 
 import com.example.financecontrol.FinanceControlModel;
 import com.example.financecontrol.dbmodels.CategoriesItem;
+import com.example.financecontrol.utils.ValidationUtil;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -34,7 +38,9 @@ public class ExpensesController implements Initializable {
 
     @FXML
     protected void onAddBtClick() throws SQLException {
-        if (validateInput()) {
+        if (ValidationUtil.validateInputEI(
+                categoryChoiceBox.getValue(),nameTextField.getText(),priceTextField.getText()
+        )) {
             model.addExpense(
                     nameTextField.getText(),
                     Double.parseDouble(priceTextField.getText()),
@@ -48,6 +54,7 @@ public class ExpensesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
             list = model.getCategories(0);
         } catch (SQLException e) {
@@ -61,21 +68,4 @@ public class ExpensesController implements Initializable {
     }
 
 
-
-    private boolean validateInput() {
-        return categoryChoiceBox.getValue() != null
-                && !nameTextField.getText().equals("")
-                && isNumeric(priceTextField.getText());
-    }
-
-    private boolean isNumeric(String str) {
-        if (str == null) return  false;
-        try {
-            Double.parseDouble(str);
-        } catch (NumberFormatException e) {
-            logger.info(e.toString());
-            return false;
-        }
-        return true;
-    }
 }

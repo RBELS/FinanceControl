@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -32,6 +33,8 @@ public class FinanceControlController implements Initializable {
     private Button incomeChart;
     @FXML
     private AnchorPane chartPane;
+    @FXML
+    private Text balance;
 
     @FXML
     protected void onExpensesButtonClick() { // make fields private
@@ -67,9 +70,10 @@ public class FinanceControlController implements Initializable {
         incomeChart.setFocusTraversable(false);
 
         try {
-            expensesView = new OperationView(expensesBt, EXPENSES);
-            incomeView = new OperationView(incomeBt, INCOME);
-//            showDayChart(INCOME);
+            expensesView = new OperationView(expensesBt, balance, EXPENSES);
+            incomeView = new OperationView(incomeBt, balance, INCOME);
+            showDayChart(EXPENSES);
+            updateBalance();
         } catch (Exception e) {
             e.printStackTrace();//
         }
@@ -123,5 +127,9 @@ public class FinanceControlController implements Initializable {
         data = new PieChart.Data(categBuf, sum);
         returnList.add(data);
         return returnList;
+    }
+
+    public void updateBalance() throws SQLException {
+        this.balance.setText("Balance: "+model.getBalance()+"$");
     }
 }

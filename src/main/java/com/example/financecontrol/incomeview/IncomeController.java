@@ -2,6 +2,7 @@ package com.example.financecontrol.incomeview;
 
 import com.example.financecontrol.FinanceControlModel;
 import com.example.financecontrol.dbmodels.CategoriesItem;
+import com.example.financecontrol.utils.ValidationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -33,8 +34,10 @@ public class IncomeController implements Initializable {
     private Button addBt;
 
     @FXML
-    protected void onAddBtClick() throws SQLException, ClassNotFoundException {
-        if (validateInput()) {
+    protected void onAddBtClick() throws SQLException {
+        if (ValidationUtil.validateInputEI(
+                categoryChoiceBox.getValue(),nameTextField.getText(),priceTextField.getText()
+        )) {
             model.addIncome(
                     nameTextField.getText(),
                     Double.parseDouble(priceTextField.getText()),
@@ -58,24 +61,5 @@ public class IncomeController implements Initializable {
             categoryChoiceBox.getItems().add(item.getName());
         }
 
-    }
-
-
-
-    private boolean validateInput() {
-        return categoryChoiceBox.getValue() != null
-                && !nameTextField.getText().equals("")
-                && isNumeric(priceTextField.getText());
-    }
-
-    private boolean isNumeric(String str) {
-        if (str == null) return  false;
-        try {
-            Double.parseDouble(str);
-        } catch (NumberFormatException e) {
-            logger.info(e.toString());
-            return false;
-        }
-        return true;
     }
 }

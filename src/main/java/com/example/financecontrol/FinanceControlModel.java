@@ -1,9 +1,6 @@
 package com.example.financecontrol;
 
-import com.example.financecontrol.dbmodels.CategoriesTable;
-import com.example.financecontrol.dbmodels.CategoriesItem;
-import com.example.financecontrol.dbmodels.OperationItem;
-import com.example.financecontrol.dbmodels.OperationsTable;
+import com.example.financecontrol.dbmodels.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -66,19 +63,16 @@ public class FinanceControlModel {
     }
 
     public void addExpense(String name, double price, String category) throws SQLException {
-//        try {
-            connection = DBController.connector();
-            assert connection != null;
-            stmt = connection.createStatement();
+        connection = DBController.connector();
+        assert connection != null;
+        stmt = connection.createStatement();
 
-            stmt.execute("INSERT INTO expenses (date, price, name, category)VALUES " +
-                    "('"+new java.sql.Date(System.currentTimeMillis())+"', "+price+", '"+name+"', '"+category+"')");
+        stmt.execute("INSERT INTO expenses (date, price, name, category)VALUES " +
+                "('"+new java.sql.Date(System.currentTimeMillis())+"', "+price+", '"+name+"', '"+category+"')");
+        stmt.execute("UPDATE config SET value = value - "+price+" WHERE field = 'balance'");
 
-            stmt.close();
-            connection.close();
-//        } catch (SQLException e) {
-//            log.info(e.toString());
-//        }
+        stmt.close();
+        connection.close();
     }
 
     public void addIncome(String name, double price, String category) throws SQLException {
@@ -88,6 +82,8 @@ public class FinanceControlModel {
 
         stmt.execute("INSERT INTO income (date, price, name, category)VALUES " +
                 "('"+new java.sql.Date(System.currentTimeMillis())+"', "+price+", '"+name+"', '"+category+"')");
+        stmt.execute("UPDATE config SET value = value + "+price+" WHERE field = 'balance'");
+
         stmt.close();
         connection.close();
     }
@@ -109,27 +105,6 @@ public class FinanceControlModel {
         connection.close();
         return list;
     }
-
-//    public ArrayList<OperationItem> getIncome() throws SQLException {
-//        connection = DBController.connector();
-//        assert connection != null;
-//        stmt = connection.createStatement();
-//        ResultSet incomeSet = stmt.executeQuery("SELECT id, date, price, name, category FROM income");
-//        ArrayList<OperationItem> list = new ArrayList<>();
-//        while (incomeSet.next()) {
-//            list.add(new OperationItem(
-//                    incomeSet.getInt(OperationsTable.ID),
-//                    incomeSet.getString(OperationsTable.DATE),
-//                    incomeSet.getInt(OperationsTable.PRICE),
-//                    incomeSet.getString(OperationsTable.NAME),
-//                    incomeSet.getString(OperationsTable.CATEGORY),
-//                    incomeSet.getString(CategoriesTable.COLOR)
-//            ));
-//        }
-//        stmt.close();
-//        connection.close();
-//        return list;
-//    }
 
     public ArrayList<OperationItem> getOperations(int type) throws SQLException {
         connection = DBController.connector();
@@ -154,6 +129,20 @@ public class FinanceControlModel {
         stmt.close();
         connection.close();
         return list;
+    }
+
+    public double getBalance() throws SQLException {
+        connection = DBController.connector();
+        assert connection != null;
+        stmt = connection.createStatement();
+
+        ResultSet balanceSet = stmt.executeQuery("SELECT value FROM config WHERE field = 'balance'");
+        balanceSet.next();
+        double balance = balanceSet.getDouble(ConfigTable.VALUE);
+
+        stmt.close();
+        connection.close();
+        return balance;
     }
 
     public void initDB() throws SQLException {
