@@ -1,4 +1,4 @@
-package com.example.financecontrol.incomeview;
+package com.example.financecontrol.unified;
 
 import com.example.financecontrol.FinanceControlApplication;
 import javafx.fxml.FXMLLoader;
@@ -8,19 +8,19 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class IncomeView {
+public class OperationView {
     private final Button openBt;
     private final Stage stage;
 
-    public IncomeView(Button openBt) throws IOException {
+    public OperationView(Button openBt, int type) throws IOException {
         this.openBt = openBt;
 
         FXMLLoader fxmlLoader = new FXMLLoader((FinanceControlApplication
-                .class.getResource("income-view.fxml")));
+                .class.getResource((type == 0 ? "expenses" : "income") + "-view.fxml")));
         Scene scene = new Scene(fxmlLoader.load(), 500, 300);
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
         stage = new Stage();
-        stage.setTitle("Income");
+        stage.setTitle(type == 0 ? "Expenses" : "Income");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setOnCloseRequest(windowEvent -> openBt.setDisable(false));

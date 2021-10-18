@@ -1,8 +1,7 @@
 package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.OperationItem;
-import com.example.financecontrol.expensesview.ExpensesView;
-import com.example.financecontrol.incomeview.IncomeView;
+import com.example.financecontrol.unified.OperationView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,8 +16,8 @@ import java.util.*;
 public class FinanceControlController implements Initializable {
     private final int EXPENSES = 0, INCOME = 1;
 
-    private ExpensesView expensesView;
-    private IncomeView incomeView;
+    private OperationView expensesView;
+    private OperationView incomeView;
 
     private final FinanceControlModel model;
     private List<OperationItem> operationItemList;
@@ -68,8 +67,8 @@ public class FinanceControlController implements Initializable {
         incomeChart.setFocusTraversable(false);
 
         try {
-            expensesView = new ExpensesView(expensesBt);
-            incomeView = new IncomeView(incomeBt);
+            expensesView = new OperationView(expensesBt, EXPENSES);
+            incomeView = new OperationView(incomeBt, INCOME);
 //            showDayChart(INCOME);
         } catch (Exception e) {
             e.printStackTrace();//
@@ -81,6 +80,7 @@ public class FinanceControlController implements Initializable {
         dayChart.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("charts/chart-style.css")).toExternalForm());
         dayChart.setTitle("Day " + (type == EXPENSES ? "Expenses" : "Income"));
         dayChart.setLayoutX(100);
+        dayChart.setMaxHeight(360);
 
         operationItemList = model.getOperations(type);
         List<PieChart.Data> dayChartItemList = operationItemList.size() == 0 ?
