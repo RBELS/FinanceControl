@@ -6,12 +6,8 @@
     -fx-font-size: 18.0;
 }
 
-.topButton:hover {
+.topButton:hover,.topPanelBG,.cont,.cont1,.bottomButtonsContainer {
     -fx-background-color: #00823d;
-}
-
-.topPanelBG {
-    -fx-background-color: #02873F;
 }
 
 .balancePanel {
@@ -22,57 +18,47 @@
 .whiteText {
     -fx-fill:#FAEBD7;
     -fx-font-family: monospace;
-    -fx-font-size: 18.0;
+    -fx-font-size: 21.0;
+    -fx-font-weight: bold;
 }
 
 .container {
     -fx-background-color: black;
 }
-
-.bottomButtonsContainer {
-    -fx-background-color: #02873F;
-}
-.cont {
-    -fx-background-color: #228B22;
-}
-.cont1 {
-    -fx-background-color: #228B22;
-}
 .textt {
     -fx-fill: #FAEBD7 ;
     -fx-font-size:20.0 ;
     -fx-font-weight:bold;
+    -fx-font-family: monospace;
 }
 #categoryChoiceBox{
     -fx-background-color: #C0C0C0;
     -fx-fill:#FAEBD7;
     -fx-font-size:16.0;
+    -fx-font-family: monospace;
 }
 #nameTextField,#priceTextField{
     -fx-background-color: #C0C0C0;
     -fx-prompt-text-fill: #FAEBD7;
     -fx-font-size:18.0;
+    -fx-font-family: monospace;
+}
+#addBt,#addBt1{
+    -fx-background-color: #044A24;
+    -fx-font-size:18.0;
+    -fx-text-fill: #FAEBD7 ;
+    -fx-font-weight: bold;
+ }
+#expensesBt,#incomeBt,#expensesChart,#incomeChart{
+    -fx-text-fill:#FAEBD7;
+    -fx-font-family: monospace;
+    -fx-font-size: 19.0;
+    -fx-font-weight: bold;
+    -fx-border-color: #044A24;
+    -fx-border-radius: 7.0;
+    -fx-border-width:1.7 ;
+}
+#balance {
+    -fx-fill: #00FA9A;
+}
 
-}
-#addBt{
-    -fx-background-color: #006400;
-    -fx-font-size:18.0;
-    -fx-text-fill: #FAEBD7 ;
-    -fx-font-weight: bold;
-}
-#addBt1{
-    -fx-background-color: #006400;
-    -fx-font-size:18.0;
-    -fx-text-fill: #FAEBD7 ;
-    -fx-font-weight: bold;
-}
-#expensesBt{
-    -fx-text-fill:#FAEBD7;
-    -fx-font-family: monospace;
-    -fx-font-size: 18.0;
-}
-#incomeBt{
-    -fx-text-fill:#FAEBD7;
-    -fx-font-family: monospace;
-    -fx-font-size: 18.0;
-}

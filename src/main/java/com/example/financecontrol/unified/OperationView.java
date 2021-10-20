@@ -33,7 +33,7 @@ public class OperationView {
         stage.setOnCloseRequest(windowEvent -> {
             openBt.setDisable(false);
             try {
-                balance.setText("Balance: "+model.getBalance()+"$");
+                balance.setText(model.getBalance()+"$");
             } catch (SQLException e) {
                 logger.info(e.toString());
             }

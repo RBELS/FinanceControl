@@ -130,6 +130,6 @@ public class FinanceControlController implements Initializable {
     }
 
     public void updateBalance() throws SQLException {
-        this.balance.setText("Balance: "+model.getBalance()+"$");
+        this.balance.setText(model.getBalance()+"$");
     }
 }
