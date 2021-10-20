@@ -9,7 +9,8 @@ public class ValidationUtil {
         if (str == null) return  false;
         try {
             Double.parseDouble(str);
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             logger.info(e.toString());
             return false;
         }

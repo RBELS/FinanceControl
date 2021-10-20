@@ -25,7 +25,7 @@
 .container {
     -fx-background-color: black;
 }
-.textt {
+.text {
     -fx-fill: #FAEBD7 ;
     -fx-font-size:20.0 ;
     -fx-font-weight:bold;

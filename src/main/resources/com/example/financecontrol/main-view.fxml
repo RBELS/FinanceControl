@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="container" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.FinanceControlController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="container" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.FinanceControlController">
    <children>
       <AnchorPane layoutX="93.0" layoutY="8.0" prefHeight="30.0" prefWidth="700.0" styleClass="balancePanel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -15,12 +15,19 @@
       <AnchorPane prefHeight="50.0" prefWidth="700.0" styleClass="topPanelBG" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <children>
             <Button fx:id="expensesBt" layoutY="7.0" mnemonicParsing="false" onAction="#onExpensesButtonClick" prefHeight="50.0" prefWidth="300.0" styleClass="topButton" text="Expenses" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="expensesChart" onAction="#onExpensesChartButtonClick" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="topButton" text="E" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="expensesChart" mnemonicParsing="false" onAction="#onExpensesChartButtonClick" prefHeight="50.0" prefWidth="50.0" styleClass="topButton" text="E" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="0.0" />
             <Button fx:id="incomeBt" layoutX="350.0" layoutY="7.0" mnemonicParsing="false" onAction="#onIncomeButtonClick" prefHeight="50.0" prefWidth="300.0" styleClass="topButton" stylesheets="@main-styles.css" text="Income" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="incomeChart" onAction="#onIncomeChartButtonClick" layoutX="234.0" layoutY="1.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="50.0" styleClass="topButton" text="I" AnchorPane.rightAnchor="0.0" />
+            <Button fx:id="incomeChart" layoutX="234.0" layoutY="1.0" mnemonicParsing="false" onAction="#onIncomeChartButtonClick" prefHeight="49.0" prefWidth="50.0" styleClass="topButton" text="I" AnchorPane.rightAnchor="0.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="chartPane" prefHeight="360.0" prefWidth="700.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
-      <AnchorPane prefHeight="60.0" prefWidth="700.0" styleClass="bottomButtonsContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <AnchorPane prefHeight="50.0" prefWidth="700.0" styleClass="bottomButtonsContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+         <Button fx:id="yearChart" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="topButton" text="Year" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         <Button fx:id="monthChart" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="topButton" text="Month" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="0.0" />
+         <Button fx:id="weekChart" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="topButton" text="Week" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="0.0" />
+         <Button fx:id="dayChart" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="topButton" text="Day" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
