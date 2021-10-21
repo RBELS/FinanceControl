@@ -106,14 +106,32 @@ public class FinanceControlModel {
         return list;
     }
 
-    public ArrayList<OperationItem> getOperations(int type) throws SQLException {
+    public ArrayList<OperationItem> getOperations(int type, int chartType) throws SQLException {
+        java.sql.Date startDate, endDate;
+
         connection = DBController.connector();
         assert connection != null;
         stmt = connection.createStatement();
         String n = getTableName(type);
 
+
+//        startDate = new java.sql.Date(System.currentTimeMillis());
+//        endDate = new java.sql.Date(System.currentTimeMillis() - 1000*60*60*24);
+//        System.out.println(startDate);
+//        System.out.println(endDate);
+        switch (chartType) {
+            case ControllerFinals.DAY_CHART:
+                startDate = new java.sql.Date(System.currentTimeMillis());
+                endDate = startDate;
+                break;
+            default:
+                startDate = null;
+                endDate = null;
+        }
+
         ResultSet expensesSet = stmt.executeQuery("SELECT "+n+".id, "+n+".name, "+n+".price, "+n+".date, "+n+".category, categories.color " +
                 "FROM "+n+" JOIN categories ON "+n+".category=categories.name " +
+                "WHERE "+n+".date BETWEEN '"+startDate+"' and '"+endDate+"' " +
                 "ORDER BY "+n+".category");
         ArrayList<OperationItem> list = new ArrayList<>();
         while (expensesSet.next()) {

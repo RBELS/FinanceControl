@@ -65,7 +65,7 @@ class FinanceControlModelTest {
         try {
             model.addExpense("Burger", 5, "Food");
             model.addExpense("Bus", 10, "Transport");
-            assertEquals(model.getOperations(0).toArray().length, 2);
+            assertEquals(model.getOperations(0,0).toArray().length, 2);
         } catch (SQLException e) {
             fail(e.toString());
         }

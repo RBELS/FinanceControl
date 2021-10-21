@@ -33,8 +33,6 @@ public class ExpensesController implements Initializable {
     private TextField nameTextField;
     @FXML
     private TextField priceTextField;
-    @FXML
-    private Button addBt;
 
     @FXML
     protected void onAddBtClick() throws SQLException {
