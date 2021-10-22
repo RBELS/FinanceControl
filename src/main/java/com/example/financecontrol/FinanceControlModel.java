@@ -46,7 +46,7 @@ public class FinanceControlModel {
                     ")",
             INIT_CATEGORIES_TABLE = "INSERT INTO categories (name, color, type) VALUES ('Food', '#FF5C58', 0), ('Transport', '#1DB9C3', 0),\n" +
                     "('Clothes', '#316B83', 0), ('Technology', '#6F69AC', 0),\n" +
-                    "('Sport', '#FF5C58', 0), ('Gifts', '#FF5C58', 0),\n" +
+                    "('Sport', '#8E05C2', 0), ('Gifts', '#FF8243', 0),\n" +
                     "('Cafe', '#FFB344', 0), ('Hobbies', '#CEE5D0', 0),\n" +
                     "('Other', '#F3F1F5', 0),\n" +
                     "('Salary', '#80ED99', 1), ('Gifts', '#FFB319', 1),\n" +
@@ -98,7 +98,7 @@ public class FinanceControlModel {
         assert connection != null;
         stmt = connection.createStatement();
         ResultSet categoriesSet = stmt.executeQuery("SELECT id, name, color FROM categories WHERE type=" + type);
-        ArrayList<CategoriesItem> list = new ArrayList<CategoriesItem>();
+        ArrayList<CategoriesItem> list = new ArrayList<>();
         while (categoriesSet.next()) {
             list.add(new CategoriesItem(
                     categoriesSet.getString(CategoriesTable.NAME),
@@ -157,9 +157,9 @@ public class FinanceControlModel {
         }
 
         ResultSet expensesSet = stmt.executeQuery("SELECT " + n + ".id, " + n + ".name, " + n + ".price, " + n + ".date, " + n + ".category, categories.color " +
-                "FROM " + n + " JOIN categories ON " + n + ".category=categories.name " +
+                "FROM " + n + " JOIN categories ON " + n + ".category=categories.name AND categories.type="+type+" " +
                 "WHERE " + n + ".date BETWEEN '" + startDate + "' and '" + endDate + "' " +
-                "ORDER BY " + n + ".category");
+                "ORDER BY " + n + ".date");
         ArrayList<OperationItem> list = new ArrayList<>();
         while (expensesSet.next()) {
             list.add(new OperationItem(
