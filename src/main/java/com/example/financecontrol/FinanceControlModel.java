@@ -3,8 +3,12 @@ package com.example.financecontrol;
 import com.example.financecontrol.dbmodels.*;
 
 import java.sql.*;
+import java.time.DayOfWeek;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 public class FinanceControlModel {
@@ -48,6 +52,7 @@ public class FinanceControlModel {
                     "('Salary', '#80ED99', 1), ('Gifts', '#FFB319', 1),\n" +
                     "('Scholarship', '#3B185F', 1), ('Other', '#F3F1F5', 1)";
 
+    private final long oneDay = 1000*60*60*24;
     private final Logger log = Logger.getLogger(getClass().getName());
 
     private Connection connection;
@@ -68,8 +73,8 @@ public class FinanceControlModel {
         stmt = connection.createStatement();
 
         stmt.execute("INSERT INTO expenses (date, price, name, category)VALUES " +
-                "('"+new java.sql.Date(System.currentTimeMillis())+"', "+price+", '"+name+"', '"+category+"')");
-        stmt.execute("UPDATE config SET value = value - "+price+" WHERE field = 'balance'");
+                "('" + new java.sql.Date(System.currentTimeMillis()) + "', " + price + ", '" + name + "', '" + category + "')");
+        stmt.execute("UPDATE config SET value = value - " + price + " WHERE field = 'balance'");
 
         stmt.close();
         connection.close();
@@ -81,8 +86,8 @@ public class FinanceControlModel {
         stmt = connection.createStatement();
 
         stmt.execute("INSERT INTO income (date, price, name, category)VALUES " +
-                "('"+new java.sql.Date(System.currentTimeMillis())+"', "+price+", '"+name+"', '"+category+"')");
-        stmt.execute("UPDATE config SET value = value + "+price+" WHERE field = 'balance'");
+                "('" + new java.sql.Date(System.currentTimeMillis()) + "', " + price + ", '" + name + "', '" + category + "')");
+        stmt.execute("UPDATE config SET value = value + " + price + " WHERE field = 'balance'");
 
         stmt.close();
         connection.close();
@@ -92,7 +97,7 @@ public class FinanceControlModel {
         connection = DBController.connector();
         assert connection != null;
         stmt = connection.createStatement();
-        ResultSet categoriesSet = stmt.executeQuery("SELECT id, name, color FROM categories WHERE type="+type);
+        ResultSet categoriesSet = stmt.executeQuery("SELECT id, name, color FROM categories WHERE type=" + type);
         ArrayList<CategoriesItem> list = new ArrayList<CategoriesItem>();
         while (categoriesSet.next()) {
             list.add(new CategoriesItem(
@@ -114,25 +119,47 @@ public class FinanceControlModel {
         stmt = connection.createStatement();
         String n = getTableName(type);
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        long time = System.currentTimeMillis();
+        long startTime, endTime;
 
-//        startDate = new java.sql.Date(System.currentTimeMillis());
-//        endDate = new java.sql.Date(System.currentTimeMillis() - 1000*60*60*24);
-//        System.out.println(startDate);
-//        System.out.println(endDate);
         switch (chartType) {
             case ControllerFinals.DAY_CHART:
-                startDate = new java.sql.Date(System.currentTimeMillis());
+                startDate = new java.sql.Date(time);
                 endDate = startDate;
+                break;
+            case ControllerFinals.WEEK_CHART:
+                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                if(dayOfWeek == Calendar.SUNDAY) {
+                    endTime = time;
+                    startDate = new java.sql.Date(time - oneDay * 6);
+                    endDate = new java.sql.Date(endTime);
+                } else {
+                    startTime = time - oneDay*(dayOfWeek-2);
+                    startDate = new java.sql.Date(startTime);
+                    endDate = new java.sql.Date(startTime + oneDay * 6);
+                }
+                break;
+            case ControllerFinals.MONTH_CHART:
+                startTime = time - oneDay * (calendar.get(Calendar.DAY_OF_MONTH) - 1);
+                startDate = new java.sql.Date(startTime);
+                endDate = new java.sql.Date(startTime + oneDay * (calendar.getMaximum(Calendar.DAY_OF_MONTH)-1));
+                break;
+            case ControllerFinals.YEAR_CHART:
+                startTime = time - oneDay * (calendar.get(Calendar.DAY_OF_YEAR) - 1);
+                startDate = new java.sql.Date(startTime);
+                endDate = new java.sql.Date(startTime + oneDay * (calendar.getMaximum(Calendar.DAY_OF_YEAR)-1));
                 break;
             default:
                 startDate = null;
                 endDate = null;
         }
 
-        ResultSet expensesSet = stmt.executeQuery("SELECT "+n+".id, "+n+".name, "+n+".price, "+n+".date, "+n+".category, categories.color " +
-                "FROM "+n+" JOIN categories ON "+n+".category=categories.name " +
-                "WHERE "+n+".date BETWEEN '"+startDate+"' and '"+endDate+"' " +
-                "ORDER BY "+n+".category");
+        ResultSet expensesSet = stmt.executeQuery("SELECT " + n + ".id, " + n + ".name, " + n + ".price, " + n + ".date, " + n + ".category, categories.color " +
+                "FROM " + n + " JOIN categories ON " + n + ".category=categories.name " +
+                "WHERE " + n + ".date BETWEEN '" + startDate + "' and '" + endDate + "' " +
+                "ORDER BY " + n + ".category");
         ArrayList<OperationItem> list = new ArrayList<>();
         while (expensesSet.next()) {
             list.add(new OperationItem(

@@ -32,7 +32,7 @@ public class OperationView {
             openBt.setDisable(false);
             try {
                 controller.updateBalance();
-                controller.showDayChart(type);
+                controller.showDayChart(controller.currentOperationType);
             } catch (SQLException e) {
                 logger.info(e.toString());
             }

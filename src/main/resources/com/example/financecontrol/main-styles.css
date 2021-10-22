@@ -63,14 +63,14 @@
 }
 #settingsBt{
     -fx-background-color: none;
-    -fx-background-image: url("ppp.png");
+    -fx-background-image: url("options.png");
     -fx-background-size: 65 65;
     -fx-background-repeat: no-repeat;
     -fx-background-position:center;
 }
 #expensesChart,#incomeChart{
     -fx-background-image: url("eye.png");
-    -fx-background-size: 70 70;
+    -fx-background-size: 30 18;
     -fx-background-repeat: no-repeat;
     -fx-background-position:center;
 }
