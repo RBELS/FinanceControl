@@ -65,7 +65,8 @@ class FinanceControlModelTest {
         try {
             model.addExpense("Burger", 5, "Food");
             model.addExpense("Bus", 10, "Transport");
-            assertEquals(model.getOperations(0,0).toArray().length, 2);
+            String today = new java.sql.Date(System.currentTimeMillis()).toString();
+            assertEquals(model.getOperations(0,today, today).toArray().length, 2);
         } catch (SQLException e) {
             fail(e.toString());
         }

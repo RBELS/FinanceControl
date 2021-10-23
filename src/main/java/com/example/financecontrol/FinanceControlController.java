@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
@@ -26,58 +27,70 @@ public class FinanceControlController implements Initializable {
     private List<OperationItem> operationItemList;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
-    @FXML public Button expensesBt;
-    @FXML public Button incomeBt;
-    @FXML private Button expensesChart;
-    @FXML private Button incomeChart;
-    @FXML private AnchorPane chartPane;
-    @FXML public Text balance;
+    @FXML
+    public Button expensesBt;
+    @FXML
+    public Button incomeBt;
+    @FXML
+    private Button expensesChart;
+    @FXML
+    private Button incomeChart;
+    @FXML
+    private AnchorPane chartPane;
+    @FXML
+    public Text balance;
 
-    @FXML protected void onExpensesButtonClick() { // make fields private
+    @FXML
+    protected void onExpensesButtonClick() { // make fields private
         expensesView.show();
     }
-    @FXML protected void onIncomeButtonClick() {
+
+    @FXML
+    protected void onIncomeButtonClick() {
         incomeView.show();
     }
-    @FXML protected void onExpensesChartButtonClick() throws SQLException {
+
+    @FXML
+    protected void onExpensesChartButtonClick() throws SQLException {
         currentOperationType = ControllerFinals.EXPENSES;
         showChart(currentOperationType, currentChartType);
     }
-    @FXML protected void onIncomeChartButtonClick() throws SQLException {
+
+    @FXML
+    protected void onIncomeChartButtonClick() throws SQLException {
         currentOperationType = ControllerFinals.INCOME;
         showChart(currentOperationType, currentChartType);
     }
-    @FXML protected void onBottomDayButtonClick() throws SQLException {
+
+    @FXML
+    protected void onBottomDayButtonClick() throws SQLException {
         currentChartType = ControllerFinals.DAY_CHART;
         showChart(currentOperationType, currentChartType);
     }
-    @FXML protected void onBottomWeekButtonClick() throws SQLException {
+
+    @FXML
+    protected void onBottomWeekButtonClick() throws SQLException {
         currentChartType = ControllerFinals.WEEK_CHART;
-        showWeekChart(currentOperationType);
+        showChart(currentOperationType, currentChartType);
     }
-    @FXML protected void onBottomMonthButtonClick() {
+
+    @FXML
+    protected void onBottomMonthButtonClick() throws SQLException {
         currentChartType = ControllerFinals.MONTH_CHART;
-        showWMYChart(currentOperationType, currentChartType);
+        showChart(currentOperationType, currentChartType);
     }
-    @FXML protected void onBottomYearButtonClick() {
+
+    @FXML
+    protected void onBottomYearButtonClick() throws SQLException {
         currentChartType = ControllerFinals.YEAR_CHART;
-        showWMYChart(currentOperationType, currentChartType);
+        showChart(currentOperationType, currentChartType);
     }
 
     private void showChart(int operationType, int chartType) throws SQLException {
-        switch (chartType) {
-            case ControllerFinals.DAY_CHART:
-                showDayChart(operationType);
-                break;
-            case ControllerFinals.WEEK_CHART:
-                showWeekChart(operationType);
-                break;
-            case ControllerFinals.MONTH_CHART:
-                showWMYChart(operationType, chartType);
-                break;
-            case ControllerFinals.YEAR_CHART:
-                showWMYChart(operationType, chartType);
-                break;
+        if (chartType == ControllerFinals.DAY_CHART) {
+            showDayChart(operationType);
+        } else {
+            showWMYChart(operationType, chartType);
         }
     }
 
@@ -114,7 +127,9 @@ public class FinanceControlController implements Initializable {
         dayChart.setLayoutX(100);
         dayChart.setMaxHeight(360);
 
-        operationItemList = model.getOperations(type, ControllerFinals.DAY_CHART);
+        String today = new java.sql.Date(System.currentTimeMillis()).toString();
+
+        operationItemList = model.getOperations(type, today, today);
         List<PieChart.Data> dayChartItemList = operationItemList.size() == 0 ?
                 new ArrayList<>() :
                 groupExpenses(operationItemList);
@@ -127,7 +142,7 @@ public class FinanceControlController implements Initializable {
         dayChartItemList.forEach(item -> {
             String defaultColor = "#FFFFFF";
             for (OperationItem operationItem : operationItemList) {
-                if(operationItem.getCategory().equals(item.getName())) {
+                if (operationItem.getCategory().equals(item.getName())) {
                     defaultColor = operationItem.getCategoryColor();
                     break;
                 }
@@ -138,74 +153,95 @@ public class FinanceControlController implements Initializable {
         chartPane.getChildren().add(dayChart);
     }
 
-    public void showWMYChart(int operationType, int chartType) {
-        chartPane.getChildren().clear();
-    }
-
-    public void showWeekChart(int type) throws SQLException {//no colors, need all week
+    public void showWMYChart(int operationType, int chartType) throws SQLException {
         chartPane.getChildren().clear();
         final CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Date");
         final NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Price");
         final StackedBarChart<String, Number> sbc = new StackedBarChart<>(xAxis, yAxis);
-        sbc.setTitle("Week " + (type == 0 ? "Expenses" : "Income"));
+
         sbc.setLayoutX(100);
         sbc.setMaxHeight(360);
-
         final HashMap<String, XYChart.Series<String, Number>> series = new HashMap<>();
 
-        operationItemList = model.getOperations(type, ControllerFinals.WEEK_CHART);
-
-        /////////////////////////////////////////////////возможно в будущем избавимся от подсчета дат в model!!!
         ArrayList<String> dates = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         long time = System.currentTimeMillis();
         long startTime;
-        long oneDay = 1000*60*60*24;
+        long oneDay = 1000 * 60 * 60 * 24;
 
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if(dayOfWeek == Calendar.SUNDAY) {
-            startTime = time - oneDay * 6;
-        } else {
-            startTime = time - oneDay*(dayOfWeek-2);
+        String chartName;
+        switch (chartType) {
+            case ControllerFinals.WEEK_CHART:
+                chartName = "Week";
+                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                if (dayOfWeek == Calendar.SUNDAY) {
+                    startTime = time - oneDay * 6;
+                } else {
+                    startTime = time - oneDay * (dayOfWeek - 2);
+                }
+                for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_WEEK); i++) {
+                    dates.add(new Date(startTime + oneDay * i).toString());
+                }
+                break;
+            case ControllerFinals.MONTH_CHART:
+                chartName = "Month";
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                startTime = time - oneDay * (dayOfMonth - 1);
+                for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_MONTH); i++) {
+                    dates.add(new Date(startTime + oneDay * i).toString());
+                }
+                break;
+            case ControllerFinals.YEAR_CHART:
+                chartName = "Year";
+                int year = calendar.get(Calendar.YEAR);
+                for (int i = 1; i <= 11; i++) {
+                    String template = i < 10 ? "%d-0%d-%d" : "%d-%d-%d";
+                    dates.add(String.format(template, year, i, 1));
+                }
+                dates.add(String.format("%d-%d-%d", year, 12, 31));
+                break;
+            default:
+                throw new IllegalStateException("No such chart: " + chartType);
         }
-        /////////////////////////////////////////////////
+        sbc.setTitle(chartName + " " + (operationType == 0 ? "Expenses" : "Income"));
 
-        for(int i = 0;i < 7;i++) {
-            dates.add(new java.sql.Date(startTime + i * oneDay).toString().substring(5));
-        }
+        operationItemList = model.getOperations(operationType, dates.get(0), dates.get(dates.size()-1));
 
-
-
-
+        ArrayList<String> categoryDates = new ArrayList<>();
 
         for (OperationItem item : operationItemList) {
-            if(!series.containsKey(item.getCategory())) {
+            if (!series.containsKey(item.getCategory())) {
                 series.put(item.getCategory(), new XYChart.Series<>());
                 series.get(item.getCategory()).setName(item.getCategory());
             }
-            series.get(item.getCategory()).getData().add(new XYChart.Data<>(item.getDate().substring(5), item.getPrice()));
+            String date = chartType == ControllerFinals.YEAR_CHART ? item.getDate().substring(5,7) : item.getDate().substring(5);
+            series.get(item.getCategory()).getData().add(new XYChart.Data<>(date, item.getPrice()));
+        }
+        for(String date : dates) {
+            String pushDate = chartType == ControllerFinals.YEAR_CHART ? date.substring(5,7) : date.substring(5);
+            categoryDates.add(pushDate);
         }
 
-        xAxis.setCategories(FXCollections.observableArrayList(dates));
+        xAxis.setCategories(FXCollections.observableArrayList(categoryDates));
 
-        for(Map.Entry<String, XYChart.Series<String, Number>> entry : series.entrySet()) {
+        for (Map.Entry<String, XYChart.Series<String, Number>> entry : series.entrySet()) {
             sbc.getData().add(entry.getValue());
         }
 
         String defaultColor;
-        for(Map.Entry<String, XYChart.Series<String, Number>> entry : series.entrySet()) {
+        for (Map.Entry<String, XYChart.Series<String, Number>> entry : series.entrySet()) {
             defaultColor = "#FFFFFF";
             for (OperationItem operationItem : operationItemList) {
-                if(operationItem.getCategory().equals(entry.getKey())) {
+                if (operationItem.getCategory().equals(entry.getKey())) {
                     defaultColor = operationItem.getCategoryColor();
                     break;
                 }
             }
 
-            for(XYChart.Data<String, Number> item : entry.getValue().getData()) {
+            for (XYChart.Data<String, Number> item : entry.getValue().getData()) {
                 item.getNode().setStyle("-fx-background-color: " + defaultColor + ";");
             }
         }
@@ -233,6 +269,6 @@ public class FinanceControlController implements Initializable {
     }
 
     public void updateBalance() throws SQLException {
-        this.balance.setText(model.getBalance()+"$");
+        this.balance.setText(model.getBalance() + "$");
     }
 }

@@ -5,7 +5,6 @@ import com.example.financecontrol.dbmodels.CategoriesItem;
 import com.example.financecontrol.utils.ValidationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
@@ -24,17 +23,11 @@ public class IncomeController implements Initializable {
         model = new FinanceControlModel();
     }
 
-    @FXML
-    private ChoiceBox<String> categoryChoiceBox;
-    @FXML
-    private TextField nameTextField;
-    @FXML
-    private TextField priceTextField;
-    @FXML
-    private Button addBt;
+    @FXML private ChoiceBox<String> categoryChoiceBox;
+    @FXML private TextField nameTextField;
+    @FXML private TextField priceTextField;
 
-    @FXML
-    protected void onAddBtClick() throws SQLException {
+    @FXML protected void onAddBtClick() throws SQLException {
         if (ValidationUtil.validateInputEI(
                 categoryChoiceBox.getValue(),nameTextField.getText(),priceTextField.getText()
         )) {
@@ -54,7 +47,7 @@ public class IncomeController implements Initializable {
         try {
             list = model.getCategories(1);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e.toString());
         }
 
         for (CategoriesItem item : list) {

@@ -10,6 +10,7 @@ module com.example.financecontrol {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires java.sql;
+    requires org.xerial.sqlitejdbc;
 
     opens com.example.financecontrol to javafx.fxml;
     exports com.example.financecontrol;

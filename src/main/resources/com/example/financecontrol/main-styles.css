@@ -54,9 +54,6 @@
     -fx-font-family: monospace;
     -fx-font-size: 19.0;
     -fx-font-weight: bold;
-    -fx-border-color: #044A24;
-    -fx-border-radius: 7.0;
-    -fx-border-width:1.7 ;
 }
 #balance {
     -fx-fill: #00FA9A;

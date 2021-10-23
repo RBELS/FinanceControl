@@ -3,14 +3,10 @@ package com.example.financecontrol.expensesview;
 import com.example.financecontrol.FinanceControlModel;
 import com.example.financecontrol.dbmodels.CategoriesItem;
 import com.example.financecontrol.utils.ValidationUtil;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
