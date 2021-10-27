@@ -29,6 +29,7 @@ public class FinanceControlController implements Initializable {
     private final FinanceControlModel model;
     private List<OperationItem> operationItemList;
     private final Logger logger = Logger.getLogger(getClass().getName());
+    private Label caption;
 
     @FXML
     public Button expensesBt;
@@ -104,6 +105,13 @@ public class FinanceControlController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        caption = new Label("");
+        caption.setStyle(
+                "-fx-text-fill: #000000;" +
+                        "-fx-background-color: #FFFFFF;" +
+                        "-fx-padding: 2px;" +
+                        "-fx-background-radius: 5px"
+        );
         expensesBt.setFocusTraversable(false);
         incomeBt.setFocusTraversable(false);
         expensesChart.setFocusTraversable(false);
@@ -124,8 +132,6 @@ public class FinanceControlController implements Initializable {
     private void showDayChart(int type) throws SQLException {
         chartPane.getChildren().clear();
         PieChart dayChart = new PieChart();
-        Label caption = new Label("");
-        caption.setStyle("-fx-text-fill: #FFFFFF");
         caption.setVisible(false);
 
         chartPane.getChildren().addAll(dayChart, caption);
@@ -171,8 +177,6 @@ public class FinanceControlController implements Initializable {
 
     private void showWMYChart(int operationType, int chartType) throws SQLException {
         chartPane.getChildren().clear();
-        Label caption = new Label("");
-        caption.setStyle("-fx-text-fill: #000000");
         final CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Date");
         final NumberAxis yAxis = new NumberAxis();
