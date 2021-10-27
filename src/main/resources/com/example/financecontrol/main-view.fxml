@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="container" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.FinanceControlController">
    <children>
@@ -21,7 +22,7 @@
             <Button fx:id="incomeChart" layoutX="650.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeChartButtonClick" prefHeight="44.0" prefWidth="50.0" styleClass="topButton" AnchorPane.rightAnchor="-0.39999999999997726" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="chartPane" prefHeight="360.0" prefWidth="700.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
+      <StackPane fx:id="chartPane" prefHeight="370.0" prefWidth="700.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
       <AnchorPane prefHeight="50.0" prefWidth="700.0" styleClass="bottomButtonsContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
          <Button fx:id="dayChart" mnemonicParsing="false" onAction="#onBottomDayButtonClick" prefHeight="50.0" prefWidth="175.0" styleClass="topButton" text="Day" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />

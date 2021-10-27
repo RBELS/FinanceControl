@@ -5,9 +5,12 @@ import com.example.financecontrol.unified.OperationView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -36,7 +39,7 @@ public class FinanceControlController implements Initializable {
     @FXML
     private Button incomeChart;
     @FXML
-    private AnchorPane chartPane;
+    private StackPane chartPane;
     @FXML
     public Text balance;
 
@@ -86,7 +89,7 @@ public class FinanceControlController implements Initializable {
         showChart(currentOperationType, currentChartType);
     }
 
-    private void showChart(int operationType, int chartType) throws SQLException {
+    public void showChart(int operationType, int chartType) throws SQLException {
         if (chartType == ControllerFinals.DAY_CHART) {
             showDayChart(operationType);
         } else {
@@ -111,7 +114,6 @@ public class FinanceControlController implements Initializable {
             incomeView = new OperationView(this, ControllerFinals.INCOME);
             currentChartType = ControllerFinals.DAY_CHART;
             currentOperationType = ControllerFinals.EXPENSES;
-//            showDayChart(currentOperationType);
             showChart(currentOperationType, currentChartType);
             updateBalance();
         } catch (Exception e) {
@@ -119,9 +121,16 @@ public class FinanceControlController implements Initializable {
         }
     }
 
-    public void showDayChart(int type) throws SQLException {
+    private void showDayChart(int type) throws SQLException {
         chartPane.getChildren().clear();
         PieChart dayChart = new PieChart();
+        Label caption = new Label("");
+        caption.setStyle("-fx-text-fill: #FFFFFF");
+        caption.setVisible(false);
+
+        chartPane.getChildren().addAll(dayChart, caption);
+
+        dayChart.setLegendVisible(false);
         dayChart.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("charts/chart-style.css")).toExternalForm());
         dayChart.setTitle("Day " + (type == ControllerFinals.EXPENSES ? "Expenses" : "Income"));
         dayChart.setLayoutX(100);
@@ -132,7 +141,7 @@ public class FinanceControlController implements Initializable {
         operationItemList = model.getOperations(type, today, today);
         List<PieChart.Data> dayChartItemList = operationItemList.size() == 0 ?
                 new ArrayList<>() :
-                groupExpenses(operationItemList);
+                groupItems(operationItemList);
 
         dayChart.setData(FXCollections.observableArrayList(
                 dayChartItemList
@@ -148,21 +157,32 @@ public class FinanceControlController implements Initializable {
                 }
             }
             item.getNode().setStyle("-fx-background-color: " + defaultColor + ";");
+            item.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> {
+                caption.setText(item.getPieValue() + " " + "USD");
+                caption.setVisible(true);
+            });
+            item.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> caption.setVisible(false));
+            item.getNode().addEventHandler(MouseEvent.MOUSE_MOVED, mouseEvent -> {
+                caption.setTranslateX(mouseEvent.getX());
+                caption.setTranslateY(mouseEvent.getY());
+            });
         });
-
-        chartPane.getChildren().add(dayChart);
     }
 
-    public void showWMYChart(int operationType, int chartType) throws SQLException {
+    private void showWMYChart(int operationType, int chartType) throws SQLException {
         chartPane.getChildren().clear();
+        Label caption = new Label("");
+        caption.setStyle("-fx-text-fill: #000000");
         final CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Date");
         final NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Price");
         final StackedBarChart<String, Number> sbc = new StackedBarChart<>(xAxis, yAxis);
+        chartPane.getChildren().addAll(sbc, caption);
 
-        sbc.setLayoutX(100);
-        sbc.setMaxHeight(360);
+        sbc.setPrefHeight(370);
+        sbc.setMaxHeight(370);
+        sbc.setLegendVisible(false);
         final HashMap<String, XYChart.Series<String, Number>> series = new HashMap<>();
 
         ArrayList<String> dates = new ArrayList<>();
@@ -172,6 +192,8 @@ public class FinanceControlController implements Initializable {
         long startTime;
         long oneDay = 1000 * 60 * 60 * 24;
 
+
+        //задание даты в зависимости от типа графика
         String chartName;
         switch (chartType) {
             case ControllerFinals.WEEK_CHART:
@@ -212,27 +234,60 @@ public class FinanceControlController implements Initializable {
 
         ArrayList<String> categoryDates = new ArrayList<>();
 
+
+        //добавление всех категорий на график
         for (OperationItem item : operationItemList) {
             if (!series.containsKey(item.getCategory())) {
                 series.put(item.getCategory(), new XYChart.Series<>());
                 series.get(item.getCategory()).setName(item.getCategory());
             }
-            String date = chartType == ControllerFinals.YEAR_CHART ? item.getDate().substring(5,7) : item.getDate().substring(5);
-            series.get(item.getCategory()).getData().add(new XYChart.Data<>(date, item.getPrice()));
         }
-        for(String date : dates) {
-            String pushDate = chartType == ControllerFinals.YEAR_CHART ? date.substring(5,7) : date.substring(5);
-            categoryDates.add(pushDate);
-        }
-
-        xAxis.setCategories(FXCollections.observableArrayList(categoryDates));
-
+        //Добавление категорий на графки
         for (Map.Entry<String, XYChart.Series<String, Number>> entry : series.entrySet()) {
             sbc.getData().add(entry.getValue());
         }
 
+
+        for(String date : dates) {
+            String pushDate = chartType == ControllerFinals.YEAR_CHART ? date.substring(5,7) : date.substring(5);
+            categoryDates.add(pushDate);
+
+
+            //группировка записей по категориям и помещение на график с определенной датой *difficult*
+            double sum;
+            for (Map.Entry<String, XYChart.Series<String, Number>> entry : series.entrySet()) {
+                sum = 0;
+                for(OperationItem item : operationItemList) {
+                    if(chartType == ControllerFinals.YEAR_CHART) {
+                        if(item.getCategory().equals(entry.getValue().getName()) && item.getDate().substring(5,7).equals(pushDate)) {
+                            sum += item.getPrice();
+                        }
+                    } else if(item.getCategory().equals(entry.getValue().getName()) && item.getDate().equals(date)) {
+                        sum += item.getPrice();
+                    }
+                }
+                XYChart.Data<String, Number> data = new XYChart.Data<>(pushDate, sum);
+                series.get(entry.getValue().getName()).getData().add(data);
+                data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> {
+                    caption.setText(entry.getValue().getName() + " " + data.getYValue() + " " + "USD");
+                    caption.setVisible(true);
+                });
+                data.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> {
+                    caption.setVisible(false);
+                });
+                chartPane.addEventHandler(MouseEvent.MOUSE_MOVED, mouseEvent -> {
+                    caption.setTranslateX(mouseEvent.getX()-350);
+                    caption.setTranslateY(mouseEvent.getY()-200);
+                });
+            }
+            /////////////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        xAxis.setCategories(FXCollections.observableArrayList(categoryDates));
+
         String defaultColor;
         for (Map.Entry<String, XYChart.Series<String, Number>> entry : series.entrySet()) {
+//            sbc.getData().add(entry.getValue());
             defaultColor = "#FFFFFF";
             for (OperationItem operationItem : operationItemList) {
                 if (operationItem.getCategory().equals(entry.getKey())) {
@@ -246,10 +301,10 @@ public class FinanceControlController implements Initializable {
             }
         }
 
-        chartPane.getChildren().add(sbc);
+
     }
 
-    private ArrayList<PieChart.Data> groupExpenses(List<OperationItem> list) { //Group ExpensesItem and IncomeItem for dayChart
+    private ArrayList<PieChart.Data> groupItems(List<OperationItem> list) { //Group ExpensesItem and IncomeItem for dayChart
         ArrayList<PieChart.Data> returnList = new ArrayList<>();
         PieChart.Data data;
         int sum = 0;
@@ -258,6 +313,7 @@ public class FinanceControlController implements Initializable {
             if (!categBuf.equals(item.getCategory())) {
                 data = new PieChart.Data(categBuf, sum);
                 returnList.add(data);
+
                 categBuf = item.getCategory();
                 sum = 0;
             }
@@ -269,6 +325,6 @@ public class FinanceControlController implements Initializable {
     }
 
     public void updateBalance() throws SQLException {
-        this.balance.setText(model.getBalance() + "$");
+        this.balance.setText(model.getBalance() + " " + "USD");
     }
 }
