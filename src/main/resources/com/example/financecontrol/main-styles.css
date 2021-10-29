@@ -23,14 +23,14 @@
 }
 
 .container {
-    -fx-background-color: black;
+    -fx-background-color: white;
 }
-.text {
-    -fx-fill: #FAEBD7 ;
-    -fx-font-size:20.0 ;
-    -fx-font-weight:bold;
-    -fx-font-family: monospace;
-}
+/*.text {*/
+/*    -fx-fill: #FAEBD7 ;*/
+/*    -fx-font-size:20.0 ;*/
+/*    -fx-font-weight:bold;*/
+/*    -fx-font-family: monospace;*/
+/*}*/
 #categoryChoiceBox{
     -fx-background-color: #C0C0C0;
     -fx-fill:#FAEBD7;
@@ -72,3 +72,9 @@
     -fx-background-position:center;
 }
 
+.listViewItem {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-min-width: 166;
+    -fx-pref-width: 182;
+}
