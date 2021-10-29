@@ -2,6 +2,7 @@ package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.OperationItem;
 import com.example.financecontrol.unified.OperationView;
+import com.example.financecontrol.settings.Settings;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,12 +27,14 @@ public class FinanceControlController implements Initializable {
 
     private OperationView expensesView;
     private OperationView incomeView;
+    private Settings settingsView;
 
     private final FinanceControlModel model;
     private List<OperationItem> operationItemList;
     private final Logger logger = Logger.getLogger(getClass().getName());
     private Label caption;
-
+    @FXML
+    public Button settingsBt;
     @FXML public Button expensesBt;
     @FXML public Button incomeBt;
     @FXML private Button expensesChart;
@@ -40,6 +43,10 @@ public class FinanceControlController implements Initializable {
     @FXML public Text balance;
     @FXML private ListView<AnchorPane> operationListView;
 
+    @FXML
+    protected void onSettingsButtonClick()  { // make fields private
+        settingsView.show();
+    }
     @FXML
     protected void onExpensesButtonClick() { // make fields private
         expensesView.show();
@@ -121,7 +128,7 @@ public class FinanceControlController implements Initializable {
         try {
             expensesView = new OperationView(this, ControllerFinals.EXPENSES);
             incomeView = new OperationView(this, ControllerFinals.INCOME);
-
+            settingsView = new Settings();
 
             currentChartType = ControllerFinals.DAY_CHART;
             currentOperationType = ControllerFinals.EXPENSES;

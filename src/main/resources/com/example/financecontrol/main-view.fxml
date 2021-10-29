@@ -12,7 +12,7 @@
          <children>
             <Text fx:id="balance1" layoutX="250.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="Balance:" />
             <Text fx:id="balance" layoutX="358.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="0$" />
-            <Button fx:id="settingsBt" layoutX="-2.0" layoutY="1.0" mnemonicParsing="false" onAction="#onExpensesButtonClick" prefHeight="25.0" prefWidth="65.0" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="1.0" />
+            <Button fx:id="settingsBt" layoutX="-2.0" layoutY="1.0" mnemonicParsing="false" onAction="#onSettingsButtonClick" prefHeight="25.0" prefWidth="65.0" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="1.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="50.0" prefWidth="700.0" styleClass="topPanelBG" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
