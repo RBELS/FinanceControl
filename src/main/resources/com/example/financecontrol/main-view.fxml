@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="container" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.FinanceControlController">
    <children>
       <AnchorPane layoutX="93.0" layoutY="8.0" prefHeight="30.0" prefWidth="700.0" styleClass="balancePanel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fx:id="balance1" layoutX="250.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="Balance:" />
-            <Text fx:id="balance" layoutX="358.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="0$" />
-            <Button fx:id="settingsBt" layoutX="-2.0" layoutY="1.0" mnemonicParsing="false" onAction="#onSettingsButtonClick" prefHeight="25.0" prefWidth="65.0" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="1.0" />
+            <Text fx:id="balance1" layoutX="230.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="Balance:" />
+            <Text fx:id="balance" layoutX="338.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="0$" />
+            <Button fx:id="settingsBt" layoutX="7.0" layoutY="3.0" mnemonicParsing="false" onAction="#onSettingsButtonClick" prefHeight="25.0" prefWidth="28.1" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="3.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="50.0" prefWidth="700.0" styleClass="topPanelBG" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
