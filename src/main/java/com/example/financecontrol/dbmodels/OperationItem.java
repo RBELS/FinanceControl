@@ -2,14 +2,14 @@ package com.example.financecontrol.dbmodels;
 
 public class OperationItem {
     private final int id;
-    private final int price;
+    private final double price;
     private final String date;
     private final String name;
     private final String category;
     private final String categoryColor;
 
 
-    public OperationItem(int id, String date, int price, String name, String category, String categoryColor) {
+    public OperationItem(int id, String date, double price, String name, String category, String categoryColor) {
         this.id = id;
         this.date = date;
         this.price = price;
@@ -26,7 +26,7 @@ public class OperationItem {
         return date;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

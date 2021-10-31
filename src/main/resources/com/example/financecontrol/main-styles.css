@@ -1,7 +1,7 @@
 .topButton {
     -fx-background-color: #02873F;
     -fx-cursor: "pointer";
-    -fx-text-fill:#FAEBD7;
+    -fx-text-fill:#FFFFFF;
     -fx-font-family: monospace;
     -fx-font-size: 18.0;
 }
@@ -16,41 +16,42 @@
 }
 
 .whiteText {
-    -fx-fill:#FAEBD7;
+    -fx-fill: #FFFFFF;
     -fx-font-family: monospace;
     -fx-font-size: 21.0;
     -fx-font-weight: bold;
 }
 
 .container {
-    -fx-background-color: black;
+    /*-fx-background-color: black;*/
 }
 .text1 {
-    -fx-fill: #FAEBD7 ;
-    -fx-font-size:20.0 ;
-    -fx-font-weight:bold;
+    -fx-fill: #FFFFFF ;
+    -fx-font-size: 20.0 ;
+    -fx-font-weight: bold;
     -fx-font-family: monospace;
 }
 #categoryChoiceBox{
-    -fx-background-color: #C0C0C0;
-    -fx-font-size:16.0;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 18.0;
     -fx-font-family: monospace;
+    -fx-text-fill: #2d2d2d;
 }
 #nameTextField,#priceTextField{
-    -fx-background-color: #C0C0C0;
-    -fx-prompt-text-fill: #FAEBD7;
-    -fx-font-weight:bold;
-    -fx-font-size:18.0;
+    -fx-background-color: #FFFFFF;
+    -fx-prompt-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-font-size: 18.0;
     -fx-font-family: monospace;
 }
 #addBt,#addBt1{
     -fx-background-color: #044A24;
-    -fx-font-size:18.0;
-    -fx-text-fill: #FAEBD7 ;
+    -fx-font-size: 18.0;
+    -fx-text-fill: #FFFFFF ;
     -fx-font-weight: bold;
 }
 #expensesBt,#incomeBt,#expensesChart,#incomeChart{
-    -fx-text-fill:#FAEBD7;
+    -fx-text-fill: #FFFFFF;
     -fx-font-family: monospace;
     -fx-font-size: 19.0;
     -fx-font-weight: bold;
@@ -73,30 +74,35 @@
 }
 #categoryBt,#currencyBt{
     -fx-background-color: #044A24;
-    -fx-text-fill: #FAEBD7;
+    -fx-text-fill: #FFFFFF;
 
 }
 .set {
     -fx-background-color: #00823d;
 }
-.choice-box .context-menu { -fx-background-color: #FAEBD7; }
+.choice-box .context-menu {
+    -fx-background-color: #FFFFFF;
+    -fx-font-family: monospace;
+    -fx-text-fill: #2d2d2d;
+}
 .choice-box .label {
-    -fx-text-fill: #443D3D;
+    -fx-text-fill: #2d2d2d;
     -fx-font-weight: bold;
 }
 .theme{
-    -fx-fill: #FAEBD7;
+    -fx-fill: #FFFFFF;
     -fx-font-family: monospace;
     -fx-font-size: 15.0;
     -fx-font-weight: bold;
 
 }
 #currency{
-    -fx-background-color: #C0C0C0;
+    -fx-background-color: #FFFFFF;
 }
-.Block1,.Block2{
+.upperSettingsBlock{
+    -fx-border-style: solid;
     -fx-border-color: #443D3D;
-    -fx-border-width: 3.0;
+    -fx-border-width: 0 0 3 0;
 }
 #categoryBt{
     -fx-background-color: none;
@@ -111,10 +117,10 @@
     -fx-background-color: #FFFFFF;
     -fx-text-fill: #000000;
     -fx-min-width: 166;
-    -fx-pref-width: 182;
+    -fx-pref-width: 184;
 }
 #dayChart,#weekChart,#monthChart,#yearChart{
-    -fx-fill: #FAEBD7;
+    -fx-fill: #FFFFFF;
     -fx-font-family: monospace;
     -fx-font-size: 19.0;
     -fx-font-weight: bold;

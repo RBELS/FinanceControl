@@ -4,19 +4,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="200.0" prefWidth="171.0" styleClass="set" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.settingsview.SettingsController">
+<AnchorPane prefHeight="170.0" prefWidth="300.0" styleClass="set" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.settingsview.SettingsController">
     <children>
-        <AnchorPane prefHeight="85.0" prefWidth="170" styleClass="Block1">
-            <children>
-        <Text layoutX="6.0" layoutY="25.0" styleClass="theme" text="Choose a currency:" />
-        <ChoiceBox fx:id="currency" layoutX="43.0" layoutY="40.0" prefHeight="20" prefWidth="80.0" />
-            </children>
+        <AnchorPane prefHeight="85.0" prefWidth="300.0" styleClass="upperSettingsBlock">
+            <ChoiceBox fx:id="currencyBox" layoutX="110.0" layoutY="43.0" prefHeight="20" prefWidth="80.0"/>
+            <Text layoutX="69.0" layoutY="26.0" styleClass="theme" text="Choose a currency:"/>
         </AnchorPane>
-        <AnchorPane prefHeight="100.0" prefWidth="170.0" styleClass="Block2">
-            <children>
-                <Text layoutX="18.5" layoutY="110.0" styleClass="theme" text="Add a category:" />
-        <Button fx:id="categoryBt" layoutX="59.0" layoutY="125.0" mnemonicParsing="false" onAction="#onThemeButtonClick" prefHeight="38" prefWidth="52"  />
-            </children>
+        <AnchorPane prefHeight="85.0" prefWidth="300.0" AnchorPane.topAnchor="85.0">
+            <Text layoutX="82.0" layoutY="19.0" styleClass="theme" text="Add a category:"/>
+            <Button fx:id="categoryBt" layoutX="124.0" layoutY="33.0" mnemonicParsing="false" prefHeight="38" prefWidth="52"/>
         </AnchorPane>
     </children>
 </AnchorPane>

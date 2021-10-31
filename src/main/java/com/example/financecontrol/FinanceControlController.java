@@ -1,8 +1,8 @@
 package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.OperationItem;
+import com.example.financecontrol.settingsview.SettingsView;
 import com.example.financecontrol.unified.OperationView;
-import com.example.financecontrol.settings.Settings;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -27,7 +26,7 @@ public class FinanceControlController implements Initializable {
 
     private OperationView expensesView;
     private OperationView incomeView;
-    private Settings settingsView;
+    private SettingsView settingsView;
 
     private final FinanceControlModel model;
     private List<OperationItem> operationItemList;
@@ -128,7 +127,7 @@ public class FinanceControlController implements Initializable {
         try {
             expensesView = new OperationView(this, ControllerFinals.EXPENSES);
             incomeView = new OperationView(this, ControllerFinals.INCOME);
-            settingsView = new Settings();
+            settingsView = new SettingsView(this);
 
             currentChartType = ControllerFinals.DAY_CHART;
             currentOperationType = ControllerFinals.EXPENSES;
@@ -142,7 +141,6 @@ public class FinanceControlController implements Initializable {
     private void showDayChart(int type) throws SQLException {
         chartPane.getChildren().clear();
         PieChart dayChart = new PieChart();
-//        caption = new Label("");
         caption.setVisible(false);
 
         chartPane.getChildren().addAll(dayChart, caption);
@@ -175,7 +173,11 @@ public class FinanceControlController implements Initializable {
             }
             item.getNode().setStyle("-fx-background-color: " + defaultColor + ";");
             item.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> {
-                caption.setText(item.getPieValue() + " " + "USD");
+                try {
+                    caption.setText(String.format("%.2f",item.getPieValue()) + " " + model.getCurrencyState());
+                } catch (SQLException e) {
+                    logger.info(e.toString());
+                }
                 caption.setVisible(true);
             });
             item.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> caption.setVisible(false));
@@ -190,7 +192,6 @@ public class FinanceControlController implements Initializable {
 
     private void showWMYChart(int operationType, int chartType) throws SQLException {
         chartPane.getChildren().clear();
-//        caption = new Label("");
         final CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Date");
         final NumberAxis yAxis = new NumberAxis();
@@ -287,7 +288,11 @@ public class FinanceControlController implements Initializable {
                 XYChart.Data<String, Number> data = new XYChart.Data<>(pushDate, sum);
                 series.get(entry.getValue().getName()).getData().add(data);
                 data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> {
-                    caption.setText(entry.getValue().getName() + " " + data.getYValue() + " " + "USD");
+                    try {
+                        caption.setText(entry.getValue().getName() + " " + String.format("%.2f",data.getYValue().doubleValue()) + " " + model.getCurrencyState());
+                    } catch (SQLException e) {
+                        logger.info(e.toString());
+                    }
                     caption.setVisible(true);
                 });
                 data.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> {
@@ -322,7 +327,7 @@ public class FinanceControlController implements Initializable {
     private ArrayList<PieChart.Data> groupItems(List<OperationItem> list) { //Group ExpensesItem and IncomeItem for dayChart
         ArrayList<PieChart.Data> returnList = new ArrayList<>();
         PieChart.Data data;
-        int sum = 0;
+        double sum = 0;
         String categBuf = list.get(0).getCategory();
         for (OperationItem item : list) {
             if (!categBuf.equals(item.getCategory())) {
@@ -340,10 +345,10 @@ public class FinanceControlController implements Initializable {
     }
 
     public void updateBalance() throws SQLException {
-        this.balance.setText(model.getBalance() + " " + "USD");
+        this.balance.setText(String.format("%.2f", model.getBalance()) + " " + model.getCurrencyState());
     }
 
-    private void updateList() {
+    private void updateList() throws SQLException {
         operationListView.getItems().clear();
 
         AnchorPane pane;
@@ -353,7 +358,7 @@ public class FinanceControlController implements Initializable {
             pane.setStyle("-fx-background-radius: 5px; -fx-background-color: " + item.getCategoryColor() + "; -fx-min-width: 166; -fx-pref-width: 166;");
             pane.setMinHeight(26);
 
-            innerText = new Label(item.getName() + ": " + item.getPrice() + " " + "USD\n" + item.getDate());
+            innerText = new Label(item.getName() + ": " + String.format("%.2f",item.getPrice()) + " " + model.getCurrencyState() + "\n" + item.getDate());
             innerText.setLayoutY(5);
             innerText.getStyleClass().add("listViewItem");
             pane.getChildren().add(innerText);
