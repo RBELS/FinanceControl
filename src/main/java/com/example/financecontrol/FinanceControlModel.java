@@ -211,15 +211,15 @@ public class FinanceControlModel {
         URL url = new URL(baseUrl+apiId);
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
         con.setRequestMethod("GET");
-        con.setConnectTimeout(5000);
-        con.setReadTimeout(5000);
+        con.setConnectTimeout(1000);
+        con.setReadTimeout(1000);
         int status = con.getResponseCode();
         if (status != 200) return null;
         String response = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
         return gson.fromJson(response, ResponseItem.class);
     }
 
-    public boolean updateOperations(String prev, String new_) throws SQLException, IOException {
+    public boolean updateOperations(String prev, String new_) throws SQLException{
         connection = DBController.connector();
         assert connection != null;
         stmt = connection.createStatement();
@@ -227,17 +227,30 @@ public class FinanceControlModel {
         double rate = 1.0;
         ResponseItem respObj;
 
+        try {
+            if(!prev.equals("BYN")) {
+                respObj = getResponse(prev);
+                if (respObj == null) {
+                    stmt.close();
+                    connection.close();
+                    return false;
+                }
+                rate = respObj.Cur_OfficialRate / respObj.Cur_Scale;
+            }
 
-        if(!prev.equals("BYN")) {
-            respObj = getResponse(prev);
-            if (respObj == null) return false;
-            rate = respObj.Cur_OfficialRate / respObj.Cur_Scale;
-        }
-
-        if(!new_.equals("BYN")) {
-            respObj = getResponse(new_);
-            if (respObj == null) return false;
-            rate = rate / respObj.Cur_OfficialRate * respObj.Cur_Scale;
+            if(!new_.equals("BYN")) {
+                respObj = getResponse(new_);
+                if (respObj == null) {
+                    stmt.close();
+                    connection.close();
+                    return false;
+                }
+                rate = rate / respObj.Cur_OfficialRate * respObj.Cur_Scale;
+            }
+        } catch (IOException e) {
+            stmt.close();
+            connection.close();
+            return false;
         }
 
         stmt.execute("UPDATE expenses SET price = price * " +  rate);

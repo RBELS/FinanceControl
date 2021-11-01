@@ -101,7 +101,7 @@
 }
 .upperSettingsBlock{
     -fx-border-style: solid;
-    -fx-border-color: #443D3D;
+    -fx-border-color: #FFFFFF;
     -fx-border-width: 0 0 3 0;
 }
 #categoryBt{
@@ -124,4 +124,15 @@
     -fx-font-family: monospace;
     -fx-font-size: 19.0;
     -fx-font-weight: bold;
+}
+
+.errorLabel {
+    -fx-text-fill: #000000;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 15;
+    -fx-border-style: solid;
+    -fx-border-color: red;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-padding: 10;
 }
