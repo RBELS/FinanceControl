@@ -7,10 +7,10 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane fx:id="container" prefHeight="200.0" prefWidth="300.0" styleClass="cont" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.expensesview.ExpensesController">
    <children>
-      <Text layoutX="125.0" layoutY="25.0" text="Choose a category:" styleClass="text1" />
-      <ChoiceBox fx:id="categoryChoiceBox"  layoutX="125.0" layoutY="40.0" prefWidth="250.0" prefHeight="40"  />
-      <TextField fx:id="nameTextField" layoutX="125.0" layoutY="110.0"  prefWidth="250.0" prefHeight="40" promptText="Name" />
-      <TextField fx:id="priceTextField" layoutX="125.0" layoutY="180.0"  prefWidth="250.0" prefHeight="40" promptText="Price" />
+      <Text layoutX="120.0" layoutY="25.0" text="Choose a category:" styleClass="text1" />
+      <ChoiceBox fx:id="categoryChoiceBox"  layoutX="120.0" layoutY="40.0" prefWidth="250.0" prefHeight="40"  />
+      <TextField fx:id="nameTextField" layoutX="120.0" layoutY="110.0"  prefWidth="250.0" prefHeight="40" promptText="Name" />
+      <TextField fx:id="priceTextField" layoutX="120.0" layoutY="180.0"  prefWidth="250.0" prefHeight="40" promptText="Price" />
       <Button fx:id="addBt1" onAction="#onAddBtClick" layoutX="185.0" layoutY="245.0" prefHeight="30" prefWidth="125" mnemonicParsing="false" text="Add" />
    </children>
 </AnchorPane>

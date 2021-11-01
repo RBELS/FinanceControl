@@ -51,9 +51,9 @@ public class FinanceControlModel {
                     "('Clothes', '#316B83', 0), ('Technology', '#6F69AC', 0),\n" +
                     "('Sport', '#8E05C2', 0), ('Gifts', '#FF8243', 0),\n" +
                     "('Cafe', '#FFB344', 0), ('Hobbies', '#CEE5D0', 0),\n" +
-                    "('Other', '#F3F1F5', 0),\n" +
+                    "('Other', '#391d5c', 0),\n" +
                     "('Salary', '#80ED99', 1), ('Gifts', '#FFB319', 1),\n" +
-                    "('Scholarship', '#3B185F', 1), ('Other', '#F3F1F5', 1)",
+                    "('Scholarship', '#3B185F', 1), ('Other', '#D0C1E3', 1)",
             CREATE_CURRENCIES_TABLE = "CREATE TABLE IF NOT EXISTS currencies (\n" +
                     "id INTEGER NOT NULL UNIQUE,\n" +
                     "name TEXT NOT NULL UNIQUE,\n" +

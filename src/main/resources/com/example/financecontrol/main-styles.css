@@ -55,6 +55,8 @@
     -fx-font-family: monospace;
     -fx-font-size: 19.0;
     -fx-font-weight: bold;
+    -fx-border-width: 1.0;
+    -fx-border-color: #FFFFFF;
 }
 #balance {
     -fx-fill: #00FA9A;
@@ -104,15 +106,6 @@
     -fx-border-color: #FFFFFF;
     -fx-border-width: 0 0 3 0;
 }
-#categoryBt{
-    -fx-background-color: none;
-    -fx-background-image: url("plus.png");
-    -fx-background-size: 52.3 38.3;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position:center;
-
-}
-
 .listViewItem {
     -fx-background-color: #FFFFFF;
     -fx-text-fill: #000000;
@@ -124,6 +117,8 @@
     -fx-font-family: monospace;
     -fx-font-size: 19.0;
     -fx-font-weight: bold;
+    -fx-border-width: 1.0;
+    -fx-border-color: #FFFFFF;
 }
 
 .errorLabel {

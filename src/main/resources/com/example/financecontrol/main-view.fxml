@@ -8,17 +8,17 @@
    <children>
       <AnchorPane layoutX="93.0" layoutY="8.0" prefHeight="30.0" prefWidth="700.0" styleClass="balancePanel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fx:id="balance1" layoutX="230.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="Balance:" />
-            <Text fx:id="balance" layoutX="338.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="0$" />
+            <Text fx:id="balance1" layoutX="260.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="Balance:" />
+            <Text fx:id="balance" layoutX="368.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="0$" />
             <Button fx:id="settingsBt" layoutX="7.0" layoutY="3.0" mnemonicParsing="false" onAction="#onSettingsButtonClick" prefHeight="25.0" prefWidth="28.1" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="3.0" />
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="50.0" prefWidth="700.0" styleClass="topPanelBG" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+      <AnchorPane prefHeight="43.0" prefWidth="700.0" styleClass="topPanelBG" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <children>
-            <Button fx:id="expensesBt" layoutY="2.0" mnemonicParsing="false" onAction="#onExpensesButtonClick" prefHeight="44.0" prefWidth="300.0" styleClass="topButton" text="Expenses" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="4.0" />
-            <Button fx:id="expensesChart" layoutX="300.0" layoutY="2.0" mnemonicParsing="false" onAction="#onExpensesChartButtonClick" prefHeight="44.0" prefWidth="50.0" styleClass="topButton" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="4.0" />
-            <Button fx:id="incomeBt" layoutX="350.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeButtonClick" prefHeight="44.0" prefWidth="300.0" styleClass="topButton" stylesheets="@main-styles.css" text="Income" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="4.0" />
-            <Button fx:id="incomeChart" layoutX="650.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeChartButtonClick" prefHeight="44.0" prefWidth="50.0" styleClass="topButton" AnchorPane.rightAnchor="-0.39999999999997726" />
+            <Button fx:id="expensesBt" layoutY="2.0" mnemonicParsing="false" onAction="#onExpensesButtonClick" prefHeight="46.0" prefWidth="300.0" styleClass="topButton" text="Expenses" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="2.0" />
+            <Button fx:id="expensesChart" layoutX="300.0" layoutY="2.0" mnemonicParsing="false" onAction="#onExpensesChartButtonClick" prefHeight="46.0" prefWidth="50.0" styleClass="topButton" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="2.0" />
+            <Button fx:id="incomeBt" layoutX="350.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeButtonClick" prefHeight="46.0" prefWidth="300.0" styleClass="topButton" stylesheets="@main-styles.css" text="Income" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="2.0" />
+            <Button fx:id="incomeChart" layoutX="650.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeChartButtonClick" prefHeight="46.0" prefWidth="50.0" styleClass="topButton" AnchorPane.rightAnchor="0.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="370.0" prefWidth="700.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
@@ -29,10 +29,10 @@
       </AnchorPane>
       <AnchorPane prefHeight="50.0" prefWidth="700.0" styleClass="bottomButtonsContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-         <Button fx:id="dayChart" mnemonicParsing="false" onAction="#onBottomDayButtonClick" prefHeight="50.0" prefWidth="175.0" styleClass="topButton" text="Day" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-         <Button fx:id="weekChart" mnemonicParsing="false" onAction="#onBottomWeekButtonClick" prefHeight="50.0" prefWidth="175.0" styleClass="topButton" text="Week" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="0.0" />
-         <Button fx:id="monthChart" mnemonicParsing="false" onAction="#onBottomMonthButtonClick" prefHeight="50.0" prefWidth="175.0" styleClass="topButton" text="Month" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="0.0" />
-         <Button fx:id="yearChart" mnemonicParsing="false" onAction="#onBottomYearButtonClick" prefHeight="50.0" prefWidth="175.0" styleClass="topButton" text="Year" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="dayChart" mnemonicParsing="false" onAction="#onBottomDayButtonClick" prefHeight="52.0" prefWidth="175.0" styleClass="topButton" text="Day" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="weekChart" mnemonicParsing="false" onAction="#onBottomWeekButtonClick" prefHeight="52.0" prefWidth="175.0" styleClass="topButton" text="Week" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="monthChart" mnemonicParsing="false" onAction="#onBottomMonthButtonClick" prefHeight="52.0" prefWidth="175.0" styleClass="topButton" text="Month" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="yearChart" mnemonicParsing="false" onAction="#onBottomYearButtonClick" prefHeight="52.0" prefWidth="175.0" styleClass="topButton" text="Year" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </children>
