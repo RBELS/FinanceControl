@@ -7,8 +7,6 @@
 <AnchorPane fx:id="containerPane" prefHeight="170.0" prefWidth="300.0" styleClass="set" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.settingsview.SettingsController">
     <children>
         <ChoiceBox fx:id="currencyBox" layoutX="110.0" layoutY="43.0" prefHeight="20" prefWidth="80.0"/>
-            <Text layoutX="69.0" layoutY="26.0" styleClass="theme" text="Choose a currency:"/>
-
-
+        <Text layoutX="69.0" layoutY="26.0" styleClass="theme" text="Choose a currency:"/>
     </children>
 </AnchorPane>

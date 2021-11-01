@@ -55,8 +55,6 @@
     -fx-font-family: monospace;
     -fx-font-size: 19.0;
     -fx-font-weight: bold;
-    -fx-border-width: 1.0;
-    -fx-border-color: #FFFFFF;
 }
 #balance {
     -fx-fill: #00FA9A;
@@ -74,6 +72,19 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position:center;
 }
+
+#expensesBt {
+    -fx-border-color: #FFFFFF;
+    -fx-border-style: solid;
+    -fx-border-width: 0 2 0 2;
+}
+
+#incomeBt {
+    -fx-border-color: #FFFFFF;
+    -fx-border-style: solid;
+    -fx-border-width: 0 2 0 0;
+}
+
 #categoryBt,#currencyBt{
     -fx-background-color: #044A24;
     -fx-text-fill: #FFFFFF;
@@ -117,8 +128,18 @@
     -fx-font-family: monospace;
     -fx-font-size: 19.0;
     -fx-font-weight: bold;
-    -fx-border-width: 1.0;
+}
+
+#weekChart {
+    -fx-border-style: solid;
     -fx-border-color: #FFFFFF;
+    -fx-border-width: 0 2 0 2;
+}
+
+#monthChart {
+    -fx-border-style: solid;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 0 2 0 0;
 }
 
 .errorLabel {
