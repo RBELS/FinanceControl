@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
-<AnchorPane prefHeight="200.0" prefWidth="300.0" styleClass="cont1" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.incomeview.IncomeController">
+<AnchorPane fx:id="container" prefHeight="200.0" prefWidth="300.0" styleClass="cont1" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.incomeview.IncomeController">
    <children>
       <Text layoutX="125.0" layoutY="25.0" text="Choose a category:" styleClass="text1" />
       <ChoiceBox fx:id="categoryChoiceBox"  layoutX="125.0" layoutY="40.0" prefWidth="250.0" prefHeight="40"  />

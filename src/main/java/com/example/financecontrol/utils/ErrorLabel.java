@@ -30,7 +30,7 @@ public class ErrorLabel {
             @Override
             public void run() {
                 label.setStyle("-fx-opacity: " + opacity);
-                opacity-=0.1;
+                opacity-=0.05;
 
                 if(opacity <= 0.001) {
                     label.setStyle("-fx-opacity: 0");
@@ -38,6 +38,6 @@ public class ErrorLabel {
                     this.cancel();
                 }
             }
-        }, 2000, 100);
+        }, 2000, 50);
     }
 }

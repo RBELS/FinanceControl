@@ -25,7 +25,7 @@ public class SettingsView {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((screenBounds.getWidth()) / 3.7);
         stage.setY((screenBounds.getHeight()) / 5.3);
-        stage.setTitle("SettingsView");
+        stage.setTitle("Settings");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setOnCloseRequest(windowEvent -> {
