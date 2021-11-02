@@ -14,7 +14,14 @@ import java.util.List;
 import java.util.logging.Logger;
 import com.google.gson.*;
 
+/**
+ * Class, that contains methods to connect with tables
+ * @author Dana
+ */
 public class FinanceControlModel {
+    /**
+     * Initializing and creating objects(expenses table, income table, config table, categories table, currencies table)
+     */
     private static final String
             CREATE_EXPENSES_TABLE_SQL = "CREATE TABLE IF NOT EXISTS expenses (\n" +
             "id\tINTEGER NOT NULL UNIQUE,\n" +
@@ -61,6 +68,7 @@ public class FinanceControlModel {
                     "PRIMARY KEY(id AUTOINCREMENT)\n" +
                     ")",
             INIT_CURRENCIES_TABLE = "INSERT INTO currencies (name, apiId) VALUES ('USD', 431), ('EUR', 451), ('RUB', 456), ('BYN', 0);";
+
     private final String baseUrl = "https://www.nbrb.by/api/exrates/rates/";
 
     private final Logger log = Logger.getLogger(getClass().getName());
@@ -68,7 +76,10 @@ public class FinanceControlModel {
     private Connection connection;
     private Statement stmt;
 
-
+    /**
+     * Method FinanceControlModel that catching errors connected with DataBase
+     * @see FinanceControlModel#initDB()
+     */
     public FinanceControlModel() {
         try {
             initDB();
@@ -77,6 +88,13 @@ public class FinanceControlModel {
         }
     }
 
+    /**
+     * addExpenses method which inserts the input values into the database(expenses table)
+     * @param name a name of your expenses
+     * @param price how much have you spent on it
+     * @param category a type of your expenses
+     * @throws SQLException when there is error connected with a database access
+     */
     public void addExpense(String name, double price, String category) throws SQLException {
         connection = DBController.connector();
         assert connection != null;
@@ -90,6 +108,13 @@ public class FinanceControlModel {
         connection.close();
     }
 
+    /**
+     * addIncome method which inserts the input values into the database(income table)
+     * @param name a name of your income
+     * @param price how much have you spent on it
+     * @param category a type of your income
+     * @throws SQLException when there is error connected with a database access
+     */
     public void addIncome(String name, double price, String category) throws SQLException {
         connection = DBController.connector();
         assert connection != null;
@@ -103,6 +128,12 @@ public class FinanceControlModel {
         connection.close();
     }
 
+    /**
+     * getCategories a method of the list type that reads values from the table of categories(NAME, COLOR, ID) from the database and returns them in a separate arraylist
+     * @param type the type of your category
+     * @return returns an ArrayList CategoriesItem that contains information from CategoriesTable
+     * @throws SQLException when there is error connected with a database access
+     */
     public List<CategoriesItem> getCategories(int type) throws SQLException {
         connection = DBController.connector();
         assert connection != null;
@@ -121,6 +152,14 @@ public class FinanceControlModel {
         return list;
     }
 
+    /**
+     * getOperations a method that accepts operation type, start date and end date of selection, reads values from start to end date from database(ID, DATE, PRICE, NAME, CATEGORY, COLOR) and return them in a separate arraylist
+     * @param type the type of the operation (0 - expense, 1 - income)
+     * @param startDate the date from which method will read values
+     * @param endDate the date til which method will read values
+     * @return returns an arraylist OperationItem that contains information from OperationsTable
+     * @throws SQLException when there is error connected with a database access
+     */
     public ArrayList<OperationItem> getOperations(int type, String startDate, String endDate) throws SQLException {
 
         connection = DBController.connector();
@@ -148,6 +187,11 @@ public class FinanceControlModel {
         return list;
     }
 
+    /**
+     * getBalance method that reads your current balance(the amount of money in the account) from database and returns it
+     * @return a double variable that contains your balance
+     * @throws SQLException when there is error connected with a database access
+     */
     public double getBalance() throws SQLException {
         connection = DBController.connector();
         assert connection != null;
@@ -162,6 +206,11 @@ public class FinanceControlModel {
         return balance;
     }
 
+    /**
+     * getCurrencies method that reads values from the currency table(ID, NAME, API_ID) from database and returns them in a separate ArrayList
+     * @return returns an ArrayList that contains information from CurrenciesTable
+     * @throws SQLException when there is error connected with a database access
+     */
     public List<CurrencyItem> getCurrencies() throws SQLException {
         connection = DBController.connector();
         assert connection != null;
@@ -182,6 +231,11 @@ public class FinanceControlModel {
         return list;
     }
 
+    /**
+     * getCurrencyState method that checks and return your current currency state
+     * @return returns a string variable that contains NAME from CurrenciesTable
+     * @throws SQLException when there is error connected with a database access
+     */
     public String getCurrencyState() throws SQLException {
         connection = DBController.connector();
         assert connection != null;
@@ -194,6 +248,11 @@ public class FinanceControlModel {
         return currencyStr;
     }
 
+    /**
+     * setCurrencyState method that accepts new currency(string variable) and sets it into a database
+     * @param str a string variable that contains currency's name
+     * @throws SQLException when there is error connected with a database access
+     */
     public void setCurrencyState(String str) throws SQLException {
         connection = DBController.connector();
         assert connection != null;
@@ -205,6 +264,13 @@ public class FinanceControlModel {
         connection.close();
     }
 
+    /**
+     * getResponse method that accept chosen currency, sends request to nbrb site for information of transforming old currency value into a new currency and returns information from the site into a ResponseItem class
+     * @param curr a name of chosen currency
+     * @return an string line into a ResponseItem class from nbrb site
+     * @throws IOException when the I/O operations were failed or interrupted
+     * @throws SQLException when there is error connected with a database access
+     */
     private ResponseItem getResponse(String curr) throws IOException, SQLException {
         Gson gson = new Gson();
         int apiId = stmt.executeQuery("SELECT apiId FROM currencies WHERE name='"+curr+"'").getInt(CurrenciesTable.API_ID);
@@ -219,6 +285,13 @@ public class FinanceControlModel {
         return gson.fromJson(response, ResponseItem.class);
     }
 
+    /**
+     * updateOperations method that compares previous and new currencies to translate one into another and update information in database after translating
+     * @param prev the name of previous currency
+     * @param new_ the name of new currency
+     * @return FALSE if there is IOException or ResponseItem object is null and TRUE in other cases
+     * @throws SQLException when there is error connected with a database access
+     */
     public boolean updateOperations(String prev, String new_) throws SQLException{
         connection = DBController.connector();
         assert connection != null;
@@ -262,6 +335,10 @@ public class FinanceControlModel {
         return true;
     }
 
+    /**
+     * initDB method that checks if objects(expenses, income and config tables in database) are initialized and creates them or initializes
+     * @throws SQLException when there is error connected with a database access
+     */
     public void initDB() throws SQLException {
         connection = DBController.connector();
         assert connection != null;
@@ -286,6 +363,11 @@ public class FinanceControlModel {
         connection.close();
     }
 
+    /**
+     * getTableName method that accept type and names table depending on this type(0 - expense, 1 - income)
+     * @param type 0/1 - variable defining the type of the table
+     * @return the final name of the table
+     */
     private String getTableName(int type) {
         return type == 0 ? "expenses" : "income";
     }
