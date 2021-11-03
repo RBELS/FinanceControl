@@ -41,4 +41,8 @@ public class OperationItem {
     public String getCategoryColor() {
         return categoryColor;
     }
+
+    public String[] toStringArray() {
+        return new String[] {String.valueOf(id), date, String.valueOf(price), name, category};
+    }
 }

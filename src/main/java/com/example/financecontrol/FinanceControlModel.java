@@ -56,10 +56,10 @@ public class FinanceControlModel {
                     ")",
             INIT_CATEGORIES_TABLE = "INSERT INTO categories (name, color, type) VALUES ('Food', '#FF5C58', 0), ('Transport', '#1DB9C3', 0),\n" +
                     "('Clothes', '#316B83', 0), ('Technology', '#6F69AC', 0),\n" +
-                    "('Sport', '#8E05C2', 0), ('Gifts', '#FF8243', 0),\n" +
+                    "('Sport', '#8E05C2', 0), ('Gifts (from me)', '#FF8243', 0),\n" +
                     "('Cafe', '#FFB344', 0), ('Hobbies', '#CEE5D0', 0),\n" +
                     "('Other', '#391d5c', 0),\n" +
-                    "('Salary', '#80ED99', 1), ('Gifts', '#FFB319', 1),\n" +
+                    "('Salary', '#80ED99', 1), ('Gifts (for me)', '#FFB319', 1),\n" +
                     "('Scholarship', '#3B185F', 1), ('Other', '#D0C1E3', 1)",
             CREATE_CURRENCIES_TABLE = "CREATE TABLE IF NOT EXISTS currencies (\n" +
                     "id INTEGER NOT NULL UNIQUE,\n" +
@@ -154,34 +154,56 @@ public class FinanceControlModel {
 
     /**
      * getOperations a method that accepts operation type, start date and end date of selection, reads values from start to end date from database(ID, DATE, PRICE, NAME, CATEGORY, COLOR) and return them in a separate arraylist
-     * @param type the type of the operation (0 - expense, 1 - income)
+     * @param type the type of the operation (0 - expense, 1 - income, 2 - both for all time)
      * @param startDate the date from which method will read values
      * @param endDate the date til which method will read values
      * @return returns an arraylist OperationItem that contains information from OperationsTable
      * @throws SQLException when there is error connected with a database access
      */
     public ArrayList<OperationItem> getOperations(int type, String startDate, String endDate) throws SQLException {
-
         connection = DBController.connector();
         assert connection != null;
         stmt = connection.createStatement();
         String n = getTableName(type);
+        ResultSet operationSet;
+        ResultSet bufOperationSet;
 
-        ResultSet expensesSet = stmt.executeQuery("SELECT " + n + ".id, " + n + ".name, " + n + ".price, " + n + ".date, " + n + ".category, categories.color " +
-                "FROM " + n + " JOIN categories ON " + n + ".category=categories.name AND categories.type=" + type + " " +
-                "WHERE " + n + ".date BETWEEN '" + startDate + "' and '" + endDate + "' " +
-                "ORDER BY " + n + ".date");
+
+        if(type == 2) {
+            operationSet = stmt.executeQuery("SELECT expenses.id, expenses.name, -1*expenses.price AS price, expenses.date, expenses.category, categories.color FROM expenses JOIN categories ON categories.name = expenses.category;");
+        } else {
+            operationSet = stmt.executeQuery("SELECT " + n + ".id, " + n + ".name, " + n + ".price, " + n + ".date, " + n + ".category, categories.color " +
+                    "FROM " + n + " JOIN categories ON " + n + ".category=categories.name AND categories.type=" + type + " " +
+                    "WHERE " + n + ".date BETWEEN '" + startDate + "' and '" + endDate + "' " +
+                    "ORDER BY " + n + ".date");
+        }
+
+
         ArrayList<OperationItem> list = new ArrayList<>();
-        while (expensesSet.next()) {
+        while (operationSet.next()) {
             list.add(new OperationItem(
-                    expensesSet.getInt(OperationsTable.ID),
-                    expensesSet.getString(OperationsTable.DATE),
-                    expensesSet.getDouble(OperationsTable.PRICE),
-                    expensesSet.getString(OperationsTable.NAME),
-                    expensesSet.getString(OperationsTable.CATEGORY),
-                    expensesSet.getString(CategoriesTable.COLOR)
+                    operationSet.getInt(OperationsTable.ID),
+                    operationSet.getString(OperationsTable.DATE),
+                    operationSet.getDouble(OperationsTable.PRICE),
+                    operationSet.getString(OperationsTable.NAME),
+                    operationSet.getString(OperationsTable.CATEGORY),
+                    operationSet.getString(CategoriesTable.COLOR)
             ));
         }
+        if(type == 2) {
+            operationSet = stmt.executeQuery("SELECT income.id, income.name, income.price, income.date, income.category, categories.color FROM income JOIN categories ON categories.name = income.category;");
+            while (operationSet.next()) {
+                list.add(new OperationItem(
+                        operationSet.getInt(OperationsTable.ID),
+                        operationSet.getString(OperationsTable.DATE),
+                        operationSet.getDouble(OperationsTable.PRICE),
+                        operationSet.getString(OperationsTable.NAME),
+                        operationSet.getString(OperationsTable.CATEGORY),
+                        operationSet.getString(CategoriesTable.COLOR)
+                ));
+            }
+        }
+
         stmt.close();
         connection.close();
         return list;

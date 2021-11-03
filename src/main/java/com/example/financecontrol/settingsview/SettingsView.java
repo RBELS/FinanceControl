@@ -19,7 +19,7 @@ public class SettingsView {
 
     public SettingsView(FinanceControlController controller) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FinanceControlApplication.class.getResource("settings-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 300, 105);
+        Scene scene = new Scene(fxmlLoader.load(), 300, 170);
         scene.getRoot().setStyle("-fx-font-family: 'serif';");
         stage = new Stage();
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();

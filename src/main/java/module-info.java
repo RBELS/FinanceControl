@@ -12,6 +12,7 @@ module com.example.financecontrol {
     requires java.sql;
     requires org.xerial.sqlitejdbc;
     requires com.google.gson;
+    requires com.opencsv;
 
     opens com.example.financecontrol to javafx.fxml;
     exports com.example.financecontrol;
