@@ -42,7 +42,7 @@ public class OperationItem {
         return categoryColor;
     }
 
-    public String[] toStringArray() {
-        return new String[] {String.valueOf(id), date, String.valueOf(price), name, category};
+    public String[] toStringArray(int index) {
+        return new String[] {String.valueOf(index), date, String.valueOf(price), name, category};
     }
 }

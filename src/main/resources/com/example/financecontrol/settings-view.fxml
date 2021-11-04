@@ -10,6 +10,6 @@
         <ChoiceBox fx:id="currencyBox" layoutX="110.0" layoutY="43.0" prefHeight="20" prefWidth="80.0" />
         <Text layoutX="69.0" layoutY="26.0" styleClass="theme" text="Choose a currency:" />
         <Button fx:id="xlsbt" onAction="#onXlsBtClick" layoutX="106.0" layoutY="85.0" mnemonicParsing="false" text="Export as .xls" />
-        <Button layoutX="106.0" layoutY="125.0" mnemonicParsing="false" text="Export as .pdf" />
+        <Button fx:id="pdfBt" onAction="#onPdfBtClick" layoutX="106.0" layoutY="125.0" mnemonicParsing="false" text="Export as .pdf" />
     </children>
 </AnchorPane>

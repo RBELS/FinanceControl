@@ -13,6 +13,7 @@ module com.example.financecontrol {
     requires org.xerial.sqlitejdbc;
     requires com.google.gson;
     requires com.opencsv;
+    requires itextpdf;
 
     opens com.example.financecontrol to javafx.fxml;
     exports com.example.financecontrol;

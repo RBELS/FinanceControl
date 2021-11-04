@@ -4,6 +4,11 @@ import com.example.financecontrol.FinanceControlModel;
 import com.example.financecontrol.dbmodels.CurrencyItem;
 import com.example.financecontrol.dbmodels.OperationItem;
 import com.example.financecontrol.utils.ErrorLabel;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.opencsv.CSVWriter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +17,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -33,17 +39,50 @@ public class SettingsController implements Initializable {
     private String currencyState;
 
     @FXML protected void onXlsBtClick() throws IOException, SQLException {
-        File file = new File("C:/", "output.xls");
+        String system = System.getProperty("os.name");
+        String fileStr;
+        if(system.contains("Windows")) {
+            fileStr = System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancialControl\\output.xls";
+
+        } else {
+            fileStr = System.getenv("HOME") + "/Documents/output.xls";
+        }
+
+        File file = new File(fileStr);
         file.createNewFile();
-//        FileWriter fileWriter = new FileWriter(file);
-//        fileWriter.write("");
         CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
+        csvWriter.writeNext(new String[] {"id", "date", "price", "name", "category"});
         List<OperationItem> operationItemList = model.getOperations(2, "", "");
-        for(OperationItem item : operationItemList) {
-            csvWriter.writeNext(item.toStringArray());
+        for(int i = 0;i < operationItemList.size();i++) {
+            csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
         }
         csvWriter.close();
-//        CSVWriter
+    }
+
+    @FXML protected void onPdfBtClick() throws IOException, DocumentException, SQLException {
+        String system = System.getProperty("os.name");
+        String file;
+        if(system.contains("Windows")) {
+            file = System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancialControl";
+
+        } else {
+            file = System.getenv("HOME") + "/Documents/output.pdf";
+            System.out.println(file);
+        }
+
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream(file));//change
+        document.open();
+        document.addTitle("Expenses and Income");
+        Paragraph paragraph;
+        List<OperationItem> operationItemList = model.getOperations(2, "", "");
+        for(int i = 0;i < operationItemList.size();i++) {
+            OperationItem item = operationItemList.get(i);
+            paragraph = new Paragraph(String.format("%d) %s      %s      %.2f      %s", i, item.getName(), item.getCategory(), item.getPrice(), item.getDate()));
+            document.add(paragraph);
+        }
+        document.close();
     }
 
     @Override
