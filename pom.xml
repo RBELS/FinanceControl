@@ -15,7 +15,7 @@
 
         <sonar.organization>rbels</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.login>3b8fcb11e6c3c3b87e0e87e1419b09f6d94ff1ec</sonar.login> <!--?-->
+        <!--<sonar.login>3b8fcb11e6c3c3b87e0e87e1419b09f6d94ff1ec</sonar.login>--> <!--?-->
 
 
         <!-- New Rows -->
@@ -136,16 +136,16 @@
     <build>
         <plugins>
             <!--?-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12.4</version>
-                <configuration>
-                    <includes>
-                        <include>FinanceControlModelTest.java</include>
-                    </includes>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-surefire-plugin</artifactId>-->
+<!--                <version>2.12.4</version>-->
+<!--                <configuration>-->
+<!--                    <includes>-->
+<!--                        <include>FinanceControlModelTest.java</include>-->
+<!--                    </includes>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
             <!--?-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
