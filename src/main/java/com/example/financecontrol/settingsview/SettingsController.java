@@ -7,7 +7,6 @@ import com.example.financecontrol.utils.ErrorLabel;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.opencsv.CSVWriter;
 import javafx.fxml.FXML;
@@ -31,8 +30,7 @@ import java.util.logging.Logger;
 public class SettingsController implements Initializable {
     @FXML private ChoiceBox<String> currencyBox;
     @FXML private AnchorPane containerPane;
-    @FXML private Button xlsbt;
-    
+
     private List<CurrencyItem> currencies;
     private final FinanceControlModel model = new FinanceControlModel();
     private final Logger logger = Logger.getLogger(getClass().getName());
@@ -64,10 +62,8 @@ public class SettingsController implements Initializable {
         String file;
         if(system.contains("Windows")) {
             file = System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancialControl";
-
         } else {
             file = System.getenv("HOME") + "/Documents/output.pdf";
-            System.out.println(file);
         }
 
 

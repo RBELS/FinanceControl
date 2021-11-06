@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CategoriesItemTest {
-    final String TEST_NAME = "TestName", TEST_COLOR = "TestColor";
+    final String TEST_NAME = "TestName";
+    final String TEST_COLOR = "TestColor";
     final int TEST_ID = 0;
     CategoriesItem testItem;
 
