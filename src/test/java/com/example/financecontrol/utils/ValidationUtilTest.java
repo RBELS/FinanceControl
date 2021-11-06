@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ValidationUtilTest {
-    static final String TEST_STR = "TEST", TEST_STR_NUMBER = "0";
+    static final String TEST_STR = "TEST", TEST_STR_NUMBER = "1";
 
     @BeforeAll
     void setUp() {

@@ -15,14 +15,15 @@ module com.example.financecontrol {
     requires com.opencsv;
     requires itextpdf;
 
-    opens com.example.financecontrol to javafx.fxml;
+    opens com.example.financecontrol;
     exports com.example.financecontrol;
     exports com.example.financecontrol.expensesview;
     exports com.example.financecontrol.incomeview;
     exports com.example.financecontrol.dbmodels;
-    opens com.example.financecontrol.expensesview to javafx.fxml;
-    opens com.example.financecontrol.incomeview to javafx.fxml;
-    opens com.example.financecontrol.dbmodels to javafx.fxml;
+    opens com.example.financecontrol.expensesview;
+    opens com.example.financecontrol.incomeview;
+    opens com.example.financecontrol.dbmodels;
     exports com.example.financecontrol.settingsview;
-    opens com.example.financecontrol.settingsview to javafx.fxml;
+    opens com.example.financecontrol.settingsview;
+    opens com.example.financecontrol.utils;
 }

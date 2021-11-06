@@ -61,7 +61,7 @@ public class SettingsController implements Initializable {
         String system = System.getProperty("os.name");
         String file;
         if(system.contains("Windows")) {
-            file = System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancialControl";
+            file = System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancialControl\\output.pdf";
         } else {
             file = System.getenv("HOME") + "/Documents/output.pdf";
         }
