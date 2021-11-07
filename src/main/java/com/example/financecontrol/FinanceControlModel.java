@@ -15,8 +15,9 @@ import java.util.logging.Logger;
 import com.google.gson.*;
 
 /**
- * Class, that contains methods to connect with tables
+ * Class FinanceControlModel, that contains methods to connect with tables
  * @author Dana
+ * @version 1.0
  */
 public class FinanceControlModel {
     /**
@@ -68,16 +69,25 @@ public class FinanceControlModel {
                     "PRIMARY KEY(id AUTOINCREMENT)\n" +
                     ")",
             INIT_CURRENCIES_TABLE = "INSERT INTO currencies (name, apiId) VALUES ('USD', 431), ('EUR', 451), ('RUB', 456), ('BYN', 0);";
-
+    /**
+     * a string object baseUrl which contains a link to the official page of the nbrb
+     */
     private final String baseUrl = "https://www.nbrb.by/api/exrates/rates/";
-
+    /**
+     * A Logger object which is used to log messages about program operations(information about errors)
+     */
     private final Logger log = Logger.getLogger(getClass().getName());
-
+    /**
+     * an object that will connect program with database
+     */
     private Connection connection;
+    /**
+     * a statement instance for executing SQL queries.
+     */
     private Statement stmt;
 
     /**
-     * Method FinanceControlModel that catching errors connected with DataBase
+     * Constructor FinanceControlModel that catches errors connected with DataBase
      * @see FinanceControlModel#initDB()
      */
     public FinanceControlModel() {

@@ -20,6 +20,11 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * FinanceControlController class that implements methods connected with interface
+ * @author Dana
+ * @version 1.0
+ */
 public class FinanceControlController implements Initializable {
     public int currentOperationType;
     public int currentChartType;
@@ -42,56 +47,100 @@ public class FinanceControlController implements Initializable {
     @FXML public Text balance;
     @FXML private ListView<AnchorPane> operationListView;
 
+    /**
+     * onSettingsButtonClick method which shows the settings windows through class {@link SettingsView} with the help of method {@link SettingsView#show()}
+     */
     @FXML
     protected void onSettingsButtonClick()  { // make fields private
         settingsView.show();
     }
+
+    /**
+     * onExpensesButtonClick method which shows the expenses windows through class {@link OperationView} with the help of method {@link OperationView#show()}
+     */
     @FXML
     protected void onExpensesButtonClick() { // make fields private
         expensesView.show();
     }
 
+    /**
+     * onIncomeButtonClick method which shows the income windows through class {@link OperationView} with the help of method {@link OperationView#show()}
+     */
     @FXML
     protected void onIncomeButtonClick() {
         incomeView.show();
     }
 
+    /**
+     * onExpensesChartButtonClick method which shows different charts (depending on currentChartType) of your expenses (chooses OperationType with the help of class {@link ControllerFinals#EXPENSES}
+     * @see FinanceControlController#showChart(int, int)
+     * @throws SQLException when there is error connected with a database access
+     */
     @FXML
     protected void onExpensesChartButtonClick() throws SQLException {
         currentOperationType = ControllerFinals.EXPENSES;
         showChart(currentOperationType, currentChartType);
     }
 
+    /**
+     * onIncomeChartButtonClick method which shows different charts (depending on currentChartType) of your Income (chooses OperationType with the help of class {@link ControllerFinals#INCOME}
+     * @see FinanceControlController#showChart(int, int)
+     * @throws SQLException when there is error connected with a database access
+     */
     @FXML
     protected void onIncomeChartButtonClick() throws SQLException {
         currentOperationType = ControllerFinals.INCOME;
         showChart(currentOperationType, currentChartType);
     }
 
+    /**
+     * onBottomDayButtonClick method which shows a day chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#DAY_CHART}
+     * @see FinanceControlController#showChart(int, int)
+     * @throws SQLException when there is error connected with a database access
+     */
     @FXML
     protected void onBottomDayButtonClick() throws SQLException {
         currentChartType = ControllerFinals.DAY_CHART;
         showChart(currentOperationType, currentChartType);
     }
-
+    /**
+     * onBottomWeekButtonClick method which shows a Week chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#WEEK_CHART}
+     * @see FinanceControlController#showChart(int, int)
+     * @throws SQLException when there is error connected with a database access
+     */
     @FXML
     protected void onBottomWeekButtonClick() throws SQLException {
         currentChartType = ControllerFinals.WEEK_CHART;
         showChart(currentOperationType, currentChartType);
     }
-
+    /**
+     * onBottomMonthButtonClick method which shows a Month chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#MONTH_CHART}
+     * @see FinanceControlController#showChart(int, int)
+     * @throws SQLException when there is error connected with a database access
+     */
     @FXML
     protected void onBottomMonthButtonClick() throws SQLException {
         currentChartType = ControllerFinals.MONTH_CHART;
         showChart(currentOperationType, currentChartType);
     }
-
+    /**
+     * onBottomYearButtonClick method which shows a Year chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#YEAR_CHART}
+     * @see FinanceControlController#showChart(int, int)
+     * @throws SQLException when there is error connected with a database access
+     */
     @FXML
     protected void onBottomYearButtonClick() throws SQLException {
         currentChartType = ControllerFinals.YEAR_CHART;
         showChart(currentOperationType, currentChartType);
     }
 
+    /**
+     * showChart method which chooses day/week/month/year chart to show depending on chartType of expenses/income depending on operationType
+     * and shows charts with the help of {@link FinanceControlController#showDayChart(int)} method and {@link FinanceControlController#showWMYChart(int, int)}
+     * @param operationType a type of your operation (0 if expenses, 1 if income)
+     * @param chartType a type of your chart (0 if DAY_CHART, 1 if WEEK_CHART, 2 if MONTH_CHART, 3 if YEAR_CHART)
+     * @throws SQLException when there is error connected with a database access
+     */
     public void showChart(int operationType, int chartType) throws SQLException {
         if (chartType == ControllerFinals.DAY_CHART) {
             showDayChart(operationType);
@@ -100,11 +149,19 @@ public class FinanceControlController implements Initializable {
         }
     }
 
-
+    /**
+     * FinanceControlController constructor which creates new model object with the help of {@link FinanceControlModel#FinanceControlModel()} constructor
+     */
     public FinanceControlController() {
         model = new FinanceControlModel();
     }
 
+    /**
+     * initialize method which sets initial values and state of buttons and charts, catches an exception in creating new windows of income/expenses/settings,
+     * in showing charts {@link FinanceControlController#showChart(int, int)}, in updating balance {@link FinanceControlController#updateBalance()}
+     * @param url a URL variable
+     * @param resourceBundle a ResourceBundle variable
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         caption = new Label("");
@@ -138,6 +195,11 @@ public class FinanceControlController implements Initializable {
         }
     }
 
+    /**
+     * showDayChart method which sets the style of your day chart and shows it and at the end updates list {@link FinanceControlController#updateList()}
+     * @param type defines the type of your day chart (o is expenses, 1 is income)
+     * @throws SQLException when there is error connected with a database access
+     */
     private void showDayChart(int type) throws SQLException {
         chartPane.getChildren().clear();
         PieChart dayChart = new PieChart();
@@ -190,6 +252,15 @@ public class FinanceControlController implements Initializable {
         updateList();
     }
 
+    /**
+     * showWMYChart method which sets the table with the information about date, category and price of your income/expenses,
+     * sets the date depending on the type of chart and names this chart,
+     * adds all the categories on chart, groups records into categories and places them on a chart with a specific date,
+     * sets the style of your chart and update list {@link FinanceControlController#updateList()}
+     * @param operationType defines the type of your chart (0 is expenses, 1 is income)
+     * @param chartType defines the type of your chart (1 if WEEK_CHART, 2 if MONTH_CHART, 3 if YEAR_CHART)
+     * @throws SQLException when there is error connected with a database access
+     */
     private void showWMYChart(int operationType, int chartType) throws SQLException {
         chartPane.getChildren().clear();
         final CategoryAxis xAxis = new CategoryAxis();
@@ -324,6 +395,11 @@ public class FinanceControlController implements Initializable {
         updateList();
     }
 
+    /**
+     * groupItems method which reads values from OperationItem and returns an arraylist of categories with their appropriate sums
+     * @param list is the List OperationItem type object which contains the group ExpensesItem and IncomeItem
+     * @return returnList of the ArrayList PieChart.Data type with an information from your expenses/income table
+     */
     private ArrayList<PieChart.Data> groupItems(List<OperationItem> list) { //Group ExpensesItem and IncomeItem for dayChart
         ArrayList<PieChart.Data> returnList = new ArrayList<>();
         PieChart.Data data;
@@ -344,10 +420,18 @@ public class FinanceControlController implements Initializable {
         return returnList;
     }
 
+    /**
+     * updateBalance method which updates your currency balance with the help of methods {@link FinanceControlModel#getBalance()} and {@link FinanceControlModel#getCurrencyState()}
+     * @throws SQLException when there is error connected with a database access
+     */
     public void updateBalance() throws SQLException {
         this.balance.setText(String.format("%.2f", model.getBalance()) + " " + model.getCurrencyState());
     }
 
+    /**
+     * updateList method which clears the OperationList view and updates it to its initial state
+     * @throws SQLException when there is error connected with a database access
+     */
     private void updateList() throws SQLException {
         operationListView.getItems().clear();
 
