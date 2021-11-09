@@ -1,8 +1,0 @@
-module:com.example.financecontrol
-com.example.financecontrol
-com.example.financecontrol.dbmodels
-com.example.financecontrol.expensesview
-com.example.financecontrol.incomeview
-com.example.financecontrol.settingsview
-com.example.financecontrol.unified
-com.example.financecontrol.utils
