@@ -2,7 +2,7 @@ package com.example.financecontrol.incomeview;
 
 import com.example.financecontrol.FinanceControlModel;
 import com.example.financecontrol.dbmodels.CategoriesItem;
-import com.example.financecontrol.utils.ErrorLabel;
+import com.example.financecontrol.utils.NotificationLabel;
 import com.example.financecontrol.utils.ValidationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +20,8 @@ public class IncomeController implements Initializable {
     private final FinanceControlModel model;
     private List<CategoriesItem> list;
     private final Logger logger = Logger.getLogger(getClass().getName());
-    private ErrorLabel errorLabel;
+    private NotificationLabel errorLabel;
+    private NotificationLabel successLabel;
 
     public IncomeController() {
         model = new FinanceControlModel();
@@ -43,6 +44,7 @@ public class IncomeController implements Initializable {
             nameTextField.setText("");
             priceTextField.setText("");
             categoryChoiceBox.setValue(null);
+            successLabel.show();
         } else {
             errorLabel.show();
         }
@@ -50,8 +52,9 @@ public class IncomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        errorLabel = new ErrorLabel("Incorrect input", 200, 20);
-        container.getChildren().add(errorLabel.getLabel());
+        errorLabel = new NotificationLabel("Incorrect input", false, 200, 20);
+        successLabel = new NotificationLabel("Successfully added", true, 200, 20);
+        container.getChildren().addAll(errorLabel.getLabel(), successLabel.getLabel());
 
         try {
             list = model.getCategories(1);

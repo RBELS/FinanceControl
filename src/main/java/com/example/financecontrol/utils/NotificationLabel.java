@@ -5,13 +5,15 @@ import javafx.scene.control.Label;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ErrorLabel {
+public class NotificationLabel {
     private Label label;
 
-    public ErrorLabel(String text, int transX, int transY) {
+    public NotificationLabel(String text, boolean success, int transX, int transY) {
         this.label = new Label(text);
         this.label.setVisible(false);
-        this.label.getStyleClass().add("errorLabel");
+        this.label.getStyleClass().add("notificationLabel");
+        this.label.getStyleClass().add(success ? "ok" : "error");
+        this.label.setStyle("-fx-border-color: red");
         this.label.setTranslateX(transX);
         this.label.setTranslateY(transY);
         this.label.setStyle("-fx-opacity: 0");

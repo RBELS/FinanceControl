@@ -2,7 +2,7 @@ package com.example.financecontrol.expensesview;
 
 import com.example.financecontrol.FinanceControlModel;
 import com.example.financecontrol.dbmodels.CategoriesItem;
-import com.example.financecontrol.utils.ErrorLabel;
+import com.example.financecontrol.utils.NotificationLabel;
 import com.example.financecontrol.utils.ValidationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,7 +30,8 @@ public class ExpensesController implements Initializable {
     @FXML private TextField priceTextField;
     @FXML private AnchorPane container;
 
-    private ErrorLabel errorLabel;
+    private NotificationLabel errorLabel;
+    private NotificationLabel successLabel;
 
     @FXML
     protected void onAddBtClick() throws SQLException {
@@ -45,6 +46,7 @@ public class ExpensesController implements Initializable {
             nameTextField.setText("");
             priceTextField.setText("");
             categoryChoiceBox.setValue(null);
+            successLabel.show();
         } else {
             errorLabel.show();
         }
@@ -52,8 +54,10 @@ public class ExpensesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        errorLabel = new ErrorLabel("Incorrect input", 200, 20);
-        container.getChildren().add(errorLabel.getLabel());
+        errorLabel = new NotificationLabel("Incorrect input", false, 200, 20);
+        successLabel = new NotificationLabel("Successfully added", true, 200, 20);
+
+        container.getChildren().addAll(errorLabel.getLabel(), successLabel.getLabel());
 
         try {
             list = model.getCategories(0);

@@ -3,7 +3,7 @@ package com.example.financecontrol.settingsview;
 import com.example.financecontrol.FinanceControlModel;
 import com.example.financecontrol.dbmodels.CurrencyItem;
 import com.example.financecontrol.dbmodels.OperationItem;
-import com.example.financecontrol.utils.ErrorLabel;
+import com.example.financecontrol.utils.NotificationLabel;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -11,10 +11,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.opencsv.CSVWriter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -24,8 +22,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
-
-;
 
 public class SettingsController implements Initializable {
     @FXML private ChoiceBox<String> currencyBox;
@@ -84,8 +80,9 @@ public class SettingsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        ErrorLabel label = new ErrorLabel("No Internet connection",80,65);
-        containerPane.getChildren().add(label.getLabel());
+        NotificationLabel errorLabel = new NotificationLabel("No Internet connection", false, 80,65);
+        NotificationLabel successLabel = new NotificationLabel("Successfully changed", true, 80, 65);
+        containerPane.getChildren().add(errorLabel.getLabel());
 
         try {
             currencies = model.getCurrencies();
@@ -109,11 +106,10 @@ public class SettingsController implements Initializable {
                     if(updated) {
                         model.setCurrencyState(newValue);
                         currencyState = newValue;
+                        successLabel.show();
                     } else {
-                        label.show();
+                        errorLabel.show();
                     }
-                    System.out.println(updated);
-
                 } catch (Exception e) {
                     logger.info(e.toString());
                 }
