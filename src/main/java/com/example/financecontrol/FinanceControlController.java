@@ -286,7 +286,7 @@ public class FinanceControlController implements Initializable {
         //задание даты в зависимости от типа графика
         String chartName;
         switch (chartType) {
-            case ControllerFinals.WEEK_CHART:
+            case ControllerFinals.WEEK_CHART -> {
                 chartName = "Week";
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 if (dayOfWeek == Calendar.SUNDAY) {
@@ -297,16 +297,16 @@ public class FinanceControlController implements Initializable {
                 for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_WEEK); i++) {
                     dates.add(new Date(startTime + oneDay * i).toString());
                 }
-                break;
-            case ControllerFinals.MONTH_CHART:
+            }
+            case ControllerFinals.MONTH_CHART -> {
                 chartName = "Month";
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                 startTime = time - oneDay * (dayOfMonth - 1);
                 for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_MONTH); i++) {
                     dates.add(new Date(startTime + oneDay * i).toString());
                 }
-                break;
-            case ControllerFinals.YEAR_CHART:
+            }
+            case ControllerFinals.YEAR_CHART -> {
                 chartName = "Year";
                 int year = calendar.get(Calendar.YEAR);
                 for (int i = 1; i <= 11; i++) {
@@ -314,9 +314,8 @@ public class FinanceControlController implements Initializable {
                     dates.add(String.format(template, year, i, 1));
                 }
                 dates.add(String.format("%d-%d-%d", year, 12, 31));
-                break;
-            default:
-                throw new IllegalStateException("No such chart: " + chartType);
+            }
+            default -> throw new IllegalStateException("No such chart: " + chartType);
         }
         sbc.setTitle(chartName + " " + (operationType == 0 ? "Expenses" : "Income"));
 
@@ -366,9 +365,7 @@ public class FinanceControlController implements Initializable {
                     }
                     caption.setVisible(true);
                 });
-                data.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> {
-                    caption.setVisible(false);
-                });
+                data.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> caption.setVisible(false));
             }
 
 

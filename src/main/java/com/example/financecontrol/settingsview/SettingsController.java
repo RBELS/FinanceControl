@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -33,53 +35,49 @@ public class SettingsController implements Initializable {
     private String currencyState;
 
     @FXML protected void onXlsBtClick() throws IOException, SQLException {
-        String system = System.getProperty("os.name");
-        String fileStr;
-        if(system.contains("Windows")) {
-            fileStr = System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancialControl\\output.xls";
-
-        } else {
-            fileStr = System.getenv("HOME") + "/Documents/output.xls";
+        String folderPath = getFolderPath();
+        if(!folderPath.equals("")) {
+            String fileStr = folderPath + "/output.xls";
+            File file = new File(fileStr);
+            file.createNewFile();
+            CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
+            csvWriter.writeNext(new String[] {"id", "date", "price", "name", "category"});
+            List<OperationItem> operationItemList = model.getOperations(2, "", "");
+            for(int i = 0;i < operationItemList.size();i++) {
+                csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
+            }
+            csvWriter.close();
         }
-
-        File file = new File(fileStr);
-        file.createNewFile();
-        CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-        csvWriter.writeNext(new String[] {"id", "date", "price", "name", "category"});
-        List<OperationItem> operationItemList = model.getOperations(2, "", "");
-        for(int i = 0;i < operationItemList.size();i++) {
-            csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
-        }
-        csvWriter.close();
     }
 
     @FXML protected void onPdfBtClick() throws IOException, DocumentException, SQLException {
-        String system = System.getProperty("os.name");
-        String file;
-        if(system.contains("Windows")) {
-            file = System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancialControl\\output.pdf";
-        } else {
-            file = System.getenv("HOME") + "/Documents/output.pdf";
+        String folderPath = getFolderPath();
+        if(!folderPath.equals("")) {
+            String fileStr = folderPath + "/output.pdf";
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(fileStr));//change
+            document.open();
+            document.addTitle("Expenses and Income");
+            Paragraph paragraph;
+            List<OperationItem> operationItemList = model.getOperations(2, "", "");
+            for(int i = 0;i < operationItemList.size();i++) {
+                OperationItem item = operationItemList.get(i);
+                paragraph = new Paragraph(String.format("%d) %s      %s      %.2f      %s", i+1, item.getName(), item.getCategory(), item.getPrice(), item.getDate()));
+                document.add(paragraph);
+            }
+            document.close();
         }
+    }
 
+    private String getFolderPath() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(containerPane.getScene().getWindow());
 
-        Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream(file));//change
-        document.open();
-        document.addTitle("Expenses and Income");
-        Paragraph paragraph;
-        List<OperationItem> operationItemList = model.getOperations(2, "", "");
-        for(int i = 0;i < operationItemList.size();i++) {
-            OperationItem item = operationItemList.get(i);
-            paragraph = new Paragraph(String.format("%d) %s      %s      %.2f      %s", i, item.getName(), item.getCategory(), item.getPrice(), item.getDate()));
-            document.add(paragraph);
-        }
-        document.close();
+        return selectedDirectory == null ? "" : selectedDirectory.getAbsolutePath();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         NotificationLabel errorLabel = new NotificationLabel("No Internet connection", false, 80,65);
         NotificationLabel successLabel = new NotificationLabel("Successfully changed", true, 80, 65);
         containerPane.getChildren().add(errorLabel.getLabel());
