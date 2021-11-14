@@ -41,7 +41,7 @@ public class SettingsController implements Initializable {
             File file = new File(fileStr);
             file.createNewFile();
             CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-            csvWriter.writeNext(new String[] {"id", "date", "price", "name", "category"});
+            csvWriter.writeNext(new String[] {"        id              date            price          name        category"});
             List<OperationItem> operationItemList = model.getOperations(2, "", "");
             for(int i = 0;i < operationItemList.size();i++) {
                 csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
