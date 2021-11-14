@@ -1,5 +1,8 @@
 package com.example.financecontrol.dbmodels;
 
+/**
+ * ResponseItem class which creates objects that contains current values
+ */
 public class ResponseItem {
     public int Cur_ID;
     public String Date;
@@ -8,6 +11,9 @@ public class ResponseItem {
     public String Cur_Name;
     public double Cur_OfficialRate;
 
+    /**
+     * ResponseItem constructor
+     */
     public ResponseItem() {
 
     }
