@@ -252,7 +252,7 @@ public class FinanceControlController implements Initializable {
     /**
      * showDayChart method which sets the style of your day chart and shows it and at the end updates list {@link FinanceControlController#updateList()}
      * @param type defines the type of your day chart (o is expenses, 1 is income)
-     * @param pageCoeff pagination parameter, defines how many units we choose forward, 0 - this units, < 0 - previous units, > 0 - next units
+     * @param pageCoeff pagination parameter, defines how many units we choose forward, 0 - that units, less 0 - previous units, more 0 - next units
      * @throws SQLException when there is error connected with a database access
      */
     private void showDayChart(int type, int pageCoeff) throws SQLException {
@@ -317,7 +317,7 @@ public class FinanceControlController implements Initializable {
      * sets the style of your chart and update list {@link FinanceControlController#updateList()}
      * @param operationType defines the type of your chart (0 is expenses, 1 is income)
      * @param chartType defines the type of your chart (1 if WEEK_CHART, 2 if MONTH_CHART, 3 if YEAR_CHART)
-     * @param pageCoeff pagination parameter, defines how many units we choose forward, 0 - this units, < 0 - previous units, > 0 - next units
+     * @param pageCoeff pagination parameter, defines how many units we choose forward, 0 - that units, less 0 - previous units, more 0 - next units
      * @throws SQLException when there is error connected with a database access
      */
     private void showWMYChart(int operationType, int chartType, int pageCoeff) throws SQLException, ParseException {
