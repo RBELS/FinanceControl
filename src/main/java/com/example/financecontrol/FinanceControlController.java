@@ -32,7 +32,7 @@ public class FinanceControlController implements Initializable {
 
     public int currentOperationType;
     public int currentChartType;
-
+    public int a=0;
     private OperationView expensesView;
     private OperationView incomeView;
     private SettingsView settingsView;
@@ -42,10 +42,11 @@ public class FinanceControlController implements Initializable {
     private final Logger logger = Logger.getLogger(getClass().getName());
     private Label caption;
     private int page;
-
+    @FXML public AnchorPane Main;
     @FXML public Button settingsBt;
     @FXML public Button expensesBt;
     @FXML public Button incomeBt;
+    @FXML public Button themeBt;
     @FXML private Button expensesChart;
     @FXML private Button incomeChart;
     @FXML private StackPane chartPane;
@@ -54,6 +55,27 @@ public class FinanceControlController implements Initializable {
     @FXML private Button backBt;
     @FXML private Button forwardBt;
     @FXML private Text pageText;
+    private String urlTheme1 = getClass().getResource("main-styles.css").toExternalForm();
+    private String urlTheme2 = getClass().getResource("darkmode.css").toExternalForm();
+    @FXML
+    protected void onThemeButtonClick() {
+
+        if (a % 2 == 0) {
+            Main.getStylesheets().remove(urlTheme1);
+
+            //Add the new theme
+            Main.getStylesheets().add(urlTheme2);
+            a = a + 1;
+        } else {
+            Main.getStylesheets().remove(urlTheme2);
+
+            //Add the new theme
+            Main.getStylesheets().add(urlTheme1);
+            a = a + 1;
+        }
+
+    }
+
 
     /**
      * onSettingsButtonClick method which shows the settings windows through class {@link SettingsView} with the help of method {@link SettingsView#show()}

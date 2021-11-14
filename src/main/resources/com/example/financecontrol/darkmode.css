@@ -11,7 +11,7 @@
 }
 
 .balancePanel {
-    -fx-background-color: #044A24;
+    -fx-background-color: #28367f;
     -fx-text-fill: white;
 }
 
@@ -57,7 +57,7 @@
     -fx-font-weight: bold;
 }
 #balance {
-    -fx-fill: #00FA9A;
+    -fx-fill: #079ee9;
 }
 #settingsBt{
     -fx-background-color: none;
@@ -68,8 +68,8 @@
 }
 #themeBt{
     -fx-background-color: none;
-    -fx-background-image: url("sun.png");
-    -fx-background-size: 115 64;
+    -fx-background-image: url("mmn.png");
+    -fx-background-size: 240 135;
     -fx-background-repeat: no-repeat;
     -fx-background-position:center;
 }
