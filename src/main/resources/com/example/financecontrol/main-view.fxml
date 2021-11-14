@@ -18,7 +18,7 @@
          <children>
             <Button fx:id="expensesChart" layoutX="300.0" layoutY="2.0" mnemonicParsing="false" onAction="#onExpensesChartButtonClick" prefHeight="46.0" prefWidth="50.0" styleClass="topButton" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <Button fx:id="expensesBt" layoutY="2.0" mnemonicParsing="false" onAction="#onExpensesButtonClick" prefHeight="46.0" prefWidth="350.0" styleClass="topButton" text="Expenses" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="incomeBt" layoutX="350.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeButtonClick" prefHeight="46.0" prefWidth="350.0" styleClass="topButton" stylesheets="@main-styles.css" text="Income" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="incomeBt" layoutX="350.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeButtonClick" prefHeight="46.0" prefWidth="350.0" styleClass="topButton"  text="Income" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0" />
             <Button fx:id="incomeChart" layoutX="650.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeChartButtonClick" prefHeight="46.0" prefWidth="50.0" styleClass="topButton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>

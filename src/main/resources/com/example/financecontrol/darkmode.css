@@ -1,5 +1,5 @@
 .topButton {
-    -fx-background-color: #02873F;
+    -fx-background-color: #6495ED;
     -fx-cursor: "pointer";
     -fx-text-fill:#FFFFFF;
     -fx-font-family: monospace;
@@ -7,7 +7,7 @@
 }
 
 .topButton:hover,.topPanelBG,.cont,.cont1,.bottomButtonsContainer {
-    -fx-background-color: #00823d;
+    -fx-background-color: #6495ED;
 }
 
 .balancePanel {
@@ -45,7 +45,7 @@
     -fx-font-family: monospace;
 }
 #addBt,#addBt1{
-    -fx-background-color: #044A24;
+    -fx-background-color: #28367f;
     -fx-font-size: 18.0;
     -fx-text-fill: #FFFFFF ;
     -fx-font-weight: bold;
@@ -68,8 +68,8 @@
 }
 #themeBt{
     -fx-background-color: none;
-    -fx-background-image: url("mmn.png");
-    -fx-background-size: 240 135;
+    -fx-background-image: url("lll.png");
+    -fx-background-size: 126 75;
     -fx-background-repeat: no-repeat;
     -fx-background-position:center;
 }
@@ -93,12 +93,12 @@
 }
 
 #categoryBt,#currencyBt{
-    -fx-background-color: #044A24;
+    -fx-background-color: #28367f;
     -fx-text-fill: #FFFFFF;
 
 }
 .set {
-    -fx-background-color: #00823d;
+    -fx-background-color: #1E90FF;
 }
 .choice-box .context-menu {
     -fx-background-color: #FFFFFF;
@@ -165,4 +165,7 @@
 
 .ok {
     -fx-border-color: #00FA9A;
+}
+#container {
+    -fx-background-color: red;
 }

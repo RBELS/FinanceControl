@@ -22,8 +22,8 @@
     -fx-font-weight: bold;
 }
 
-.container {
-    /*-fx-background-color: black;*/
+#container {
+    -fx-background-color: #00823d;
 }
 .text1 {
     -fx-fill: #FFFFFF ;

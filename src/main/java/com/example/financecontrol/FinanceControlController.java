@@ -2,6 +2,7 @@ package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.OperationItem;
 import com.example.financecontrol.settingsview.SettingsView;
+import com.example.financecontrol.settingsview.SettingsController;
 import com.example.financecontrol.unified.OperationView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -21,7 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
-
+import javafx.fxml.FXMLLoader;
 /**
  * FinanceControlController class that implements methods connected with interface
  * @author Dana
@@ -29,7 +30,14 @@ import java.util.logging.Logger;
  */
 public class FinanceControlController implements Initializable {
     private final long ONE_DAY = 86400000;
+    /*
+    FinanceControlController object= new FinanceControlController();
+    FXMLLoader  root = new FXMLLoader(getClass().getResource("settings-view.fxml"));
+    root.setController(object);
+     */
 
+
+    @FXML public AnchorPane containerPane;
     public int currentOperationType;
     public int currentChartType;
     public int a=0;
@@ -55,6 +63,7 @@ public class FinanceControlController implements Initializable {
     @FXML private Button backBt;
     @FXML private Button forwardBt;
     @FXML private Text pageText;
+
     private String urlTheme1 = getClass().getResource("main-styles.css").toExternalForm();
     private String urlTheme2 = getClass().getResource("darkmode.css").toExternalForm();
     @FXML
@@ -62,14 +71,10 @@ public class FinanceControlController implements Initializable {
 
         if (a % 2 == 0) {
             Main.getStylesheets().remove(urlTheme1);
-
-            //Add the new theme
             Main.getStylesheets().add(urlTheme2);
             a = a + 1;
         } else {
             Main.getStylesheets().remove(urlTheme2);
-
-            //Add the new theme
             Main.getStylesheets().add(urlTheme1);
             a = a + 1;
         }

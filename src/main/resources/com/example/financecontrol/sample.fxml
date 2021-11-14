@@ -1,0 +1,10 @@
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+
+<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.financecontrol.FinanceControlController">
+
+
+
+            <fx:include source="settings-view.fxml" fx:controller="com.example.financecontrol.FinanceControlController" />
+
+</TabPane>
