@@ -17,6 +17,8 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -26,6 +28,8 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class FinanceControlController implements Initializable {
+    private final long ONE_DAY = 86400000;
+
     public int currentOperationType;
     public int currentChartType;
 
@@ -37,8 +41,9 @@ public class FinanceControlController implements Initializable {
     private List<OperationItem> operationItemList;
     private final Logger logger = Logger.getLogger(getClass().getName());
     private Label caption;
-    @FXML
-    public Button settingsBt;
+    private int page;
+
+    @FXML public Button settingsBt;
     @FXML public Button expensesBt;
     @FXML public Button incomeBt;
     @FXML private Button expensesChart;
@@ -46,6 +51,9 @@ public class FinanceControlController implements Initializable {
     @FXML private StackPane chartPane;
     @FXML public Text balance;
     @FXML private ListView<AnchorPane> operationListView;
+    @FXML private Button backBt;
+    @FXML private Button forwardBt;
+    @FXML private Text pageText;
 
     /**
      * onSettingsButtonClick method which shows the settings windows through class {@link SettingsView} with the help of method {@link SettingsView#show()}
@@ -77,9 +85,9 @@ public class FinanceControlController implements Initializable {
      * @throws SQLException when there is error connected with a database access
      */
     @FXML
-    protected void onExpensesChartButtonClick() throws SQLException {
+    protected void onExpensesChartButtonClick() throws SQLException, ParseException {
+        showChart(ControllerFinals.EXPENSES, currentChartType);
         currentOperationType = ControllerFinals.EXPENSES;
-        showChart(currentOperationType, currentChartType);
     }
 
     /**
@@ -88,9 +96,9 @@ public class FinanceControlController implements Initializable {
      * @throws SQLException when there is error connected with a database access
      */
     @FXML
-    protected void onIncomeChartButtonClick() throws SQLException {
+    protected void onIncomeChartButtonClick() throws SQLException, ParseException {
+        showChart(ControllerFinals.INCOME, currentChartType);
         currentOperationType = ControllerFinals.INCOME;
-        showChart(currentOperationType, currentChartType);
     }
 
     /**
@@ -99,9 +107,9 @@ public class FinanceControlController implements Initializable {
      * @throws SQLException when there is error connected with a database access
      */
     @FXML
-    protected void onBottomDayButtonClick() throws SQLException {
+    protected void onBottomDayButtonClick() throws SQLException, ParseException {
+        showChart(currentOperationType, ControllerFinals.DAY_CHART);
         currentChartType = ControllerFinals.DAY_CHART;
-        showChart(currentOperationType, currentChartType);
     }
     /**
      * onBottomWeekButtonClick method which shows a Week chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#WEEK_CHART}
@@ -109,9 +117,9 @@ public class FinanceControlController implements Initializable {
      * @throws SQLException when there is error connected with a database access
      */
     @FXML
-    protected void onBottomWeekButtonClick() throws SQLException {
+    protected void onBottomWeekButtonClick() throws SQLException, ParseException {
+        showChart(currentOperationType, ControllerFinals.WEEK_CHART);
         currentChartType = ControllerFinals.WEEK_CHART;
-        showChart(currentOperationType, currentChartType);
     }
     /**
      * onBottomMonthButtonClick method which shows a Month chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#MONTH_CHART}
@@ -119,9 +127,9 @@ public class FinanceControlController implements Initializable {
      * @throws SQLException when there is error connected with a database access
      */
     @FXML
-    protected void onBottomMonthButtonClick() throws SQLException {
+    protected void onBottomMonthButtonClick() throws SQLException, ParseException {
+        showChart(currentOperationType, ControllerFinals.MONTH_CHART);
         currentChartType = ControllerFinals.MONTH_CHART;
-        showChart(currentOperationType, currentChartType);
     }
     /**
      * onBottomYearButtonClick method which shows a Year chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#YEAR_CHART}
@@ -129,23 +137,40 @@ public class FinanceControlController implements Initializable {
      * @throws SQLException when there is error connected with a database access
      */
     @FXML
-    protected void onBottomYearButtonClick() throws SQLException {
+    protected void onBottomYearButtonClick() throws SQLException, ParseException {
+        showChart(currentOperationType, ControllerFinals.YEAR_CHART);
         currentChartType = ControllerFinals.YEAR_CHART;
+    }
+
+    @FXML protected void onBackBtClick() throws SQLException, ParseException {
+        page-=1;
+        pageText.setText(String.valueOf(page));
+        showChart(currentOperationType, currentChartType);
+    }
+
+    @FXML protected void onForwardBtClick() throws SQLException, ParseException {
+        page+=1;
+        pageText.setText(String.valueOf(page));
         showChart(currentOperationType, currentChartType);
     }
 
     /**
      * showChart method which chooses day/week/month/year chart to show depending on chartType of expenses/income depending on operationType
-     * and shows charts with the help of {@link FinanceControlController#showDayChart(int)} method and {@link FinanceControlController#showWMYChart(int, int)}
+     * and shows charts with the help of {@link FinanceControlController#showDayChart(int,int)} method and {@link FinanceControlController#showWMYChart(int, int, int)}
      * @param operationType a type of your operation (0 if expenses, 1 if income)
-     * @param chartType a type of your chart (0 if DAY_CHART, 1 if WEEK_CHART, 2 if MONTH_CHART, 3 if YEAR_CHART)
+     * @param chartType a type of your chart (0 if DAY_CHART, 1 if WEEK_CHART, 2 if MONTH_CHART, 3 if YEAR_CHART
      * @throws SQLException when there is error connected with a database access
      */
-    public void showChart(int operationType, int chartType) throws SQLException {
+    public void showChart(int operationType, int chartType) throws SQLException, ParseException {
+        if(chartType != this.currentChartType || operationType != this.currentOperationType) {
+            page = 0;
+            pageText.setText(String.valueOf(page));
+        }
+
         if (chartType == ControllerFinals.DAY_CHART) {
-            showDayChart(operationType);
+            showDayChart(operationType, page);
         } else {
-            showWMYChart(operationType, chartType);
+            showWMYChart(operationType, chartType, page);
         }
     }
 
@@ -164,6 +189,8 @@ public class FinanceControlController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        page = 0;
+        pageText.setText(String.valueOf(page));
         caption = new Label("");
         caption.setStyle(
                 "-fx-text-fill: #000000;" +
@@ -177,8 +204,8 @@ public class FinanceControlController implements Initializable {
         incomeChart.setFocusTraversable(false);
 
         chartPane.addEventHandler(MouseEvent.MOUSE_MOVED, mouseEvent -> {
-            caption.setTranslateX(mouseEvent.getX()-280);
-            caption.setTranslateY(mouseEvent.getY()-200);
+            caption.setTranslateX(mouseEvent.getX()-300);
+            caption.setTranslateY(mouseEvent.getY()-230);
         });
 
         try {
@@ -198,9 +225,10 @@ public class FinanceControlController implements Initializable {
     /**
      * showDayChart method which sets the style of your day chart and shows it and at the end updates list {@link FinanceControlController#updateList()}
      * @param type defines the type of your day chart (o is expenses, 1 is income)
+     * @param pageCoeff pagination parameter, defines how many units we choose forward, 0 - this units, < 0 - previous units, > 0 - next units
      * @throws SQLException when there is error connected with a database access
      */
-    private void showDayChart(int type) throws SQLException {
+    private void showDayChart(int type, int pageCoeff) throws SQLException {
         chartPane.getChildren().clear();
         PieChart dayChart = new PieChart();
         caption.setVisible(false);
@@ -213,9 +241,12 @@ public class FinanceControlController implements Initializable {
         dayChart.setLayoutX(100);
         dayChart.setMaxHeight(360);
 
-        String today = new java.sql.Date(System.currentTimeMillis()).toString();
+        String startDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * ONE_DAY).toString();
+        String endDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * ONE_DAY).toString();
 
-        operationItemList = model.getOperations(type, today, today);
+        pageText.setText(startDate);
+
+        operationItemList = model.getOperations(type, startDate, endDate);
         List<PieChart.Data> dayChartItemList = operationItemList.size() == 0 ?
                 new ArrayList<>() :
                 groupItems(operationItemList);
@@ -259,9 +290,10 @@ public class FinanceControlController implements Initializable {
      * sets the style of your chart and update list {@link FinanceControlController#updateList()}
      * @param operationType defines the type of your chart (0 is expenses, 1 is income)
      * @param chartType defines the type of your chart (1 if WEEK_CHART, 2 if MONTH_CHART, 3 if YEAR_CHART)
+     * @param pageCoeff pagination parameter, defines how many units we choose forward, 0 - this units, < 0 - previous units, > 0 - next units
      * @throws SQLException when there is error connected with a database access
      */
-    private void showWMYChart(int operationType, int chartType) throws SQLException {
+    private void showWMYChart(int operationType, int chartType, int pageCoeff) throws SQLException, ParseException {
         chartPane.getChildren().clear();
         final CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Date");
@@ -278,37 +310,67 @@ public class FinanceControlController implements Initializable {
         ArrayList<String> dates = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        long time = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
+        long time;
         long startTime;
-        long oneDay = 1000 * 60 * 60 * 24;
 
 
         //задание даты в зависимости от типа графика
         String chartName;
         switch (chartType) {
             case ControllerFinals.WEEK_CHART -> {
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                time = currentTime + pageCoeff * ONE_DAY * 7;
                 chartName = "Week";
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 if (dayOfWeek == Calendar.SUNDAY) {
-                    startTime = time - oneDay * 6;
+                    startTime = time - ONE_DAY * 6;
                 } else {
-                    startTime = time - oneDay * (dayOfWeek - 2);
+                    startTime = time - ONE_DAY * (dayOfWeek - 2);
                 }
                 for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_WEEK); i++) {
-                    dates.add(new Date(startTime + oneDay * i).toString());
+                    dates.add(new Date(startTime + ONE_DAY * i).toString());
                 }
             }
             case ControllerFinals.MONTH_CHART -> {
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                time = currentTime;
+
+                int startMonth = calendar.get(Calendar.MONTH) + 1;
+                int startYear = calendar.get(Calendar.YEAR);
+
+                int month = startMonth;
+                int year = startYear;
+                for(int j = 0;j < Math.abs(pageCoeff);j++) {
+                    if(month != 1 && month != 12) {
+                        if(pageCoeff < 0) {
+                            month-=1;
+                        } else {
+                            month+=1;
+                        }
+                    } else {
+                        if(pageCoeff < 0) {
+                            month = 12;
+                            year-=1;
+                        } else {
+                            month = 1;
+                            year+=1;
+                        }
+                    }
+                }
+                calendar.setTime(format.parse(year+"-"+month+"-01"));
+
                 chartName = "Month";
-                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                startTime = time - oneDay * (dayOfMonth - 1);
+                startTime = calendar.getTimeInMillis();
                 for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_MONTH); i++) {
-                    dates.add(new Date(startTime + oneDay * i).toString());
+                    dates.add(new Date(startTime + ONE_DAY * i).toString());
                 }
             }
             case ControllerFinals.YEAR_CHART -> {
+                calendar.setTimeInMillis(System.currentTimeMillis());
                 chartName = "Year";
-                int year = calendar.get(Calendar.YEAR);
+                int year = calendar.get(Calendar.YEAR) + pageCoeff;
                 for (int i = 1; i <= 11; i++) {
                     String template = i < 10 ? "%d-0%d-%d" : "%d-%d-%d";
                     dates.add(String.format(template, year, i, 1));
@@ -318,6 +380,7 @@ public class FinanceControlController implements Initializable {
             default -> throw new IllegalStateException("No such chart: " + chartType);
         }
         sbc.setTitle(chartName + " " + (operationType == 0 ? "Expenses" : "Income"));
+        pageText.setText(dates.get(0) + " - " + dates.get(dates.size()-1));
 
         operationItemList = model.getOperations(operationType, dates.get(0), dates.get(dates.size()-1));
 

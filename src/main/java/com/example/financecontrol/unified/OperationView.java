@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 public class OperationView {
@@ -33,7 +34,7 @@ public class OperationView {
             try {
                 controller.updateBalance();
                 controller.showChart(controller.currentOperationType, controller.currentChartType);
-            } catch (SQLException e) {
+            } catch (SQLException | ParseException e) {
                 logger.info(e.toString());
             }
         });

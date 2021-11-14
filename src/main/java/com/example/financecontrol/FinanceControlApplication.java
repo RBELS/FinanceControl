@@ -21,7 +21,7 @@ public class FinanceControlApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FinanceControlApplication.class.getResource("main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
         stage.setTitle("Financial Control");
         stage.setScene(scene);
