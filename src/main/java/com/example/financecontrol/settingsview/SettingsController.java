@@ -1,6 +1,7 @@
 package com.example.financecontrol.settingsview;
 
 import com.example.financecontrol.FinanceControlModel;
+import com.example.financecontrol.dbmodels.CategoriesItem;
 import com.example.financecontrol.dbmodels.CurrencyItem;
 import com.example.financecontrol.dbmodels.OperationItem;
 import com.example.financecontrol.utils.NotificationLabel;
@@ -25,46 +26,65 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+/**
+ * SettingsController class that implements {@link Initializable} class which controls buttons in the settings window: can display income, expense and price information from database to xls file and pdf document, select location of xls and pdf files, display a message about successful or unsuccessful currency change
+ * @author Dana
+ * @version 1.0
+ */
 public class SettingsController implements Initializable {
+    /**
+     * currencyBox - a ChoiceBox object of a string type
+     */
     @FXML private ChoiceBox<String> currencyBox;
+    /**
+     * containerPane - an AnchorPane object
+     */
     @FXML private AnchorPane containerPane;
 
+    /**
+     * currencies - a list object of {@link CurrencyItem} type
+     */
     private List<CurrencyItem> currencies;
+    /**
+     * model - an object of {@link FinanceControlModel} type
+     */
     private final FinanceControlModel model = new FinanceControlModel();
+    /**
+     * logger - an object of {@link java.lang.System.Logger} type which contains a string with an information about the runtime class and its name
+     */
     private final Logger logger = Logger.getLogger(getClass().getName());
+    /**
+     * currencyState - a string object which shows current currency
+     */
     private String currencyState;
 
-    private NotificationLabel errorLabel;
-
-    @FXML protected void onXlsBtClick() throws SQLException, IOException {
-
-            String folderPath = getFolderPath();
-            if (!folderPath.equals("")) {
-                String fileStr = folderPath + "/output.xls";
-                File file = new File(fileStr);
-                CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-                try {
-                    NotificationLabel resultLabel;
-                    if (file.createNewFile()) {
-                        resultLabel = new NotificationLabel("File created successfully", true, 80, 65);
-                        csvWriter.writeNext(new String[]{"id", "date", "price", "name", "category"});
-                        List<OperationItem> operationItemList = model.getOperations(2, "", "");
-                        for (int i = 0; i < operationItemList.size(); i++) {
-                            csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
-                        }
-                        csvWriter.close();
-                        resultLabel.show();
-                    } else {
-
-                    }
-                } catch (IOException e) {
-
-                } finally {
-                    csvWriter.close();
-                }
+    /**
+     * onXlsBtClick method which chooses and create new path to a new folder 'output.xls' with the help of {@link SettingsController#getFolderPath()} method, and puts all information of your income/expenses and price from database into this file of xls format
+     * @throws IOException when the I/O operations were failed or interrupted
+     * @throws SQLException when there is error connected with a database access
+     */
+    @FXML protected void onXlsBtClick() throws IOException, SQLException {
+        String folderPath = getFolderPath();
+        if(!folderPath.equals("")) {
+            String fileStr = folderPath + "/output.xls";
+            File file = new File(fileStr);
+            file.createNewFile();
+            CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
+            csvWriter.writeNext(new String[] {"id", "date", "price", "name", "category"}); //wtf??
+            List<OperationItem> operationItemList = model.getOperations(2, "", "");
+            for(int i = 0;i < operationItemList.size();i++) {
+                csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
             }
+            csvWriter.close();
+        }
     }
 
+    /**
+     * onPdfBtClick method which chooses and create new path to a new folder 'output.pdf' with the help of {@link SettingsController#getFolderPath()} method, and puts all information of your income/expenses and price from database into this document of pdf format
+     * @throws IOException when the I/O operations were failed or interrupted
+     * @throws DocumentException when there is a problem connected with creating or connecting to a document
+     * @throws SQLException when there is error connected with a database access
+     */
     @FXML protected void onPdfBtClick() throws IOException, DocumentException, SQLException {
         String folderPath = getFolderPath();
         if(!folderPath.equals("")) {
@@ -84,6 +104,10 @@ public class SettingsController implements Initializable {
         }
     }
 
+    /**
+     * getFolderPath method which creates new file directory and shows a dialog window to choose a path for this file
+     * @return returns chosen file directory
+     */
     private String getFolderPath() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(containerPane.getScene().getWindow());
@@ -91,6 +115,11 @@ public class SettingsController implements Initializable {
         return selectedDirectory == null ? "" : selectedDirectory.getAbsolutePath();
     }
 
+    /**
+     * initialize method which shows an error('No Internet connection') or successful('Successfully changed') label when currency changing operation is finished and catches the SQLException
+     * @param url the url variable
+     * @param resourceBundle the resourceBundle variable
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         NotificationLabel errorLabel = new NotificationLabel("No Internet connection", false, 80,65);

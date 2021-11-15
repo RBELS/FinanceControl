@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 /**
- * ExpensesController class that implements {@link Initializable} class which controls mouth click connection with the program and database and adds the input data to the database, after which it updates empty text fields and displays a message about the successful or failed addition
+ * ExpensesController class that implements {@link Initializable} class which controls mouth click connection with the program and database and adds the input data to the database, after which it updates empty text fields and displays a message about the successful or failed addition of your expenses
  * @author Dana
  * @version 1.0
  */
@@ -90,7 +90,7 @@ public class ExpensesController implements Initializable {
     }
 
     /**
-     * initialize method which shows an error('Incorrect input') or successful('Successfully added') label when adding operation is finished and catches the SQLException
+     * initialize method which shows an error('Incorrect input') or successful('Successfully added') label when expenses adding operation is finished and catches the SQLException
      * @param url the url variable
      * @param resourceBundle the resourceBundle variable
      */
