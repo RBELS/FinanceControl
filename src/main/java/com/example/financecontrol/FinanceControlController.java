@@ -2,7 +2,6 @@ package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.OperationItem;
 import com.example.financecontrol.settingsview.SettingsView;
-import com.example.financecontrol.settingsview.SettingsController;
 import com.example.financecontrol.unified.OperationView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -22,35 +21,28 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
-import javafx.fxml.FXMLLoader;
 /**
  * FinanceControlController class that implements methods connected with interface
  * @author Dana
  * @version 1.0
  */
 public class FinanceControlController implements Initializable {
-    private final long ONE_DAY = 86400000;
-    /*
-    FinanceControlController object= new FinanceControlController();
-    FXMLLoader  root = new FXMLLoader(getClass().getResource("settings-view.fxml"));
-    root.setController(object);
-     */
-
+    private final static long oneDay = 86400000;
 
     @FXML public AnchorPane containerPane;
     public int currentOperationType;
     public int currentChartType;
-    public int a=0;
+    public int a;
     private OperationView expensesView;
     private OperationView incomeView;
     private SettingsView settingsView;
 
     private final FinanceControlModel model;
     private List<OperationItem> operationItemList;
-    private final Logger logger = Logger.getLogger(getClass().getName());
+    private Logger logger;
     private Label caption;
     private int page;
-    @FXML public AnchorPane Main;
+    @FXML public AnchorPane mainPane;
     @FXML public Button settingsBt;
     @FXML public Button expensesBt;
     @FXML public Button incomeBt;
@@ -64,18 +56,18 @@ public class FinanceControlController implements Initializable {
     @FXML private Button forwardBt;
     @FXML private Text pageText;
 
-    private String urlTheme1 = getClass().getResource("main-styles.css").toExternalForm();
-    private String urlTheme2 = getClass().getResource("darkmode.css").toExternalForm();
+    private String urlTheme1;
+    private String urlTheme2;
     @FXML
     protected void onThemeButtonClick() {
 
         if (a % 2 == 0) {
-            Main.getStylesheets().remove(urlTheme1);
-            Main.getStylesheets().add(urlTheme2);
+            mainPane.getStylesheets().remove(urlTheme1);
+            mainPane.getStylesheets().add(urlTheme2);
             a = a + 1;
         } else {
-            Main.getStylesheets().remove(urlTheme2);
-            Main.getStylesheets().add(urlTheme1);
+            mainPane.getStylesheets().remove(urlTheme2);
+            mainPane.getStylesheets().add(urlTheme1);
             a = a + 1;
         }
 
@@ -216,6 +208,10 @@ public class FinanceControlController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger = Logger.getLogger(getClass().getName());
+        urlTheme1 = Objects.requireNonNull(getClass().getResource("main-styles.css")).toExternalForm();
+        urlTheme2 = Objects.requireNonNull(getClass().getResource("darkmode.css")).toExternalForm();
+        a = 0;
         page = 0;
         pageText.setText(String.valueOf(page));
         caption = new Label("");
@@ -268,8 +264,8 @@ public class FinanceControlController implements Initializable {
         dayChart.setLayoutX(100);
         dayChart.setMaxHeight(360);
 
-        String startDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * ONE_DAY).toString();
-        String endDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * ONE_DAY).toString();
+        String startDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * oneDay).toString();
+        String endDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * oneDay).toString();
 
         pageText.setText(startDate);
 
@@ -347,22 +343,21 @@ public class FinanceControlController implements Initializable {
         switch (chartType) {
             case ControllerFinals.WEEK_CHART -> {
                 calendar.setTimeInMillis(System.currentTimeMillis());
-                time = currentTime + pageCoeff * ONE_DAY * 7;
+                time = currentTime + pageCoeff * oneDay * 7;
                 chartName = "Week";
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 if (dayOfWeek == Calendar.SUNDAY) {
-                    startTime = time - ONE_DAY * 6;
+                    startTime = time - oneDay * 6;
                 } else {
-                    startTime = time - ONE_DAY * (dayOfWeek - 2);
+                    startTime = time - oneDay * (dayOfWeek - 2);
                 }
                 for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_WEEK); i++) {
-                    dates.add(new Date(startTime + ONE_DAY * i).toString());
+                    dates.add(new Date(startTime + oneDay * i).toString());
                 }
             }
             case ControllerFinals.MONTH_CHART -> {
                 calendar.setTimeInMillis(System.currentTimeMillis());
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                time = currentTime;
 
                 int startMonth = calendar.get(Calendar.MONTH) + 1;
                 int startYear = calendar.get(Calendar.YEAR);
@@ -391,7 +386,7 @@ public class FinanceControlController implements Initializable {
                 chartName = "Month";
                 startTime = calendar.getTimeInMillis();
                 for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_MONTH); i++) {
-                    dates.add(new Date(startTime + ONE_DAY * i).toString());
+                    dates.add(new Date(startTime + oneDay * i).toString());
                 }
             }
             case ControllerFinals.YEAR_CHART -> {

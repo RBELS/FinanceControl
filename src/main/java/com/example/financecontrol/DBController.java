@@ -26,17 +26,16 @@ public class DBController {
     public static Connection connector() {
         try {
             String system = System.getProperty("os.name");
+            File f;
             if(system.contains("Windows")) {
-                File f = new File(System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancelControl");
-                boolean mkdirFlag = f.mkdirs();
-                Class.forName("org.sqlite.JDBC");
-                return DriverManager.getConnection("jdbc:sqlite:"+f.getPath()+"/db.sqlite");
+                f = new File(System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancelControl");
             } else {
-                File f = new File(System.getenv("HOME")+"/Documents/FinanceControl");
-                boolean mkDirFlag = f.mkdirs();
-                Class.forName("org.sqlite.JDBC");
-                return DriverManager.getConnection("jdbc:sqlite:"+f.getPath()+"/db.sqlite");
+                f = new File(System.getenv("HOME") + "/Documents/FinanceControl");
             }
+
+            f.mkdirs();
+            Class.forName("org.sqlite.JDBC");
+            return DriverManager.getConnection("jdbc:sqlite:"+f.getPath()+"/db.sqlite");
 
         } catch (Exception e) {
             logger.info(e.toString());

@@ -34,20 +34,35 @@ public class SettingsController implements Initializable {
     private final Logger logger = Logger.getLogger(getClass().getName());
     private String currencyState;
 
-    @FXML protected void onXlsBtClick() throws IOException, SQLException {
-        String folderPath = getFolderPath();
-        if(!folderPath.equals("")) {
-            String fileStr = folderPath + "/output.xls";
-            File file = new File(fileStr);
-            boolean fileCreated = file.createNewFile();
-            CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-            csvWriter.writeNext(new String[] {"id", "date", "price", "name", "category"});
-            List<OperationItem> operationItemList = model.getOperations(2, "", "");
-            for(int i = 0;i < operationItemList.size();i++) {
-                csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
+    private NotificationLabel errorLabel;
+
+    @FXML protected void onXlsBtClick() throws SQLException, IOException {
+
+            String folderPath = getFolderPath();
+            if (!folderPath.equals("")) {
+                String fileStr = folderPath + "/output.xls";
+                File file = new File(fileStr);
+                CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
+                try {
+                    NotificationLabel resultLabel;
+                    if (file.createNewFile()) {
+                        resultLabel = new NotificationLabel("File created successfully", true, 80, 65);
+                        csvWriter.writeNext(new String[]{"id", "date", "price", "name", "category"});
+                        List<OperationItem> operationItemList = model.getOperations(2, "", "");
+                        for (int i = 0; i < operationItemList.size(); i++) {
+                            csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
+                        }
+                        csvWriter.close();
+                        resultLabel.show();
+                    } else {
+
+                    }
+                } catch (IOException e) {
+
+                } finally {
+                    csvWriter.close();
+                }
             }
-            csvWriter.close();
-        }
     }
 
     @FXML protected void onPdfBtClick() throws IOException, DocumentException, SQLException {

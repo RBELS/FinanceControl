@@ -5,7 +5,6 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,59 +22,61 @@ public class FinanceControlModel {
      * Initializing and creating objects(expenses table, income table, config table, categories table, currencies table)
      */
     private static final String
-            CREATE_EXPENSES_TABLE_SQL = "CREATE TABLE IF NOT EXISTS expenses (\n" +
-            "id\tINTEGER NOT NULL UNIQUE,\n" +
-            "date\tDATE NOT NULL,\n" +
-            "price\tREAL NOT NULL,\n" +
-            "name\tTEXT NOT NULL,\n" +
-            "category\tTEXT NOT NULL,\n" +
-            "PRIMARY KEY(id AUTOINCREMENT)\n" +
-            ")",
-            CREATE_INCOME_TABLE_SQL = "CREATE TABLE IF NOT EXISTS income (\n" +
-                    "id\tINTEGER NOT NULL UNIQUE,\n" +
-                    "date\tDATE NOT NULL,\n" +
-                    "price\tREAL NOT NULL,\n" +
-                    "name\tTEXT NOT NULL,\n" +
-                    "category\tTEXT NOT NULL,\n" +
-                    "PRIMARY KEY(id AUTOINCREMENT)\n" +
-                    ")",
-            CREATE_CONFIG_TABLE_SQL = "CREATE TABLE IF NOT EXISTS config (\n" +
-                    "id\tINTEGER NOT NULL UNIQUE,\n" +
-                    "field\tTEXT NOT NULL,\n" +
-                    "value\tREAL NOT NULL,\n" +
-                    "PRIMARY KEY(id AUTOINCREMENT)\n" +
-                    ")",
-            INIT_CONFIG_TABLE = "INSERT INTO config (field, value) VALUES" +
-                    "('theme', 0), ('currencyId', 1), ('balance', 0)",
-            CREATE_CATEGORIES_TABLE = "CREATE TABLE IF NOT EXISTS categories (\n" +
-                    "id\tINTEGER NOT NULL UNIQUE,\n" +
-                    "name\tTEXT NOT NULL,\n" +
-                    "color\tTEXT NOT NULL,\n" +
-                    "type\tINTEGER NOT NULL,\n" + // 0-expense, 1-income
-                    "PRIMARY KEY(id AUTOINCREMENT)\n" +
-                    ")",
-            INIT_CATEGORIES_TABLE = "INSERT INTO categories (name, color, type) VALUES ('Food', '#FF5C58', 0), ('Transport', '#1DB9C3', 0),\n" +
-                    "('Clothes', '#316B83', 0), ('Technology', '#6F69AC', 0),\n" +
-                    "('Sport', '#8E05C2', 0), ('Gifts (from me)', '#FF8243', 0),\n" +
-                    "('Cafe', '#FFB344', 0), ('Hobbies', '#CEE5D0', 0),\n" +
-                    "('Other', '#391d5c', 0),\n" +
-                    "('Salary', '#80ED99', 1), ('Gifts (for me)', '#FFB319', 1),\n" +
-                    "('Scholarship', '#3B185F', 1), ('Other', '#D0C1E3', 1)",
-            CREATE_CURRENCIES_TABLE = "CREATE TABLE IF NOT EXISTS currencies (\n" +
-                    "id INTEGER NOT NULL UNIQUE,\n" +
-                    "name TEXT NOT NULL UNIQUE,\n" +
-                    "apiId INTEGER NOT NULL UNIQUE,\n" +
-                    "PRIMARY KEY(id AUTOINCREMENT)\n" +
-                    ")",
-            INIT_CURRENCIES_TABLE = "INSERT INTO currencies (name, apiId) VALUES ('USD', 431), ('EUR', 451), ('RUB', 456), ('BYN', 0);";
+            CREATE_EXPENSES_TABLE_SQL = """
+            CREATE TABLE IF NOT EXISTS expenses (
+            id\tINTEGER NOT NULL UNIQUE,
+            date\tDATE NOT NULL,
+            price\tREAL NOT NULL,
+            name\tTEXT NOT NULL,
+            category\tTEXT NOT NULL,
+            PRIMARY KEY(id AUTOINCREMENT)
+            )""",
+            CREATE_INCOME_TABLE_SQL = """
+                    CREATE TABLE IF NOT EXISTS income (
+                    id\tINTEGER NOT NULL UNIQUE,
+                    date\tDATE NOT NULL,
+                    price\tREAL NOT NULL,
+                    name\tTEXT NOT NULL,
+                    category\tTEXT NOT NULL,
+                    PRIMARY KEY(id AUTOINCREMENT)
+                    )""",
+            CREATE_CONFIG_TABLE_SQL = """
+                    CREATE TABLE IF NOT EXISTS config (
+                    id\tINTEGER NOT NULL UNIQUE,
+                    field\tTEXT NOT NULL,
+                    value\tREAL NOT NULL,
+                    PRIMARY KEY(id AUTOINCREMENT)
+                    )""",
+            INIT_CONFIG_TABLE = "INSERT INTO config (field, value) VALUES ('theme', 0), ('currencyId', 1), ('balance', 0)",
+            CREATE_CATEGORIES_TABLE = """
+                    CREATE TABLE IF NOT EXISTS categories (
+                    id\tINTEGER NOT NULL UNIQUE,
+                    name\tTEXT NOT NULL,
+                    color\tTEXT NOT NULL,
+                    type\tINTEGER NOT NULL,
+                    PRIMARY KEY(id AUTOINCREMENT)
+                    )""",
+            INIT_CATEGORIES_TABLE = """
+                    INSERT INTO categories (name, color, type) VALUES ('Food', '#FF5C58', 0), ('Transport', '#1DB9C3', 0),
+                    ('Clothes', '#316B83', 0), ('Technology', '#6F69AC', 0),
+                    ('Sport', '#8E05C2', 0), ('Gifts (from me)', '#FF8243', 0),
+                    ('Cafe', '#FFB344', 0), ('Hobbies', '#CEE5D0', 0),
+                    ('Other', '#391d5c', 0),
+                    ('Salary', '#80ED99', 1), ('Gifts (for me)', '#FFB319', 1),
+                    ('Scholarship', '#3B185F', 1), ('Other', '#D0C1E3', 1)""",
+            CREATE_CURRENCIES_TABLE = """
+                    CREATE TABLE IF NOT EXISTS currencies (
+                    id INTEGER NOT NULL UNIQUE,
+                    name TEXT NOT NULL UNIQUE,
+                    apiId INTEGER NOT NULL UNIQUE,
+                    PRIMARY KEY(id AUTOINCREMENT)
+                    )""",
+            INIT_CURRENCIES_TABLE = "INSERT INTO currencies (name, apiId) VALUES ('USD', 431), ('EUR', 451), ('RUB', 456), ('BYN', 0);",
+            whereFieldBalance = "WHERE field = 'balance'";
     /**
      * a string object baseUrl which contains a link to the official page of the nbrb
      */
-    private final String baseUrl = "https://www.nbrb.by/api/exrates/rates/";
-    /**
-     * A Logger object which is used to log messages about program operations(information about errors)
-     */
-    private final Logger log = Logger.getLogger(getClass().getName());
+    private final static String baseUrl = "https://www.nbrb.by/api/exrates/rates/";
     /**
      * an object that will connect program with database
      */
@@ -90,6 +91,10 @@ public class FinanceControlModel {
      * @see FinanceControlModel#initDB()
      */
     public FinanceControlModel() {
+        /**
+         * A Logger object which is used to log messages about program operations(information about errors)
+         */
+        Logger log = Logger.getLogger(getClass().getName());
         try {
             initDB();
         } catch (SQLException e) {
@@ -111,7 +116,7 @@ public class FinanceControlModel {
 
         stmt.execute("INSERT INTO expenses (date, price, name, category)VALUES " +
                 "('" + new java.sql.Date(System.currentTimeMillis()) + "', " + price + ", '" + name + "', '" + category + "')");
-        stmt.execute("UPDATE config SET value = value - " + price + " WHERE field = 'balance'");
+        stmt.execute("UPDATE config SET value = value - " + price + " " + whereFieldBalance);
 
         stmt.close();
         connection.close();
@@ -131,7 +136,7 @@ public class FinanceControlModel {
 
         stmt.execute("INSERT INTO income (date, price, name, category)VALUES " +
                 "('" + new java.sql.Date(System.currentTimeMillis()) + "', " + price + ", '" + name + "', '" + category + "')");
-        stmt.execute("UPDATE config SET value = value + " + price + " WHERE field = 'balance'");
+        stmt.execute("UPDATE config SET value = value + " + price + " " + whereFieldBalance);
 
         stmt.close();
         connection.close();
@@ -169,13 +174,12 @@ public class FinanceControlModel {
      * @return returns an arraylist OperationItem that contains information from OperationsTable
      * @throws SQLException when there is error connected with a database access
      */
-    public ArrayList<OperationItem> getOperations(int type, String startDate, String endDate) throws SQLException {
+    public List<OperationItem> getOperations(int type, String startDate, String endDate) throws SQLException {
         connection = DBController.connector();
         assert connection != null;
         stmt = connection.createStatement();
         String n = getTableName(type);
         ResultSet operationSet;
-        ResultSet bufOperationSet;
 
 
         if(type == 2) {
@@ -228,7 +232,7 @@ public class FinanceControlModel {
         assert connection != null;
         stmt = connection.createStatement();
 
-        ResultSet balanceSet = stmt.executeQuery("SELECT value FROM config WHERE field = 'balance'");
+        ResultSet balanceSet = stmt.executeQuery("SELECT value FROM config " + whereFieldBalance);
         balanceSet.next();
         double balance = balanceSet.getDouble(ConfigTable.VALUE);
 
@@ -319,11 +323,11 @@ public class FinanceControlModel {
     /**
      * updateOperations method that compares previous and new currencies to translate one into another and update information in database after translating
      * @param prev the name of previous currency
-     * @param new_ the name of new currency
+     * @param newCur the name of new currency
      * @return FALSE if there is IOException or ResponseItem object is null and TRUE in other cases
      * @throws SQLException when there is error connected with a database access
      */
-    public boolean updateOperations(String prev, String new_) throws SQLException{
+    public boolean updateOperations(String prev, String newCur) throws SQLException{
         connection = DBController.connector();
         assert connection != null;
         stmt = connection.createStatement();
@@ -342,8 +346,8 @@ public class FinanceControlModel {
                 rate = respObj.Cur_OfficialRate / respObj.Cur_Scale;
             }
 
-            if(!new_.equals("BYN")) {
-                respObj = getResponse(new_);
+            if(!newCur.equals("BYN")) {
+                respObj = getResponse(newCur);
                 if (respObj == null) {
                     stmt.close();
                     connection.close();
@@ -359,7 +363,7 @@ public class FinanceControlModel {
 
         stmt.execute("UPDATE expenses SET price = price * " +  rate);
         stmt.execute("UPDATE income SET price = price * " + rate);
-        stmt.execute("UPDATE config SET value = value * "+rate+" WHERE field = 'balance'");
+        stmt.execute("UPDATE config SET value = value * "+rate+" " + whereFieldBalance);
 
         stmt.close();
         connection.close();
