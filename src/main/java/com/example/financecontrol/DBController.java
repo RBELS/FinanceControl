@@ -1,5 +1,6 @@
 package com.example.financecontrol;
 
+import java.io.File;
 import java.sql.*;
 import java.util.logging.Logger;
 
@@ -24,8 +25,19 @@ public class DBController {
      */
     public static Connection connector() {
         try {
-            Class.forName("org.sqlite.JDBC");
-            return DriverManager.getConnection("jdbc:sqlite:FinanceControl.sqlite");
+            String system = System.getProperty("os.name");
+            if(system.contains("Windows")) {
+                File f = new File(System.getenv("USERPROFILE") + "\\AppData\\Local\\FinancelControl");
+                boolean mkdirFlag = f.mkdirs();
+                Class.forName("org.sqlite.JDBC");
+                return DriverManager.getConnection("jdbc:sqlite:"+f.getPath()+"/db.sqlite");
+            } else {
+                File f = new File(System.getenv("HOME")+"/Documents/FinanceControl");
+                boolean mkDirFlag = f.mkdirs();
+                Class.forName("org.sqlite.JDBC");
+                return DriverManager.getConnection("jdbc:sqlite:"+f.getPath()+"/db.sqlite");
+            }
+
         } catch (Exception e) {
             logger.info(e.toString());
             return null;

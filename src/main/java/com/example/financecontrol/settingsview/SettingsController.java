@@ -39,9 +39,9 @@ public class SettingsController implements Initializable {
         if(!folderPath.equals("")) {
             String fileStr = folderPath + "/output.xls";
             File file = new File(fileStr);
-            file.createNewFile();
+            boolean fileCreated = file.createNewFile();
             CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-            csvWriter.writeNext(new String[] {"id", "date", "price", "name", "category"}); //wtf??
+            csvWriter.writeNext(new String[] {"id", "date", "price", "name", "category"});
             List<OperationItem> operationItemList = model.getOperations(2, "", "");
             for(int i = 0;i < operationItemList.size();i++) {
                 csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
