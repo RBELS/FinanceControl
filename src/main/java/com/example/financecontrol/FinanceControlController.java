@@ -27,12 +27,12 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class FinanceControlController implements Initializable {
-    private final static long oneDay = 86400000;
+    private final static long ONE_DAY = 86400000;
 
-    @FXML public AnchorPane containerPane;
-    public int currentOperationType;
-    public int currentChartType;
-    public int a;
+
+    private int currentOperationType;
+    private int currentChartType;
+    private int a;
     private OperationView expensesView;
     private OperationView incomeView;
     private SettingsView settingsView;
@@ -42,6 +42,8 @@ public class FinanceControlController implements Initializable {
     private Logger logger;
     private Label caption;
     private int page;
+
+    @FXML public AnchorPane containerPane;
     @FXML public AnchorPane mainPane;
     @FXML public Button settingsBt;
     @FXML public Button expensesBt;
@@ -264,8 +266,8 @@ public class FinanceControlController implements Initializable {
         dayChart.setLayoutX(100);
         dayChart.setMaxHeight(360);
 
-        String startDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * oneDay).toString();
-        String endDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * oneDay).toString();
+        String startDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * ONE_DAY).toString();
+        String endDate = new java.sql.Date(System.currentTimeMillis() + pageCoeff * ONE_DAY).toString();
 
         pageText.setText(startDate);
 
@@ -340,74 +342,71 @@ public class FinanceControlController implements Initializable {
 
         //задание даты в зависимости от типа графика
         String chartName;
-        switch (chartType) {
-            case ControllerFinals.WEEK_CHART -> {
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                time = currentTime + pageCoeff * oneDay * 7;
-                chartName = "Week";
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SUNDAY) {
-                    startTime = time - oneDay * 6;
-                } else {
-                    startTime = time - oneDay * (dayOfWeek - 2);
-                }
-                for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_WEEK); i++) {
-                    dates.add(new Date(startTime + oneDay * i).toString());
-                }
+        if(chartType == ControllerFinals.WEEK_CHART) {
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            time = currentTime + pageCoeff * ONE_DAY * 7;
+            chartName = "Week";
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            if (dayOfWeek == Calendar.SUNDAY) {
+                startTime = time - ONE_DAY * 6;
+            } else {
+                startTime = time - ONE_DAY * (dayOfWeek - 2);
             }
-            case ControllerFinals.MONTH_CHART -> {
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_WEEK); i++) {
+                dates.add(new Date(startTime + ONE_DAY * i).toString());
+            }
+        } else if(chartType == ControllerFinals.MONTH_CHART) {
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-                int startMonth = calendar.get(Calendar.MONTH) + 1;
-                int startYear = calendar.get(Calendar.YEAR);
+            int startMonth = calendar.get(Calendar.MONTH) + 1;
+            int startYear = calendar.get(Calendar.YEAR);
 
-                int month = startMonth;
-                int year = startYear;
-                for(int j = 0;j < Math.abs(pageCoeff);j++) {
-                    if(month != 1 && month != 12) {
-                        if(pageCoeff < 0) {
-                            month-=1;
-                        } else {
-                            month+=1;
-                        }
+            int month = startMonth;
+            int year = startYear;
+            for(int j = 0;j < Math.abs(pageCoeff);j++) {
+                if(month != 1 && month != 12) {
+                    if(pageCoeff < 0) {
+                        month-=1;
                     } else {
-                        if(pageCoeff < 0) {
-                            month = 12;
-                            year-=1;
-                        } else {
-                            month = 1;
-                            year+=1;
-                        }
+                        month+=1;
+                    }
+                } else {
+                    if(pageCoeff < 0) {
+                        month = 12;
+                        year-=1;
+                    } else {
+                        month = 1;
+                        year+=1;
                     }
                 }
-                calendar.setTime(format.parse(year+"-"+month+"-01"));
+            }
+            calendar.setTime(format.parse(year+"-"+month+"-01"));
 
-                chartName = "Month";
-                startTime = calendar.getTimeInMillis();
-                String outputMonth = null;
-                Date writeDate;
-                for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_MONTH); i++) {
-                    writeDate = new Date(startTime + oneDay * i);
-                    if(outputMonth == null) {
-                        outputMonth = writeDate.toString().substring(5,7);
-                    }
-                    if(outputMonth.equals(writeDate.toString().substring(5,7))) {
-                        dates.add(writeDate.toString());
-                    }
+            chartName = "Month";
+            startTime = calendar.getTimeInMillis();
+            String outputMonth = null;
+            Date writeDate;
+            for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_MONTH); i++) {
+                writeDate = new Date(startTime + ONE_DAY * i);
+                if(outputMonth == null) {
+                    outputMonth = writeDate.toString().substring(5,7);
+                }
+                if(outputMonth.equals(writeDate.toString().substring(5,7))) {
+                    dates.add(writeDate.toString());
                 }
             }
-            case ControllerFinals.YEAR_CHART -> {
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                chartName = "Year";
-                int year = calendar.get(Calendar.YEAR) + pageCoeff;
-                for (int i = 1; i <= 11; i++) {
-                    String template = i < 10 ? "%d-0%d-%d" : "%d-%d-%d";
-                    dates.add(String.format(template, year, i, 1));
-                }
-                dates.add(String.format("%d-%d-%d", year, 12, 31));
+        } else if(chartType == ControllerFinals.YEAR_CHART) {
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            chartName = "Year";
+            int year = calendar.get(Calendar.YEAR) + pageCoeff;
+            for (int i = 1; i <= 11; i++) {
+                String template = i < 10 ? "%d-0%d-%d" : "%d-%d-%d";
+                dates.add(String.format(template, year, i, 1));
             }
-            default -> throw new IllegalStateException("No such chart: " + chartType);
+            dates.add(String.format("%d-%d-%d", year, 12, 31));
+        } else {
+            throw new IllegalStateException("No such chart: " + chartType);
         }
         sbc.setTitle(chartName + " " + (operationType == 0 ? "Expenses" : "Income"));
         pageText.setText(dates.get(0) + " - " + dates.get(dates.size()-1));
@@ -539,6 +538,14 @@ public class FinanceControlController implements Initializable {
             operationListView.getItems().add(pane);
         }
 
+    }
+
+    public int getCurrentChartType() {
+        return currentChartType;
+    }
+
+    public int getCurrentOperationType() {
+        return currentOperationType;
     }
 
     //create list item

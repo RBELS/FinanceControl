@@ -19,7 +19,7 @@ import com.google.gson.*;
  */
 public class FinanceControlModel {
     /**
-     * Initializing and creating objects(expenses table, income table, config table, categories table, currencies table)
+     * Initializing and creating objects(expenses table, income table, config table, categories table, currencies table) and a string object BASE_URL which contains a link to the official page of the nbrb
      */
     private static final String
             CREATE_EXPENSES_TABLE_SQL = """
@@ -72,11 +72,8 @@ public class FinanceControlModel {
                     PRIMARY KEY(id AUTOINCREMENT)
                     )""",
             INIT_CURRENCIES_TABLE = "INSERT INTO currencies (name, apiId) VALUES ('USD', 431), ('EUR', 451), ('RUB', 456), ('BYN', 0);",
-            whereFieldBalance = "WHERE field = 'balance'";
-    /**
-     * a string object baseUrl which contains a link to the official page of the nbrb
-     */
-    private final static String baseUrl = "https://www.nbrb.by/api/exrates/rates/";
+            WHERE_FIELD_BALANCE = "WHERE field = 'balance'",
+            BASE_URL = "https://www.nbrb.by/api/exrates/rates/";
     /**
      * an object that will connect program with database
      */
@@ -116,7 +113,7 @@ public class FinanceControlModel {
 
         stmt.execute("INSERT INTO expenses (date, price, name, category)VALUES " +
                 "('" + new java.sql.Date(System.currentTimeMillis()) + "', " + price + ", '" + name + "', '" + category + "')");
-        stmt.execute("UPDATE config SET value = value - " + price + " " + whereFieldBalance);
+        stmt.execute("UPDATE config SET value = value - " + price + " " + WHERE_FIELD_BALANCE);
 
         stmt.close();
         connection.close();
@@ -136,7 +133,7 @@ public class FinanceControlModel {
 
         stmt.execute("INSERT INTO income (date, price, name, category)VALUES " +
                 "('" + new java.sql.Date(System.currentTimeMillis()) + "', " + price + ", '" + name + "', '" + category + "')");
-        stmt.execute("UPDATE config SET value = value + " + price + " " + whereFieldBalance);
+        stmt.execute("UPDATE config SET value = value + " + price + " " + WHERE_FIELD_BALANCE);
 
         stmt.close();
         connection.close();
@@ -232,7 +229,7 @@ public class FinanceControlModel {
         assert connection != null;
         stmt = connection.createStatement();
 
-        ResultSet balanceSet = stmt.executeQuery("SELECT value FROM config " + whereFieldBalance);
+        ResultSet balanceSet = stmt.executeQuery("SELECT value FROM config " + WHERE_FIELD_BALANCE);
         balanceSet.next();
         double balance = balanceSet.getDouble(ConfigTable.VALUE);
 
@@ -309,7 +306,7 @@ public class FinanceControlModel {
     private ResponseItem getResponse(String curr) throws IOException, SQLException {
         Gson gson = new Gson();
         int apiId = stmt.executeQuery("SELECT apiId FROM currencies WHERE name='"+curr+"'").getInt(CurrenciesTable.API_ID);
-        URL url = new URL(baseUrl+apiId);
+        URL url = new URL(BASE_URL +apiId);
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         con.setConnectTimeout(1000);
@@ -363,7 +360,7 @@ public class FinanceControlModel {
 
         stmt.execute("UPDATE expenses SET price = price * " +  rate);
         stmt.execute("UPDATE income SET price = price * " + rate);
-        stmt.execute("UPDATE config SET value = value * "+rate+" " + whereFieldBalance);
+        stmt.execute("UPDATE config SET value = value * "+rate+" " + WHERE_FIELD_BALANCE);
 
         stmt.close();
         connection.close();

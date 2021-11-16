@@ -10,11 +10,4 @@ public class ResponseItem {
     public int Cur_Scale;
     public String Cur_Name;
     public double Cur_OfficialRate;
-
-    /**
-     * ResponseItem constructor
-     */
-    public ResponseItem() {
-
-    }
 }

@@ -33,7 +33,7 @@ public class SettingsView {
             try {
                 controller.updateBalance();
                 controller.updateBalance();
-                controller.showChart(controller.currentOperationType, controller.currentChartType);
+                controller.showChart(controller.getCurrentOperationType(), controller.getCurrentChartType());
             } catch (SQLException | ParseException e) {
                 logger.info(e.toString());
             }

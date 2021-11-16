@@ -65,74 +65,73 @@ public class SettingsController implements Initializable {
      * successLabel - label shown if operation was successful
      */
     private NotificationLabel successLabel;
-    /**
-     * errorLabel - label shown if operation was not successful
-     */
-    private NotificationLabel errorLabel;
 
     /**
      * onXlsBtClick method which chooses and create new path to a new folder 'output.xls' with the help of {@link SettingsController#getFolderPath()} method, and puts all information of your income/expenses and price from database into this file of xls format
      * @throws IOException when the I/O operations were failed or interrupted
-     * @throws SQLException when there is error connected with a database access
      */
-    @FXML protected void onXlsBtClick() throws IOException, SQLException {
+    @FXML protected void onXlsBtClick() throws IOException {
         String folderPath = getFolderPath();
         if(!folderPath.equals("")) {
             String fileStr = folderPath + "/output.xls";
             File file = new File(fileStr);
             if(file.createNewFile()) {
-                HSSFWorkbook workbook = new HSSFWorkbook();
-                HSSFSheet sheet = workbook.createSheet("Operations");
-                Cell cell;
-                Row row = sheet.createRow(0);
-                HSSFCellStyle style = workbook.createCellStyle();
-                Font font = workbook.createFont();
-                font.setBold(true);
-                style.setFont(font);
+                try (HSSFWorkbook workbook = new HSSFWorkbook()) {
+                    HSSFSheet sheet = workbook.createSheet("Operations");
+                    Cell cell;
+                    Row row = sheet.createRow(0);
+                    HSSFCellStyle style = workbook.createCellStyle();
+                    Font font = workbook.createFont();
+                    font.setBold(true);
+                    style.setFont(font);
 
-                cell = row.createCell(0, CellType.STRING);
-                cell.setCellValue("id");
-                cell.setCellStyle(style);
-
-                cell = row.createCell(1, CellType.STRING);
-                cell.setCellValue("date");
-                cell.setCellStyle(style);
-
-                cell = row.createCell(2, CellType.STRING);
-                cell.setCellValue("price");
-                cell.setCellStyle(style);
-
-                cell = row.createCell(3, CellType.STRING);
-                cell.setCellValue("name");
-                cell.setCellStyle(style);
-
-                cell = row.createCell(4, CellType.STRING);
-                cell.setCellValue("category");
-                cell.setCellStyle(style);
-
-                List<OperationItem> operationItemList = model.getOperations(2, "", "");
-                for (int i = 1; i <= operationItemList.size(); i++) {
-                    row = sheet.createRow(i);
-
-                    cell = row.createCell(0, CellType.NUMERIC);
-                    cell.setCellValue(operationItemList.get(i - 1).getId());
+                    cell = row.createCell(0, CellType.STRING);
+                    cell.setCellValue("id");
+                    cell.setCellStyle(style);
 
                     cell = row.createCell(1, CellType.STRING);
-                    cell.setCellValue(operationItemList.get(i - 1).getDate());
+                    cell.setCellValue("date");
+                    cell.setCellStyle(style);
 
-                    cell = row.createCell(2, CellType.NUMERIC);
-                    cell.setCellValue(operationItemList.get(i - 1).getPrice());
+                    cell = row.createCell(2, CellType.STRING);
+                    cell.setCellValue("price");
+                    cell.setCellStyle(style);
 
                     cell = row.createCell(3, CellType.STRING);
-                    cell.setCellValue(operationItemList.get(i - 1).getName());
+                    cell.setCellValue("name");
+                    cell.setCellStyle(style);
 
                     cell = row.createCell(4, CellType.STRING);
-                    cell.setCellValue(operationItemList.get(i - 1).getCategory());
-                }
+                    cell.setCellValue("category");
+                    cell.setCellStyle(style);
 
-                FileOutputStream outFile = new FileOutputStream(file);
-                workbook.write(outFile);
-                successLabel.show();
+                    List<OperationItem> operationItemList = model.getOperations(2, "", "");
+                    for (int i = 1; i <= operationItemList.size(); i++) {
+                        row = sheet.createRow(i);
+
+                        cell = row.createCell(0, CellType.NUMERIC);
+                        cell.setCellValue(operationItemList.get(i - 1).getId());
+
+                        cell = row.createCell(1, CellType.STRING);
+                        cell.setCellValue(operationItemList.get(i - 1).getDate());
+
+                        cell = row.createCell(2, CellType.NUMERIC);
+                        cell.setCellValue(operationItemList.get(i - 1).getPrice());
+
+                        cell = row.createCell(3, CellType.STRING);
+                        cell.setCellValue(operationItemList.get(i - 1).getName());
+
+                        cell = row.createCell(4, CellType.STRING);
+                        cell.setCellValue(operationItemList.get(i - 1).getCategory());
+                    }
+
+                    FileOutputStream outFile = new FileOutputStream(file);
+                    workbook.write(outFile);
+                    workbook.close();
+                    successLabel.show();
+                } catch (Exception e) {
+                    logger.info(e.toString());
+                }
             }
         }
     }
@@ -159,7 +158,7 @@ public class SettingsController implements Initializable {
             for (int i = 0; i < operationItemList.size(); i++) {
                 OperationItem item = operationItemList.get(i);
                 paragraph = new Paragraph((i+1) + ".\n", new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 12));
-                paragraph.add(new Chunk(String.format("Name: %s\nCategory: %s\nPrice: %.2f\nDate: %s\n", item.getName(), item.getCategory(), item.getPrice(), item.getDate())));
+                paragraph.add(new Chunk(String.format("Name: %s%nCategory: %s%nPrice: %.2f%nDate: %s%n", item.getName(), item.getCategory(), item.getPrice(), item.getDate())));
                 document.add(paragraph);
             }
             document.close();
@@ -185,7 +184,7 @@ public class SettingsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        errorLabel = new NotificationLabel("No Internet Connection", false, 80,65);
+        NotificationLabel errorLabel = new NotificationLabel("No Internet Connection", false, 80,65);
         successLabel = new NotificationLabel("Successfully operated", true, 80, 65);
         containerPane.getChildren().addAll(errorLabel.getLabel(), successLabel.getLabel());
 
@@ -205,7 +204,6 @@ public class SettingsController implements Initializable {
         currencyBox.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
             String newValue = currencyBox.getItems().get(observableValue.getValue().intValue());
             if(!newValue.equals(currencyState)) {
-//                currencyState = newValue;
                 try {
                     boolean updated = model.updateOperations(currencyState, newValue);
                     if(updated) {
