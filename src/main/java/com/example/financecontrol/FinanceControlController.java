@@ -385,8 +385,16 @@ public class FinanceControlController implements Initializable {
 
                 chartName = "Month";
                 startTime = calendar.getTimeInMillis();
+                String outputMonth = null;
+                Date writeDate;
                 for (int i = 0; i < calendar.getMaximum(Calendar.DAY_OF_MONTH); i++) {
-                    dates.add(new Date(startTime + oneDay * i).toString());
+                    writeDate = new Date(startTime + oneDay * i);
+                    if(outputMonth == null) {
+                        outputMonth = writeDate.toString().substring(5,7);
+                    }
+                    if(outputMonth.equals(writeDate.toString().substring(5,7))) {
+                        dates.add(writeDate.toString());
+                    }
                 }
             }
             case ControllerFinals.YEAR_CHART -> {

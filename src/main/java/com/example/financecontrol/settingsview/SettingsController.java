@@ -1,24 +1,28 @@
 package com.example.financecontrol.settingsview;
 
 import com.example.financecontrol.FinanceControlModel;
-import com.example.financecontrol.dbmodels.CategoriesItem;
 import com.example.financecontrol.dbmodels.CurrencyItem;
 import com.example.financecontrol.dbmodels.OperationItem;
 import com.example.financecontrol.utils.NotificationLabel;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.opencsv.CSVWriter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
-
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -57,6 +61,14 @@ public class SettingsController implements Initializable {
      * currencyState - a string object which shows current currency
      */
     private String currencyState;
+    /**
+     * successLabel - label shown if operation was successful
+     */
+    private NotificationLabel successLabel;
+    /**
+     * errorLabel - label shown if operation was not successful
+     */
+    private NotificationLabel errorLabel;
 
     /**
      * onXlsBtClick method which chooses and create new path to a new folder 'output.xls' with the help of {@link SettingsController#getFolderPath()} method, and puts all information of your income/expenses and price from database into this file of xls format
@@ -68,14 +80,60 @@ public class SettingsController implements Initializable {
         if(!folderPath.equals("")) {
             String fileStr = folderPath + "/output.xls";
             File file = new File(fileStr);
-            file.createNewFile();
-            CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-            csvWriter.writeNext(new String[] {"id", "date", "price", "name", "category"}); //wtf??
-            List<OperationItem> operationItemList = model.getOperations(2, "", "");
-            for(int i = 0;i < operationItemList.size();i++) {
-                csvWriter.writeNext(operationItemList.get(i).toStringArray(i));
+            if(file.createNewFile()) {
+                HSSFWorkbook workbook = new HSSFWorkbook();
+                HSSFSheet sheet = workbook.createSheet("Operations");
+                Cell cell;
+                Row row = sheet.createRow(0);
+                HSSFCellStyle style = workbook.createCellStyle();
+                Font font = workbook.createFont();
+                font.setBold(true);
+                style.setFont(font);
+
+                cell = row.createCell(0, CellType.STRING);
+                cell.setCellValue("id");
+                cell.setCellStyle(style);
+
+                cell = row.createCell(1, CellType.STRING);
+                cell.setCellValue("date");
+                cell.setCellStyle(style);
+
+                cell = row.createCell(2, CellType.STRING);
+                cell.setCellValue("price");
+                cell.setCellStyle(style);
+
+                cell = row.createCell(3, CellType.STRING);
+                cell.setCellValue("name");
+                cell.setCellStyle(style);
+
+                cell = row.createCell(4, CellType.STRING);
+                cell.setCellValue("category");
+                cell.setCellStyle(style);
+
+                List<OperationItem> operationItemList = model.getOperations(2, "", "");
+                for (int i = 1; i <= operationItemList.size(); i++) {
+                    row = sheet.createRow(i);
+
+                    cell = row.createCell(0, CellType.NUMERIC);
+                    cell.setCellValue(operationItemList.get(i - 1).getId());
+
+                    cell = row.createCell(1, CellType.STRING);
+                    cell.setCellValue(operationItemList.get(i - 1).getDate());
+
+                    cell = row.createCell(2, CellType.NUMERIC);
+                    cell.setCellValue(operationItemList.get(i - 1).getPrice());
+
+                    cell = row.createCell(3, CellType.STRING);
+                    cell.setCellValue(operationItemList.get(i - 1).getName());
+
+                    cell = row.createCell(4, CellType.STRING);
+                    cell.setCellValue(operationItemList.get(i - 1).getCategory());
+                }
+
+                FileOutputStream outFile = new FileOutputStream(file);
+                workbook.write(outFile);
+                successLabel.show();
             }
-            csvWriter.close();
         }
     }
 
@@ -95,12 +153,17 @@ public class SettingsController implements Initializable {
             document.addTitle("Expenses and Income");
             Paragraph paragraph;
             List<OperationItem> operationItemList = model.getOperations(2, "", "");
-            for(int i = 0;i < operationItemList.size();i++) {
+
+
+
+            for (int i = 0; i < operationItemList.size(); i++) {
                 OperationItem item = operationItemList.get(i);
-                paragraph = new Paragraph(String.format("%d) %s      %s      %.2f      %s", i+1, item.getName(), item.getCategory(), item.getPrice(), item.getDate()));
+                paragraph = new Paragraph((i+1) + ".\n", new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 12));
+                paragraph.add(new Chunk(String.format("Name: %s\nCategory: %s\nPrice: %.2f\nDate: %s\n", item.getName(), item.getCategory(), item.getPrice(), item.getDate())));
                 document.add(paragraph);
             }
             document.close();
+            successLabel.show();
         }
     }
 
@@ -122,9 +185,9 @@ public class SettingsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        NotificationLabel errorLabel = new NotificationLabel("No Internet connection", false, 80,65);
-        NotificationLabel successLabel = new NotificationLabel("Successfully changed", true, 80, 65);
-        containerPane.getChildren().add(errorLabel.getLabel());
+        errorLabel = new NotificationLabel("No Internet Connection", false, 80,65);
+        successLabel = new NotificationLabel("Successfully operated", true, 80, 65);
+        containerPane.getChildren().addAll(errorLabel.getLabel(), successLabel.getLabel());
 
         try {
             currencies = model.getCurrencies();

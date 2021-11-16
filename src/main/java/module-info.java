@@ -12,8 +12,8 @@ module com.example.financecontrol {
     requires java.sql;
     requires org.xerial.sqlitejdbc;
     requires com.google.gson;
-    requires com.opencsv;
     requires itextpdf;
+    requires org.apache.poi.poi;
 
     opens com.example.financecontrol;
     exports com.example.financecontrol;
