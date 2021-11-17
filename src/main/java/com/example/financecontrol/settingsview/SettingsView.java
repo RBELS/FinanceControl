@@ -13,11 +13,30 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Logger;
 
+/**
+ * SettingsView class which sets the settings window view
+ * @author Dana
+ * @version 1.0
+ */
 public class SettingsView {
+    /**
+     * scene - a {@link Scene} type object
+     */
     public static Scene scene;
+    /**
+     * logger - an object of {@link java.lang.System.Logger} type which contains a string with an information about the runtime class and its name
+     */
     private final Logger logger = Logger.getLogger(getClass().getName());
+    /**
+     * stage - a {@link Stage} type object
+     */
     private final Stage stage;
 
+    /**
+     * SettingsView constructor which creates and sets the view of the settings window
+     * @param controller a variable of a {@link FinanceControlController} class type
+     * @throws IOException when the I/O operations were failed or interrupted
+     */
     public SettingsView(FinanceControlController controller) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FinanceControlApplication.class.getResource("settings-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 170);
@@ -40,6 +59,9 @@ public class SettingsView {
         });
     }
 
+    /**
+     * show method which uses method {@link Stage#show()} to show the window
+     */
     public void show() {
         stage.show();
     }

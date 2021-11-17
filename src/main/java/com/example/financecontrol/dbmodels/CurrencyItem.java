@@ -1,17 +1,13 @@
 package com.example.financecontrol.dbmodels;
 
 /**
- * CurrencyItem class which initializes all object for Currency table
- *
+ * CurrencyItem record which receives id, name, data and initializes it to class objects
+ * @param id    an int object which contains special id for each currency
+ * @param name  a string object which contains the name of currencies
+ * @param apiId an int object which contains the rate of change of currencies
  * @author Dana
  * @version 1.0
  */
 public record CurrencyItem(int id, String name, int apiId) {
-    /**
-     * CurrencyItem which receives data and initializes it to class objects
-     *
-     * @param id    sets a special id for each category
-     * @param name  sets the name of currencies
-     * @param apiId shows the rate of change of currencies
-     */
+
 }
