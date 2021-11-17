@@ -110,19 +110,19 @@ public class SettingsController implements Initializable {
                         row = sheet.createRow(i);
 
                         cell = row.createCell(0, CellType.NUMERIC);
-                        cell.setCellValue(operationItemList.get(i - 1).getId());
+                        cell.setCellValue(operationItemList.get(i - 1).id());
 
                         cell = row.createCell(1, CellType.STRING);
-                        cell.setCellValue(operationItemList.get(i - 1).getDate());
+                        cell.setCellValue(operationItemList.get(i - 1).date());
 
                         cell = row.createCell(2, CellType.NUMERIC);
-                        cell.setCellValue(operationItemList.get(i - 1).getPrice());
+                        cell.setCellValue(operationItemList.get(i - 1).price());
 
                         cell = row.createCell(3, CellType.STRING);
-                        cell.setCellValue(operationItemList.get(i - 1).getName());
+                        cell.setCellValue(operationItemList.get(i - 1).name());
 
                         cell = row.createCell(4, CellType.STRING);
-                        cell.setCellValue(operationItemList.get(i - 1).getCategory());
+                        cell.setCellValue(operationItemList.get(i - 1).category());
                     }
 
                     FileOutputStream outFile = new FileOutputStream(file);
@@ -158,7 +158,7 @@ public class SettingsController implements Initializable {
             for (int i = 0; i < operationItemList.size(); i++) {
                 OperationItem item = operationItemList.get(i);
                 paragraph = new Paragraph((i+1) + ".\n", new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 12));
-                paragraph.add(new Chunk(String.format("Name: %s%nCategory: %s%nPrice: %.2f%nDate: %s%n", item.getName(), item.getCategory(), item.getPrice(), item.getDate())));
+                paragraph.add(new Chunk(String.format("Name: %s%nCategory: %s%nPrice: %.2f%nDate: %s%n", item.name(), item.category(), item.price(), item.date())));
                 document.add(paragraph);
             }
             document.close();
@@ -198,7 +198,7 @@ public class SettingsController implements Initializable {
         currencyBox.setValue(currencyState);
 
         for(CurrencyItem item : currencies) {
-            currencyBox.getItems().add(item.getName());
+            currencyBox.getItems().add(item.name());
         }
 
         currencyBox.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {

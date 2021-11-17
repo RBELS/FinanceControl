@@ -303,7 +303,7 @@ public class FinanceControlModel {
      * @throws IOException when the I/O operations were failed or interrupted
      * @throws SQLException when there is error connected with a database access
      */
-    private ResponseItem getResponse(String curr) throws IOException, SQLException {
+    public ResponseItem getResponse(String curr) throws IOException, SQLException {
         Gson gson = new Gson();
         int apiId = stmt.executeQuery("SELECT apiId FROM currencies WHERE name='"+curr+"'").getInt(CurrenciesTable.API_ID);
         URL url = new URL(BASE_URL +apiId);
@@ -400,7 +400,7 @@ public class FinanceControlModel {
      * @param type 0/1 - variable defining the type of the table
      * @return the final name of the table
      */
-    private String getTableName(int type) {
+    public String getTableName(int type) {
         return type == 0 ? "expenses" : "income";
     }
 }

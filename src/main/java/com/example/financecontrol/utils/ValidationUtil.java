@@ -25,4 +25,7 @@ public class ValidationUtil {
                 && !nameTextFieldValue.equals("")
                 && validatePrice(priceTextFieldValue);
     }
+
+    private ValidationUtil() {}
 }
+

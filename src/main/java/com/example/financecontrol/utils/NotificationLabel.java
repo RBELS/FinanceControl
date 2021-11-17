@@ -6,7 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class NotificationLabel {
-    private Label label;
+    private final Label label;
 
     public NotificationLabel(String text, boolean success, int transX, int transY) {
         this.label = new Label(text);

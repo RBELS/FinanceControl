@@ -17,22 +17,12 @@ class ValidationUtilTest {
     }
 
     @Test
-    void validateInputWrongCategoryValue() {
-        assertEquals(ValidationUtil.validateInputEI(null, TEST_STR, TEST_STR_NUMBER), false);
-    }
-
-    @Test
-    void validateInputWrongName() {
-        assertEquals(ValidationUtil.validateInputEI(TEST_STR, "", TEST_STR_NUMBER), false);
-    }
-
-    @Test
-    void validateInputWrongPrice() {
-        assertEquals(ValidationUtil.validateInputEI(TEST_STR, TEST_STR, TEST_STR), false);
-    }
-
-    @Test
-    void validateInputCorrect() {
-        assertEquals(ValidationUtil.validateInputEI(TEST_STR, TEST_STR, TEST_STR_NUMBER), true);
+    void validateInput() {
+        assertFalse(ValidationUtil.validateInputEI(null, TEST_STR, TEST_STR_NUMBER));
+        assertFalse(ValidationUtil.validateInputEI(TEST_STR, "", TEST_STR_NUMBER));
+        assertFalse(ValidationUtil.validateInputEI(TEST_STR, TEST_STR, TEST_STR));
+        assertTrue(ValidationUtil.validateInputEI(TEST_STR, TEST_STR, TEST_STR_NUMBER));
+        assertFalse(ValidationUtil.validateInputEI(TEST_STR, TEST_STR, null));
+        assertFalse(ValidationUtil.validateInputEI(TEST_STR, TEST_STR, "-1"));
     }
 }

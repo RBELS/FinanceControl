@@ -284,8 +284,8 @@ public class FinanceControlController implements Initializable {
         dayChartItemList.forEach(item -> {
             String defaultColor = "#FFFFFF";
             for (OperationItem operationItem : operationItemList) {
-                if (operationItem.getCategory().equals(item.getName())) {
-                    defaultColor = operationItem.getCategoryColor();
+                if (operationItem.category().equals(item.getName())) {
+                    defaultColor = operationItem.categoryColor();
                     break;
                 }
             }
@@ -418,9 +418,9 @@ public class FinanceControlController implements Initializable {
 
         //добавление всех категорий на график
         for (OperationItem item : operationItemList) {
-            if (!series.containsKey(item.getCategory())) {
-                series.put(item.getCategory(), new XYChart.Series<>());
-                series.get(item.getCategory()).setName(item.getCategory());
+            if (!series.containsKey(item.category())) {
+                series.put(item.category(), new XYChart.Series<>());
+                series.get(item.category()).setName(item.category());
             }
         }
         //Добавление категорий на графки
@@ -440,11 +440,11 @@ public class FinanceControlController implements Initializable {
                 sum = 0;
                 for(OperationItem item : operationItemList) {
                     if(chartType == ControllerFinals.YEAR_CHART) {
-                        if(item.getCategory().equals(entry.getValue().getName()) && item.getDate().substring(5,7).equals(pushDate)) {
-                            sum += item.getPrice();
+                        if(item.category().equals(entry.getValue().getName()) && item.date().substring(5,7).equals(pushDate)) {
+                            sum += item.price();
                         }
-                    } else if(item.getCategory().equals(entry.getValue().getName()) && item.getDate().equals(date)) {
-                        sum += item.getPrice();
+                    } else if(item.category().equals(entry.getValue().getName()) && item.date().equals(date)) {
+                        sum += item.price();
                     }
                 }
                 XYChart.Data<String, Number> data = new XYChart.Data<>(pushDate, sum);
@@ -470,8 +470,8 @@ public class FinanceControlController implements Initializable {
         for (Map.Entry<String, XYChart.Series<String, Number>> entry : series.entrySet()) {
             defaultColor = "#FFFFFF";
             for (OperationItem operationItem : operationItemList) {
-                if (operationItem.getCategory().equals(entry.getKey())) {
-                    defaultColor = operationItem.getCategoryColor();
+                if (operationItem.category().equals(entry.getKey())) {
+                    defaultColor = operationItem.categoryColor();
                     break;
                 }
             }
@@ -493,16 +493,16 @@ public class FinanceControlController implements Initializable {
         ArrayList<PieChart.Data> returnList = new ArrayList<>();
         PieChart.Data data;
         double sum = 0;
-        String categBuf = list.get(0).getCategory();
+        String categBuf = list.get(0).category();
         for (OperationItem item : list) {
-            if (!categBuf.equals(item.getCategory())) {
+            if (!categBuf.equals(item.category())) {
                 data = new PieChart.Data(categBuf, sum);
                 returnList.add(data);
 
-                categBuf = item.getCategory();
+                categBuf = item.category();
                 sum = 0;
             }
-            sum = sum + item.getPrice();
+            sum = sum + item.price();
         }
         data = new PieChart.Data(categBuf, sum);
         returnList.add(data);
@@ -528,10 +528,10 @@ public class FinanceControlController implements Initializable {
         Label innerText;
         for(OperationItem item : operationItemList) {
             pane = new AnchorPane();
-            pane.setStyle("-fx-background-radius: 5px; -fx-background-color: " + item.getCategoryColor() + "; -fx-min-width: 166; -fx-pref-width: 166;");
+            pane.setStyle("-fx-background-radius: 5px; -fx-background-color: " + item.categoryColor() + "; -fx-min-width: 166; -fx-pref-width: 166;");
             pane.setMinHeight(26);
 
-            innerText = new Label(item.getName() + ": " + String.format("%.2f",item.getPrice()) + " " + model.getCurrencyState() + "\n" + item.getDate());
+            innerText = new Label(item.name() + ": " + String.format("%.2f",item.price()) + " " + model.getCurrencyState() + "\n" + item.date());
             innerText.setLayoutY(5);
             innerText.getStyleClass().add("listViewItem");
             pane.getChildren().add(innerText);
