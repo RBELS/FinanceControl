@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 public class FinanceControlController implements Initializable {
     private final static long ONE_DAY = 86400000;
 
-
     private int currentOperationType;
     private int currentChartType;
     private int a;
@@ -74,7 +73,6 @@ public class FinanceControlController implements Initializable {
         }
 
     }
-
 
     /**
      * onSettingsButtonClick method which shows the settings windows through class {@link SettingsView} with the help of method {@link SettingsView#show()}
