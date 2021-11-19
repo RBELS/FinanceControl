@@ -1,5 +1,5 @@
 .topButton {
-    -fx-background-color: #6495ED;
+    -fx-background-color: 	#6B8E23;
     -fx-cursor: "pointer";
     -fx-text-fill:#FFFFFF;
     -fx-font-family: monospace;
@@ -7,11 +7,11 @@
 }
 
 .topButton:hover,.topPanelBG,.cont,.cont1,.bottomButtonsContainer {
-    -fx-background-color: #6495ED;
+    -fx-background-color: 	#6B8E23;
 }
 
 .balancePanel {
-    -fx-background-color: #28367f;
+    -fx-background-color: #00823d;
     -fx-text-fill: white;
 }
 
@@ -57,7 +57,7 @@
     -fx-font-weight: bold;
 }
 #balance {
-    -fx-fill: #079ee9;
+    -fx-fill: #ADFF2F
 }
 #settingsBt{
     -fx-background-color: none;
@@ -166,6 +166,21 @@
 .ok {
     -fx-border-color: #00FA9A;
 }
+#backToMain{
+    -fx-background-color: none;
+    -fx-background-image: url("sst.png");
+    -fx-background-size:54 36;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+}
+#containerPane{
+    -fx-border-style: solid;
+    -fx-border-color: #044A24;
+    -fx-border-width: 0 5 5 0;
+}
 #container {
-    -fx-background-color: red;
+    -fx-background-color: #00823d;
+    -fx-border-style: solid;
+    -fx-border-color: #044A24;
+    -fx-border-width: 5 5 5 5;
 }
