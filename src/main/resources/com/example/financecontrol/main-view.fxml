@@ -8,8 +8,8 @@
    <children>
       <AnchorPane layoutX="93.0" layoutY="8.0" prefHeight="30.0" prefWidth="700.0" styleClass="balancePanel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text id="balance1" layoutX="323.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="Balance:" />
-            <Text fx:id="balance" layoutX="438.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="0$" />
+            <Text id="balance1" layoutX="310.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="Balance:" />
+            <Text fx:id="balance" layoutX="410.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteText" text="0$" />
             <Button fx:id="settingsBt" layoutX="7.0" layoutY="3.0" mnemonicParsing="false" onAction="#onSettingsButtonClick" prefHeight="25.0" prefWidth="28.1" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="3.0" />
          </children>
       </AnchorPane>
