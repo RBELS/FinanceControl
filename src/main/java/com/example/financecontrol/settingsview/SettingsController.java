@@ -1,5 +1,6 @@
 package com.example.financecontrol.settingsview;
 
+import com.example.financecontrol.FinanceControlApplication;
 import com.example.financecontrol.FinanceControlModel;
 import com.example.financecontrol.dbmodels.CurrencyItem;
 import com.example.financecontrol.dbmodels.OperationItem;
@@ -9,11 +10,20 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -29,6 +39,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
+
 
 /**
  * SettingsController class that implements {@link Initializable} class which controls buttons in the settings window: can display income, expense and price information from database to xls file and pdf document, select location of xls and pdf files, display a message about successful or unsuccessful currency change
@@ -65,6 +76,13 @@ public class SettingsController implements Initializable {
      * successLabel - label shown if operation was successful
      */
     private NotificationLabel successLabel;
+
+    @FXML
+    public void backToMain(ActionEvent event) {
+        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+    }
+
+
 
     /**
      * onXlsBtClick method which chooses and create new path to a new folder 'output.xls' with the help of {@link SettingsController#getFolderPath()} method, and puts all information of your income/expenses and price from database into this file of xls format
