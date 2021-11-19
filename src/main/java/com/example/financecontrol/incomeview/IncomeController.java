@@ -4,14 +4,11 @@ import com.example.financecontrol.FinanceControlModel;
 import com.example.financecontrol.dbmodels.CategoriesItem;
 import com.example.financecontrol.utils.NotificationLabel;
 import com.example.financecontrol.utils.ValidationUtil;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -70,10 +67,6 @@ public class IncomeController implements Initializable {
      */
     @FXML private AnchorPane container;
 
-    @FXML
-    public void backToMain(ActionEvent event) {
-        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-    }
     /**
      * onAddBtClick method which adds (with the help of {@link FinanceControlModel#addIncome(String, double, String)} method) the input data into income table when you click by mouth on an AddButton
      * @throws SQLException when there is error connected with a database access

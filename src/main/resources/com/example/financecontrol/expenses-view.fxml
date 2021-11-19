@@ -7,7 +7,6 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane fx:id="container" prefHeight="200.0" prefWidth="300.0" styleClass="cont" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.expensesview.ExpensesController">
    <children>
-      <Button fx:id="backToMain" layoutX="8.0" layoutY="5.0" mnemonicParsing="false" onAction="#backToMain" prefHeight="26.0" prefWidth="26.0" />
       <Text layoutX="120.0" layoutY="25.0" text="Choose a category:" styleClass="text1" />
       <ChoiceBox fx:id="categoryChoiceBox"  layoutX="120.0" layoutY="40.0" prefWidth="250.0" prefHeight="40"  />
       <TextField fx:id="nameTextField" layoutX="120.0" layoutY="110.0"  prefWidth="250.0" prefHeight="40" promptText="Name" />

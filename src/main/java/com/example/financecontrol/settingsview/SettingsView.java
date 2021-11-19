@@ -5,7 +5,6 @@ import com.example.financecontrol.FinanceControlController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Logger;
-import javafx.stage.StageStyle;
 
 /**
  * SettingsView class which sets the settings window view
@@ -45,13 +43,11 @@ public class SettingsView {
         scene.getRoot().setStyle("-fx-font-family: 'serif';");
         stage = new Stage();
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((screenBounds.getWidth()) / 4.18);
-        stage.setY((screenBounds.getHeight()) / 6.75);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setX((screenBounds.getWidth()) / 3.7);
+        stage.setY((screenBounds.getHeight()) / 5.3);
         stage.setTitle("Settings");
         stage.setScene(scene);
         stage.setResizable(false);
-
         stage.setOnCloseRequest(windowEvent -> {
             try {
                 controller.updateBalance();
