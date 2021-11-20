@@ -1,5 +1,5 @@
 .topButton {
-    -fx-background-color: #02873F;
+    -fx-background-color: #6495ED;
     -fx-cursor: "pointer";
     -fx-text-fill:#FFFFFF;
     -fx-font-family: monospace;
@@ -7,11 +7,11 @@
 }
 
 .topButton:hover,.topPanelBG,.cont,.cont1,.bottomButtonsContainer {
-    -fx-background-color: #00823d;
+    -fx-background-color: #6495ED;
 }
 
 .balancePanel {
-    -fx-background-color: #044A24;
+    -fx-background-color: #28367f;
     -fx-text-fill: white;
 }
 
@@ -22,8 +22,8 @@
     -fx-font-weight: bold;
 }
 
-#container {
-    -fx-background-color: #00823d;
+.container {
+    /*-fx-background-color: black;*/
 }
 .text1 {
     -fx-fill: #FFFFFF ;
@@ -45,7 +45,7 @@
     -fx-font-family: monospace;
 }
 #addBt,#addBt1{
-    -fx-background-color: #044A24;
+    -fx-background-color: #28367f;
     -fx-font-size: 18.0;
     -fx-text-fill: #FFFFFF ;
     -fx-font-weight: bold;
@@ -57,7 +57,7 @@
     -fx-font-weight: bold;
 }
 #balance {
-    -fx-fill: #00FA9A;
+    -fx-fill: #079ee9;
 }
 #settingsBt{
     -fx-background-color: none;
@@ -68,12 +68,11 @@
 }
 #themeBt{
     -fx-background-color: none;
-    -fx-background-size: 115 64;
+    -fx-background-image: url("lll.png");
+    -fx-background-size: 126 75;
     -fx-background-repeat: no-repeat;
     -fx-background-position:center;
-    -fx-background-image: url("sun.png");
 }
-
 #expensesChart,#incomeChart{
     -fx-background-image: url("ey.png");
     -fx-background-size: 150 80;
@@ -94,12 +93,12 @@
 }
 
 #categoryBt,#currencyBt{
-    -fx-background-color: #044A24;
+    -fx-background-color: #28367f;
     -fx-text-fill: #FFFFFF;
 
 }
 .set {
-    -fx-background-color: #00823d;
+    -fx-background-color: #1E90FF;
 }
 .choice-box .context-menu {
     -fx-background-color: #FFFFFF;
@@ -166,4 +165,7 @@
 
 .ok {
     -fx-border-color: #00FA9A;
+}
+#container {
+    -fx-background-color: red;
 }

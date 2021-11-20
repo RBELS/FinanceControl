@@ -43,6 +43,10 @@ public class FinanceControlController implements Initializable {
      */
     private int currentChartType;
     /**
+     * a - an int object which controls the type of theme: even - first theme, odd - second
+     */
+    private int a;
+    /**
      * expensesView - an {@link OperationView} object
      */
     private OperationView expensesView;
@@ -132,6 +136,33 @@ public class FinanceControlController implements Initializable {
      * pageText - a {@link Text} object which contains page text
      */
     @FXML private Text pageText;
+
+    /**
+     * urlTheme1 - a string object which contains Theme1 url
+     */
+    private String urlTheme1;
+    /**
+     * urlTheme2 - a string object which contains Theme2 url
+     */
+    private String urlTheme2;
+
+    /**
+     * onThemeButtonClick - method which changes theme of main page depending on the {@link FinanceControlController#a} object
+     */
+    @FXML
+    protected void onThemeButtonClick() {
+
+        if (a % 2 == 0) {
+            mainPane.getStylesheets().remove(urlTheme1);
+            mainPane.getStylesheets().add(urlTheme2);
+            a = a + 1;
+        } else {
+            mainPane.getStylesheets().remove(urlTheme2);
+            mainPane.getStylesheets().add(urlTheme1);
+            a = a + 1;
+        }
+
+    }
 
     /**
      * onSettingsButtonClick method which shows the settings windows through class {@link SettingsView} with the help of method {@link SettingsView#show()}
@@ -285,6 +316,9 @@ public class FinanceControlController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         logger = Logger.getLogger(getClass().getName());
+        urlTheme1 = Objects.requireNonNull(getClass().getResource("main-styles.css")).toExternalForm();
+        urlTheme2 = Objects.requireNonNull(getClass().getResource("darkmode.css")).toExternalForm();
+        a = 0;
         page = 0;
         pageText.setText(String.valueOf(page));
         pageText.setTextAlignment(TextAlignment.CENTER);
