@@ -68,11 +68,12 @@
 }
 #themeBt{
     -fx-background-color: none;
-    -fx-background-image: url("sun.png");
     -fx-background-size: 115 64;
     -fx-background-repeat: no-repeat;
     -fx-background-position:center;
+    -fx-background-image: url("sun.png");
 }
+
 #expensesChart,#incomeChart{
     -fx-background-image: url("ey.png");
     -fx-background-size: 150 80;

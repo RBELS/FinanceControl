@@ -23,7 +23,7 @@ public class FinanceControlApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(FinanceControlApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
-        stage.setTitle("Financial Control");
+        stage.setTitle("Finance Control");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

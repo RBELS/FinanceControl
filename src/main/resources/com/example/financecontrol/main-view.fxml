@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="container" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.FinanceControlController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="container" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.FinanceControlController">
    <children>
       <AnchorPane layoutX="93.0" layoutY="8.0" prefHeight="30.0" prefWidth="700.0" styleClass="balancePanel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -18,7 +20,7 @@
          <children>
             <Button fx:id="expensesChart" layoutX="300.0" layoutY="2.0" mnemonicParsing="false" onAction="#onExpensesChartButtonClick" prefHeight="46.0" prefWidth="50.0" styleClass="topButton" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <Button fx:id="expensesBt" layoutY="2.0" mnemonicParsing="false" onAction="#onExpensesButtonClick" prefHeight="46.0" prefWidth="350.0" styleClass="topButton" text="Expenses" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="incomeBt" layoutX="350.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeButtonClick" prefHeight="46.0" prefWidth="350.0" styleClass="topButton"  text="Income" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="incomeBt" layoutX="350.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeButtonClick" prefHeight="46.0" prefWidth="350.0" styleClass="topButton" text="Income" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0" />
             <Button fx:id="incomeChart" layoutX="650.0" layoutY="2.0" mnemonicParsing="false" onAction="#onIncomeChartButtonClick" prefHeight="46.0" prefWidth="50.0" styleClass="topButton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
@@ -30,7 +32,7 @@
                      <children>
                         <Button fx:id="backBt" layoutX="141.0" layoutY="11.0" mnemonicParsing="false" onAction="#onBackBtClick" text="Back" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="12.0" />
                         <Button fx:id="forwardBt" layoutX="421.0" layoutY="11.0" mnemonicParsing="false" onAction="#onForwardBtClick" text="Forward" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="12.0" />
-                        <Text fx:id="pageText" layoutX="288.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.leftAnchor="260.0" />
+                        <Text fx:id="pageText" layoutX="106.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="387.21630859375" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
                      </children>
                   </AnchorPane>
                   <StackPane fx:id="chartPane" prefHeight="370.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
