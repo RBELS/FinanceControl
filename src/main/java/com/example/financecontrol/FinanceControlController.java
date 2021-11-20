@@ -34,6 +34,7 @@ public class FinanceControlController implements Initializable {
 
     private int currentOperationType;
     private int currentChartType;
+    private int a;
     private OperationView expensesView;
     private OperationView incomeView;
     private SettingsView settingsView;
@@ -58,6 +59,23 @@ public class FinanceControlController implements Initializable {
     @FXML private Button backBt;
     @FXML private Button forwardBt;
     @FXML private Text pageText;
+
+    private String urlTheme1;
+    private String urlTheme2;
+    @FXML
+    protected void onThemeButtonClick() {
+
+        if (a % 2 == 0) {
+            mainPane.getStylesheets().remove(urlTheme1);
+            mainPane.getStylesheets().add(urlTheme2);
+            a = a + 1;
+        } else {
+            mainPane.getStylesheets().remove(urlTheme2);
+            mainPane.getStylesheets().add(urlTheme1);
+            a = a + 1;
+        }
+
+    }
 
 
     /**
@@ -195,6 +213,9 @@ public class FinanceControlController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         logger = Logger.getLogger(getClass().getName());
+        urlTheme1 = Objects.requireNonNull(getClass().getResource("main-styles.css")).toExternalForm();
+        urlTheme2 = Objects.requireNonNull(getClass().getResource("darkmode.css")).toExternalForm();
+        a = 0;
         page = 0;
         pageText.setText(String.valueOf(page));
         pageText.setTextAlignment(TextAlignment.CENTER);
