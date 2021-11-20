@@ -110,7 +110,7 @@ public class SettingsController implements Initializable {
                         row = sheet.createRow(i);
 
                         cell = row.createCell(0, CellType.NUMERIC);
-                        cell.setCellValue(operationItemList.get(i - 1).id());
+                        cell.setCellValue(i);
 
                         cell = row.createCell(1, CellType.STRING);
                         cell.setCellValue(operationItemList.get(i - 1).date());
