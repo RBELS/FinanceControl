@@ -14,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -195,6 +197,7 @@ public class FinanceControlController implements Initializable {
         logger = Logger.getLogger(getClass().getName());
         page = 0;
         pageText.setText(String.valueOf(page));
+        pageText.setTextAlignment(TextAlignment.CENTER);
         caption = new Label("");
         caption.setStyle(
                 "-fx-text-fill: #000000;" +
