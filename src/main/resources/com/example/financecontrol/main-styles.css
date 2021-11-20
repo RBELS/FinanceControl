@@ -71,7 +71,6 @@
     -fx-background-size: 115 64;
     -fx-background-repeat: no-repeat;
     -fx-background-position:center;
-    -fx-background-image: url("sun.png");
 }
 
 #expensesChart,#incomeChart{
