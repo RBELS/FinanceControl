@@ -1,4 +1,8 @@
-module com.example.financecontrol {
+/**
+ * classes, methods and libraries required for the project
+ */
+module  com.example.financecontrol {
+
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
