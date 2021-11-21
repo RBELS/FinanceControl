@@ -1,12 +1,10 @@
 package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.OperationItem;
-import com.example.financecontrol.expensesview.ExpensesController;
 import com.example.financecontrol.settingsview.SettingsView;
 import com.example.financecontrol.unified.OperationView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;

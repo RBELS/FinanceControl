@@ -7,7 +7,7 @@
 
 <AnchorPane fx:id="containerPane" prefHeight="170.0" prefWidth="300.0" styleClass="set" stylesheets="@main-styles.css"  xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.settingsview.SettingsController">
     <children>
-        <Button fx:id="backToMain" layoutY="7.0" mnemonicParsing="false" onAction="#backToMain" prefHeight="26.0" prefWidth="26.0" />
+
         <Text layoutX="69.0" layoutY="26.0" styleClass="theme" text="Choose a currency:" />
         <ChoiceBox fx:id="currencyBox" layoutX="106.0" layoutY="43.0" prefHeight="20" prefWidth="85.0" />
         <Button layoutX="106.0" layoutY="85.0" prefWidth="85.0" mnemonicParsing="false" onAction="#onXlsBtClick" text="Export as .xls" fx:id="xlsbt" />

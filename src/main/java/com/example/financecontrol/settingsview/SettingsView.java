@@ -2,15 +2,11 @@ package com.example.financecontrol.settingsview;
 
 import com.example.financecontrol.FinanceControlApplication;
 import com.example.financecontrol.FinanceControlController;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -34,6 +30,8 @@ public class SettingsView {
      * stage - a {@link Stage} type object
      */
     private final Stage stage;
+    private double xOffset;
+    private double yOffset;
     /**
      * SettingsView constructor which creates and sets the view of the settings window
      * @param controller a variable of a {@link FinanceControlController} class type
