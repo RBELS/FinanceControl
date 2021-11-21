@@ -3,12 +3,10 @@ package com.example.financecontrol.unified;
 import com.example.financecontrol.ControllerFinals;
 import com.example.financecontrol.FinanceControlApplication;
 import com.example.financecontrol.FinanceControlController;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -48,11 +46,9 @@ public class OperationView {
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
         stage = new Stage();
         stage.setTitle(type == ControllerFinals.EXPENSES ? "Expenses" : "Income");
-        stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setOnCloseRequest(windowEvent -> {
-
             try {
                 controller.updateBalance();
                 controller.showChart(controller.getCurrentOperationType(), controller.getCurrentChartType());
@@ -66,7 +62,6 @@ public class OperationView {
      * show method which uses method {@link Stage#show()} to show the window
      */
     public void show() {
-
         stage.show();
     }
 }

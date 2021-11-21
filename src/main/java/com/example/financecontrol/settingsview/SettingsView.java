@@ -2,6 +2,7 @@ package com.example.financecontrol.settingsview;
 
 import com.example.financecontrol.FinanceControlApplication;
 import com.example.financecontrol.FinanceControlController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -14,7 +15,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Logger;
 import javafx.stage.StageStyle;
-
+import javafx.scene.input.MouseEvent;
+import javafx.stage.StageStyle;
 /**
  * SettingsView class which sets the settings window view
  * @author Dana
@@ -33,6 +35,8 @@ public class SettingsView {
      * stage - a {@link Stage} type object
      */
     private final Stage stage;
+    private double xOffset;
+    private double yOffset;
 
     /**
      * SettingsView constructor which creates and sets the view of the settings window
@@ -42,6 +46,20 @@ public class SettingsView {
     public SettingsView(FinanceControlController controller) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FinanceControlApplication.class.getResource("settings-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 170);
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = stage.getX() - event.getScreenX();
+                yOffset = stage.getY() - event.getScreenY();
+            }
+        });
+        scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() + xOffset);
+                stage.setY(event.getScreenY() + yOffset);
+            }
+        });
         scene.getRoot().setStyle("-fx-font-family: 'serif';");
         stage = new Stage();
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -52,15 +70,7 @@ public class SettingsView {
         stage.setScene(scene);
         stage.setResizable(false);
 
-        stage.setOnCloseRequest(windowEvent -> {
-            try {
-                controller.updateBalance();
-                controller.updateBalance();
-                controller.showChart(controller.getCurrentOperationType(), controller.getCurrentChartType());
-            } catch (SQLException | ParseException e) {
-                logger.info(e.toString());
-            }
-        });
+
     }
 
     /**

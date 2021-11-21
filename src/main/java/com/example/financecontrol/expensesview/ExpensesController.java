@@ -18,7 +18,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
-
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 /**
  * ExpensesController class that implements {@link Initializable} class which controls mouth click connection with the program and database and adds the input data to the database, after which it updates empty text fields and displays a message about the successful or failed addition of your expenses
  * @author Dana
@@ -81,20 +83,21 @@ public class ExpensesController implements Initializable {
     @FXML
     protected void onAddBtClick() throws SQLException {
         if (ValidationUtil.validateInputEI(
-                categoryChoiceBox.getValue(),nameTextField.getText(),priceTextField.getText()
-        )) {
-            model.addExpense(
-                    nameTextField.getText(),
-                    Double.parseDouble(priceTextField.getText()),
-                    categoryChoiceBox.getValue()
-            );
-            nameTextField.setText("");
-            priceTextField.setText("");
-            categoryChoiceBox.setValue(null);
-            successLabel.show();
-        } else {
-            errorLabel.show();
-        }
+                    categoryChoiceBox.getValue(),nameTextField.getText(),priceTextField.getText()
+            )) {
+                model.addExpense(
+                        nameTextField.getText(),
+                        Double.parseDouble(priceTextField.getText()),
+                        categoryChoiceBox.getValue()
+                );
+                nameTextField.setText("");
+                priceTextField.setText("");
+                categoryChoiceBox.setValue(null);
+                successLabel.show();
+            } else {
+                errorLabel.show();
+            }
+
     }
 
     /**

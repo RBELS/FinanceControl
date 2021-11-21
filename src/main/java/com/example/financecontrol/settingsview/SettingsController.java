@@ -39,7 +39,16 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
-
+import com.example.financecontrol.FinanceControlApplication;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 /**
  * SettingsController class that implements {@link Initializable} class which controls buttons in the settings window: can display income, expense and price information from database to xls file and pdf document, select location of xls and pdf files, display a message about successful or unsuccessful currency change
@@ -84,7 +93,7 @@ public class SettingsController implements Initializable {
 
 
 
-    /**
+        /**
      * onXlsBtClick method which chooses and create new path to a new folder 'output.xls' with the help of {@link SettingsController#getFolderPath()} method, and puts all information of your income/expenses and price from database into this file of xls format
      * @throws IOException when the I/O operations were failed or interrupted
      */

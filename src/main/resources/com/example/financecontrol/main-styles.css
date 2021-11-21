@@ -163,6 +163,26 @@
 .ok {
     -fx-border-color: #00FA9A;
 }
+#backToMain{
+    -fx-background-color: none;
+    -fx-background-image: url("sst.png");
+    -fx-background-size:54 36;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+}
+#backBt, #forwardBt{
+    -fx-font-family: monospace;
+    -fx-font-size :13.0;
+    -fx-background-color: #00823d;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+#pageText{
+    -fx-font-family: monospace;
+    -fx-font-size: 16.0;
+    -fx-fill: #00823d;
+    -fx-font-weight: bold;
+}
 
 #backToMain{
     -fx-background-color: none;
@@ -171,14 +191,5 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position:center;
 }
-#containerPane{
-    -fx-border-style: solid;
-    -fx-border-color: #044A24;
-    -fx-border-width: 0 5 5 0;
-}
-#container {
-    -fx-background-color: #00823d;
-    -fx-border-style: solid;
-    -fx-border-color: #044A24;
-    -fx-border-width: 5 5 5 5;
-}
+
+

@@ -14,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -22,38 +24,113 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 /**
- * FinanceControlController class that implements methods connected with interface
+ * FinanceControlController class that implements methods connected with interface( implements {@link Initializable} class)
  * @author Dana
  * @version 1.0
  */
 public class FinanceControlController implements Initializable {
+    /**
+     * an object which assigns 86 400 000 to ONE_DAY (an amount of milliseconds in one day)
+     */
     private final static long ONE_DAY = 86400000;
 
+    /**
+     * currentOperationType - an int object which shows current operation: expenses(0) or income(1)
+     */
     private int currentOperationType;
+    /**
+     * currentChartType - an int object which shows current chart: day(0), week(1), month(2), year(3)
+     */
     private int currentChartType;
+    /**
+     * expensesView - an {@link OperationView} object
+     */
     private OperationView expensesView;
+    /**
+     * incomeView - an {@link OperationView} object
+     */
     private OperationView incomeView;
+    /**
+     * settingsView - a {@link SettingsView} object
+     */
     private SettingsView settingsView;
 
+    /**
+     * model - a {@link FinanceControlModel} object
+     */
     private final FinanceControlModel model;
+    /**
+     * operationItemList - a list object of an {@link OperationItem} type
+     */
     private List<OperationItem> operationItemList;
+    /**
+     * logger - an object of {@link java.lang.System.Logger} type which contains a string with an information about the runtime class and its name
+     */
     private Logger logger;
+    /**
+     * caption - a {@link Label} object
+     */
     private Label caption;
+    /**
+     * page - an int object which shows the number of page with graphics
+     */
     private int page;
 
+    /**
+     * containerPane - an {@link AnchorPane} object
+     */
     @FXML public AnchorPane containerPane;
+    /**
+     * mainPane - an {@link AnchorPane} object which contains main pane
+     */
     @FXML public AnchorPane mainPane;
+    /**
+     * settingsBt - a {@link Button} object which contains settings button info
+     */
     @FXML public Button settingsBt;
+    /**
+     * expensesBt - a {@link Button} object which contains expenses button info
+     */
     @FXML public Button expensesBt;
+    /**
+     * incomeBt - a {@link Button} object which contains income button info
+     */
     @FXML public Button incomeBt;
+    /**
+     * themeBt - a {@link Button} object which contains theme button info
+     */
     @FXML public Button themeBt;
+    /**
+     * expensesChart - a {@link Button} object which contains expenses Chart button info
+     */
     @FXML private Button expensesChart;
+    /**
+     * incomeChart - a {@link Button} object which contains income Chart button info
+     */
     @FXML private Button incomeChart;
+    /**
+     * chartPane - a {@link StackPane} object
+     */
     @FXML private StackPane chartPane;
+    /**
+     * balance - a {@link Text} object which contains 'Balance'
+     */
     @FXML public Text balance;
+    /**
+     * operationListView - a listview object of an {@link AnchorPane} type
+     */
     @FXML private ListView<AnchorPane> operationListView;
+    /**
+     * backBt - a {@link Button} object which contains back button
+     */
     @FXML private Button backBt;
+    /**
+     * forwardBt - a {@link Button} object which contains forward button
+     */
     @FXML private Button forwardBt;
+    /**
+     * pageText - a {@link Text} object which contains page text
+     */
     @FXML private Text pageText;
 
     /**
@@ -84,6 +161,7 @@ public class FinanceControlController implements Initializable {
      * onExpensesChartButtonClick method which shows different charts (depending on currentChartType) of your expenses (chooses OperationType with the help of class {@link ControllerFinals#EXPENSES}
      * @see FinanceControlController#showChart(int, int)
      * @throws SQLException when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
      */
     @FXML
     protected void onExpensesChartButtonClick() throws SQLException, ParseException {
@@ -95,6 +173,7 @@ public class FinanceControlController implements Initializable {
      * onIncomeChartButtonClick method which shows different charts (depending on currentChartType) of your Income (chooses OperationType with the help of class {@link ControllerFinals#INCOME}
      * @see FinanceControlController#showChart(int, int)
      * @throws SQLException when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
      */
     @FXML
     protected void onIncomeChartButtonClick() throws SQLException, ParseException {
@@ -106,6 +185,7 @@ public class FinanceControlController implements Initializable {
      * onBottomDayButtonClick method which shows a day chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#DAY_CHART}
      * @see FinanceControlController#showChart(int, int)
      * @throws SQLException when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
      */
     @FXML
     protected void onBottomDayButtonClick() throws SQLException, ParseException {
@@ -116,6 +196,7 @@ public class FinanceControlController implements Initializable {
      * onBottomWeekButtonClick method which shows a Week chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#WEEK_CHART}
      * @see FinanceControlController#showChart(int, int)
      * @throws SQLException when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
      */
     @FXML
     protected void onBottomWeekButtonClick() throws SQLException, ParseException {
@@ -126,6 +207,7 @@ public class FinanceControlController implements Initializable {
      * onBottomMonthButtonClick method which shows a Month chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#MONTH_CHART}
      * @see FinanceControlController#showChart(int, int)
      * @throws SQLException when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
      */
     @FXML
     protected void onBottomMonthButtonClick() throws SQLException, ParseException {
@@ -136,6 +218,7 @@ public class FinanceControlController implements Initializable {
      * onBottomYearButtonClick method which shows a Year chart of expenses/income (depending on currentOperationType) with the help of class {@link ControllerFinals#YEAR_CHART}
      * @see FinanceControlController#showChart(int, int)
      * @throws SQLException when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
      */
     @FXML
     protected void onBottomYearButtonClick() throws SQLException, ParseException {
@@ -143,12 +226,22 @@ public class FinanceControlController implements Initializable {
         currentChartType = ControllerFinals.YEAR_CHART;
     }
 
+    /**
+     * onBackBtClick method which changes page on previous and shows charts on previous page
+     * @throws SQLException  when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
+     */
     @FXML protected void onBackBtClick() throws SQLException, ParseException {
         page-=1;
         pageText.setText(String.valueOf(page));
         showChart(currentOperationType, currentChartType);
     }
 
+    /**
+     * onForwardBtClick method which changes page on forward and shows charts on forward page
+     * @throws SQLException  when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
+     */
     @FXML protected void onForwardBtClick() throws SQLException, ParseException {
         page+=1;
         pageText.setText(String.valueOf(page));
@@ -161,6 +254,7 @@ public class FinanceControlController implements Initializable {
      * @param operationType a type of your operation (0 if expenses, 1 if income)
      * @param chartType a type of your chart (0 if DAY_CHART, 1 if WEEK_CHART, 2 if MONTH_CHART, 3 if YEAR_CHART
      * @throws SQLException when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
      */
     public void showChart(int operationType, int chartType) throws SQLException, ParseException {
         if(chartType != this.currentChartType || operationType != this.currentOperationType) {
@@ -190,8 +284,10 @@ public class FinanceControlController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger = Logger.getLogger(getClass().getName());
         page = 0;
         pageText.setText(String.valueOf(page));
+        pageText.setTextAlignment(TextAlignment.CENTER);
         caption = new Label("");
         caption.setStyle(
                 "-fx-text-fill: #000000;" +
@@ -293,6 +389,7 @@ public class FinanceControlController implements Initializable {
      * @param chartType defines the type of your chart (1 if WEEK_CHART, 2 if MONTH_CHART, 3 if YEAR_CHART)
      * @param pageCoeff pagination parameter, defines how many units we choose forward, 0 - that units, less 0 - previous units, more 0 - next units
      * @throws SQLException when there is error connected with a database access
+     * @throws ParseException which shows signals that an error has been reached unexpectedly while parsing.
      */
     private void showWMYChart(int operationType, int chartType, int pageCoeff) throws SQLException, ParseException {
         chartPane.getChildren().clear();
@@ -516,10 +613,18 @@ public class FinanceControlController implements Initializable {
 
     }
 
+    /**
+     * getCurrentChartType method which gets your current chart type : day(0), week(1), month(2), year(3)
+     * @return {@link FinanceControlController#currentChartType}
+     */
     public int getCurrentChartType() {
         return currentChartType;
     }
 
+    /**
+     * getCurrentOperationType method which gets your current operation: expenses(0) or income(1)
+     * @return {@link FinanceControlController#currentOperationType}
+     */
     public int getCurrentOperationType() {
         return currentOperationType;
     }
