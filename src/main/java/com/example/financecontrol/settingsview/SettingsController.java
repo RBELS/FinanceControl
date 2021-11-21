@@ -9,11 +9,14 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -66,6 +69,10 @@ public class SettingsController implements Initializable {
      */
     private NotificationLabel successLabel;
 
+    @FXML
+    protected void backToMain(ActionEvent event) {
+        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+    }
     /**
      * onXlsBtClick method which chooses and create new path to a new folder 'output.xls' with the help of {@link SettingsController#getFolderPath()} method, and puts all information of your income/expenses and price from database into this file of xls format
      * @throws IOException when the I/O operations were failed or interrupted

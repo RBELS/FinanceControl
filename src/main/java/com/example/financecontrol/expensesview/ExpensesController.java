@@ -56,7 +56,7 @@ public class ExpensesController implements Initializable {
     /**
      * container - an AnchorPane object
      */
-    @FXML private AnchorPane container;
+    @FXML public AnchorPane container;
     /**
      * errorLabel - a {@link NotificationLabel} object which can show information about failed operation
      */

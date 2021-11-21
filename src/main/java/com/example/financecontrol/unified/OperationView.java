@@ -31,7 +31,6 @@ public class OperationView {
      * logger - an object of {@link java.lang.System.Logger} type which contains a string with an information about the runtime class and its name
      */
     private final Logger logger = Logger.getLogger(getClass().getName());
-
     /**
      * OperationView constructor which creates and sets the view of the expenses/income windows
      * @param controller a variable of a {@link FinanceControlController} class type
@@ -49,7 +48,6 @@ public class OperationView {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setOnCloseRequest(windowEvent -> {
-            openBt.setDisable(false);
             try {
                 controller.updateBalance();
                 controller.showChart(controller.getCurrentOperationType(), controller.getCurrentChartType());
@@ -63,7 +61,6 @@ public class OperationView {
      * show method which uses method {@link Stage#show()} to show the window
      */
     public void show() {
-        openBt.setDisable(true);
         stage.show();
     }
 }

@@ -98,7 +98,7 @@
 
 }
 .set {
-    -fx-background-color: #00823d;
+    -fx-background-color: #02873F;
 }
 .choice-box .context-menu {
     -fx-background-color: #FFFFFF;
@@ -165,4 +165,27 @@
 
 .ok {
     -fx-border-color: #00FA9A;
+}
+#backToMain{
+    -fx-background-color: none;
+    -fx-background-image: url("sst.png");
+    -fx-background-size:54 36;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+}
+#backBt, #forwardBt{
+    -fx-font-family: monospace;
+    -fx-font-size :13.0;
+    -fx-background-color: #02873F;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+#backBt:hover, #forwardBt:hover{
+    -fx-background-color: #017437;
+}
+#pageText{
+    -fx-font-family: monospace;
+    -fx-font-size: 16.0;
+    -fx-fill: #00823d;
+    -fx-font-weight: bold;
 }

@@ -1,10 +1,12 @@
 package com.example.financecontrol;
 
 import com.example.financecontrol.dbmodels.OperationItem;
+import com.example.financecontrol.expensesview.ExpensesController;
 import com.example.financecontrol.settingsview.SettingsView;
 import com.example.financecontrol.unified.OperationView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
@@ -29,6 +31,7 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class FinanceControlController implements Initializable {
+
     /**
      * an object which assigns 86 400 000 to ONE_DAY (an amount of milliseconds in one day)
      */
@@ -75,15 +78,13 @@ public class FinanceControlController implements Initializable {
      * page - an int object which shows the number of page with graphics
      */
     private int page;
-
-    /**
+            /**
      * containerPane - an {@link AnchorPane} object
      */
-    @FXML public AnchorPane containerPane;
-    /**
+        /**
      * mainPane - an {@link AnchorPane} object which contains main pane
      */
-    @FXML public AnchorPane mainPane;
+    @FXML public AnchorPane Main;
     /**
      * settingsBt - a {@link Button} object which contains settings button info
      */
@@ -132,6 +133,8 @@ public class FinanceControlController implements Initializable {
      * pageText - a {@link Text} object which contains page text
      */
     @FXML private Text pageText;
+
+
 
     /**
      * onSettingsButtonClick method which shows the settings windows through class {@link SettingsView} with the help of method {@link SettingsView#show()}
@@ -275,6 +278,7 @@ public class FinanceControlController implements Initializable {
     public FinanceControlController() {
         model = new FinanceControlModel();
     }
+
 
     /**
      * initialize method which sets initial values and state of buttons and charts, catches an exception in creating new windows of income/expenses/settings,

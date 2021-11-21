@@ -2,11 +2,14 @@ package com.example.financecontrol.settingsview;
 
 import com.example.financecontrol.FinanceControlApplication;
 import com.example.financecontrol.FinanceControlController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -31,7 +34,8 @@ public class SettingsView {
      * stage - a {@link Stage} type object
      */
     private final Stage stage;
-
+    private double xOffset;
+    private double yOffset;
     /**
      * SettingsView constructor which creates and sets the view of the settings window
      * @param controller a variable of a {@link FinanceControlController} class type
@@ -40,11 +44,26 @@ public class SettingsView {
     public SettingsView(FinanceControlController controller) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FinanceControlApplication.class.getResource("settings-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 170);
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = stage.getX() - event.getScreenX();
+                yOffset = stage.getY() - event.getScreenY();
+            }
+        });
+        scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() + xOffset);
+                stage.setY(event.getScreenY() + yOffset);
+            }
+        });
         scene.getRoot().setStyle("-fx-font-family: 'serif';");
         stage = new Stage();
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((screenBounds.getWidth()) / 3.7);
-        stage.setY((screenBounds.getHeight()) / 5.3);
+        stage.setX((screenBounds.getWidth()) / 4.18);
+        stage.setY((screenBounds.getHeight()) / 6.75);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Settings");
         stage.setScene(scene);
         stage.setResizable(false);
