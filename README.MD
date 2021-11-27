@@ -45,8 +45,8 @@ Now you can export your operations into:
 
 ## Installation
 1. Download the latest release
-2. Install the latest Java version *(App works properly on Java 17)*
+2. Install the [latest Java version](https://adoptium.net/?variant=openjdk17&jvmVariant=hotspot) *(App works properly on Java 17)*
 3. Starting application
     - Extract the archive and open *start* file **(macOS)**
-    - Extract the atchive and open *start.vbs* file **(Windows)**
+    - Extract the archive and open *start.vbs* file **(Windows)**
 4. There you go!
