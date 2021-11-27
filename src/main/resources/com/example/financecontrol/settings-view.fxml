@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="containerPane" prefHeight="170.0" prefWidth="300.0" styleClass="set" stylesheets="@main-styles.css"  xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.settingsview.SettingsController">
+<AnchorPane fx:id="containerPane" maxHeight="170.0" prefHeight="170.0" prefWidth="300.0" styleClass="set" stylesheets="@main-styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.financecontrol.settingsview.SettingsController">
     <children>
 
-        <Text layoutX="69.0" layoutY="26.0" styleClass="theme" text="Choose a currency:" />
-        <ChoiceBox fx:id="currencyBox" layoutX="106.0" layoutY="43.0" prefHeight="20" prefWidth="85.0" />
-        <Button layoutX="106.0" layoutY="85.0" prefWidth="85.0" mnemonicParsing="false" onAction="#onXlsBtClick" text="Export as .xls" fx:id="xlsbt" />
-        <Button fx:id="pdfBt" layoutX="106.0" layoutY="125.0" prefWidth="85.0" mnemonicParsing="false" onAction="#onPdfBtClick" text="Export as .pdf" />
+        <Text fx:id="versionText" layoutX="127.0" layoutY="156.0" styleClass="theme" />
+        <ChoiceBox fx:id="currencyBox" layoutX="106.0" layoutY="31.0" prefHeight="26.0" prefWidth="97.0" />
+        <Button layoutX="106.0" layoutY="73.0" mnemonicParsing="false" onAction="#onXlsBtClick" prefHeight="26.0" prefWidth="97.0" text="Export as .xls" fx:id="xlsbt" />
+        <Button fx:id="pdfBt" layoutX="106.0" layoutY="112.0" mnemonicParsing="false" onAction="#onPdfBtClick" prefHeight="26.0" prefWidth="97.0" text="Export as .pdf" />
     </children>
 </AnchorPane>

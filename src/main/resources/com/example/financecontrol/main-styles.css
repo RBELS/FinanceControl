@@ -166,13 +166,6 @@
 .ok {
     -fx-border-color: #00FA9A;
 }
-#backToMain{
-    -fx-background-color: none;
-    -fx-background-image: url("sst.png");
-    -fx-background-size:54 36;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position:center;
-}
 #backBt, #forwardBt{
     -fx-font-family: monospace;
     -fx-font-size :13.0;

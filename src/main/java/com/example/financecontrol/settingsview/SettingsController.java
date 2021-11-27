@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -44,7 +45,10 @@ public class SettingsController implements Initializable {
      * containerPane - an AnchorPane object
      */
     @FXML private AnchorPane containerPane;
-
+    /**
+     * versionText - displays used app version
+     */
+    @FXML private Text versionText;
     /**
      * currencies - a list object of {@link CurrencyItem} type
      */
@@ -188,6 +192,7 @@ public class SettingsController implements Initializable {
         NotificationLabel errorLabel = new NotificationLabel("No Internet Connection", false, 80,65);
         successLabel = new NotificationLabel("Successfully operated", true, 80, 65);
         containerPane.getChildren().addAll(errorLabel.getLabel(), successLabel.getLabel());
+        versionText.setText("v1.0.0");
 
         try {
             currencies = model.getCurrencies();
