@@ -476,7 +476,7 @@ public class FinanceControlController implements Initializable {
             chartName = "Year";
             int year = calendar.get(Calendar.YEAR) + pageCoeff;
             for (int i = 1; i <= 11; i++) {
-                String template = i < 10 ? "%d-0%d-%d" : "%d-%d-%d";
+                String template = i < 10 ? "%d-0%d-0%d" : "%d-%d-%d";
                 dates.add(String.format(template, year, i, 1));
             }
             dates.add(String.format("%d-%d-%d", year, 12, 31));
